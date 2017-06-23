@@ -12,11 +12,14 @@ namespace BlogTemplate.Models
         {
             Init();
         }
-
+       
         public List<Post> Posts { get; } = new List<Post>();
+        public List<Comment> Comments { get; } = new List<Comment>();
+        public object Comment { get; private set; }
 
         private void Init()
         {
+
             var post1 = new Post
             {
                 Title = "My new post",
@@ -26,6 +29,17 @@ namespace BlogTemplate.Models
                 IsPublic = true,
                 Tags = new List<string> { "tag1", "tag2" },
             };
+
+            var comment1 = new Comment
+            {
+                AuthorName = "Will",
+                AuthorEmail = "email@microsoft.com",
+                Body = "hello this is the body",
+                IsPublic = true,
+            };
+
+            post1.Comments.Add(comment1);
+
 
             var post2 = new Post
             {

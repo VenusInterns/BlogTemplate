@@ -1,5 +1,6 @@
 ﻿@page "{slug}"
 @model PostModel
+
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -8,4 +9,6 @@
     <h1>@Model.Post.Title</h1>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
+    <p>Comments</p>
+    <p></p>
 </article>
