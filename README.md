@@ -1,0 +1,3 @@
+# ASP.NET Core Blog template
+
+More info coming...
