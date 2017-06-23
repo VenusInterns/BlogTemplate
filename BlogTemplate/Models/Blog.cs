@@ -61,7 +61,7 @@ namespace BlogTemplate.Models
             {
                 AuthorName = "Joe",
                 AuthorEmail = "john@microsoft.com",
-                Body = "This is comment number 2",
+                Body = "This is comment number 2. I think this comment should be a verrrry long comment just so we can see what happens.",
                 IsPublic = true,
             };
             post2.Comments.Add(comment2);
@@ -70,7 +70,7 @@ namespace BlogTemplate.Models
             {
                 AuthorName = "Tom",
                 AuthorEmail = "tom@microsoft.com",
-                Body = "This is the third comment.",
+                Body = "This is the third comment.This comment is also going to be really long. Dont really know what to put here but maybe this will make it look more like a comment.",
                 IsPublic = true,
             };
             post2.Comments.Add(comment3);

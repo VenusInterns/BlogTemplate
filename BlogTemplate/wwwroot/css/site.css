@@ -61,3 +61,14 @@ footer {
     font-size: 12px;
     color: darkgrey;
 }
+#Comment-Date{
+    color: darkgrey;
+    font: 12px/.5 arial;
+}
+#Comment-Title{
+    font-size: 150%; 
+    font: 24px/1.5 arial !important;
+}
+#Comment-Body{
+    font: 16px/1 arial !important;
+}
