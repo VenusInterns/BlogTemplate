@@ -1,0 +1,11 @@
+﻿@page "{slug}"
+@model PostModel
+@{
+    ViewData["Title"] = Model.Post.Title;
+}
+
+<article>
+    <h1>@Model.Post.Title</h1>
+    <span>@string.Join(", ", Model.Post.Tags)</span>
+    <p>@Model.Post.Body</p>
+</article>

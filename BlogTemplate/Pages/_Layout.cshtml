@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlogTemplate</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav>
+        <ul class="container">
+            <li><a asp-page="/Index">BlogTemplate</a></li>
+            <li><a asp-page="/Index">Blog</a></li>
+            <li><a asp-page="/About">About</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="container">
+        <p>&copy; 2017 - BlogTemplate</p>
+    </footer>
+
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
