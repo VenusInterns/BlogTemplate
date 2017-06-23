@@ -30,15 +30,20 @@ namespace BlogTemplate.Models
                 Tags = new List<string> { "tag1", "tag2" },
             };
 
+
             var comment1 = new Comment
             {
                 AuthorName = "Will",
-                AuthorEmail = "email@microsoft.com",
-                Body = "hello this is the body",
+                AuthorEmail = "carol@microsoft.com",
+                Body = "Hello this is the body",
                 IsPublic = true,
             };
-
             post1.Comments.Add(comment1);
+
+
+
+
+
 
 
             var post2 = new Post
@@ -50,6 +55,26 @@ namespace BlogTemplate.Models
                 IsPublic = true,
                 Tags = new List<string> { "tag1" },
             };
+
+
+            var comment2 = new Comment
+            {
+                AuthorName = "Joe",
+                AuthorEmail = "john@microsoft.com",
+                Body = "This is comment number 2",
+                IsPublic = true,
+            };
+            post2.Comments.Add(comment2);
+
+            var comment3 = new Comment
+            {
+                AuthorName = "Tom",
+                AuthorEmail = "tom@microsoft.com",
+                Body = "This is the third comment.",
+                IsPublic = true,
+            };
+            post2.Comments.Add(comment3);
+
 
             Posts.Add(post1);
             Posts.Add(post2);
