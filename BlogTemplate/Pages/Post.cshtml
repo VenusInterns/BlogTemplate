@@ -1,5 +1,6 @@
 ﻿@page "{slug}"
 @model PostModel
+
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -9,4 +10,6 @@
     <p id="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</p>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
+    <p>Comments</p>
+    <p></p>
 </article>
