@@ -4,6 +4,7 @@
     ViewData["Title"] = "New Blog Post";
 }
 
+<h2>Write a New Post</h2>
 <form method="post">
     <p><label for="Title">Title</label></p>
     <p><input type="text" name="Title" /></p>
@@ -11,6 +12,8 @@
     <p><textarea></textarea></p>
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
     <p><textarea></textarea></p>
+    <p><label for="Tags">Tags (separated by comma)</label></p>
+    <p><input type="text" name="Tags" /></p>
     <p><input type="checkbox" /><label for="isPublic">Make public</label></p>
     <input type="submit" name="save" value="Save Draft" /><input type="submit" name="publish" value="Publish" />
 </form>
