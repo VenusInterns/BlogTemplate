@@ -29,6 +29,10 @@ nav {
         margin: 0;
     }
 
+    nav li:nth-child(5) {
+        margin-left: 880px;
+        display: inline-block !important;
+    }
     nav li {
         display: inline-block;
         margin-left: 20px;
