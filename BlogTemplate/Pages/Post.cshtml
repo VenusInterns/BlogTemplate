@@ -1,5 +1,10 @@
 ﻿@page "{slug}"
 @model PostModel
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
+
+
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -11,11 +16,44 @@
     <p>@Model.Post.Body</p>
    5
     <h2>Comments</h2>
-    @for(int i = 0; i < Model.Post.Comments.Count; i++){
+    @for (int i = 0; i < Model.Post.Comments.Count; i++) {
        <p id="Comment-Title">@Model.Post.Comments[i].AuthorName</p>
        <p id="Comment-Body">@Model.Post.Comments[i].AuthorEmail</p>  
        <p id="Comment-Date">@Model.Post.Comments[i].PubDate.ToString("MMM dd, yyyy")</p>
        <p id="Comment-Body">@Model.Post.Comments[i].Body</p>
     }
+    
+
+
+
+
+@functions {
+    [BindProperty]
+    public Models.Comment Comment { get; set; }
+
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (ModelState.IsValid)
+        {
+          //  Db.Model.Comments.Add(Comment);
+          //  await Db.SaveChangesAsync();
+            return RedirectToPage();
+        }
+        return Page();
+    }
+}
+    
+
+    <h3>Add Comment</h3>
+    <form method = "POST">
+        <div > Name: <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorName" /></div>
+        <div>Email: <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorEmail" /></div>
+        <div>Body: <input asp-for="Post.Comments[Model.Post.Comments.Count-1].Body" /></div>
+        <input type="submit" />
+    </form>
+
+
+
 
 </article>
