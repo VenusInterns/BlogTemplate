@@ -3,6 +3,18 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
+@functions {
+    [BindProperty]
+    public Models.Comment Comment { get; set; }
+    public void OnCommentSaveComment()
+    {
+        if (ModelState.IsValid)
+        {
+            Model.Post.Comments.Add(Comment);
+            Response.Redirect("/Post");
+        }
+    }
+}
 
 
 @{
@@ -24,33 +36,13 @@
     }
     
 
-
-
-
-@functions {
-    [BindProperty]
-    public Models.Comment Comment { get; set; }
-
-
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (ModelState.IsValid)
-        {
-          //  Db.Model.Comments.Add(Comment);
-          //  await Db.SaveChangesAsync();
-            return RedirectToPage();
-        }
-        return Page();
-    }
-}
-    
-
     <h3>Add Comment</h3>
     <form method = "POST">
-        <div > Name: <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorName" /></div>
-        <div>Email: <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorEmail" /></div>
-        <div>Body: <input asp-for="Post.Comments[Model.Post.Comments.Count-1].Body" /></div>
-        <input type="submit" />
+        <div > Name <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorName" /></div>
+        <div>Email <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorEmail" /></div>
+        <div>Write a Comment...  <input asp-for="Post.Comments[Model.Post.Comments.Count-1].Body" /></div>
+        <input type="submit" name="save" value="Submit" asp-page-handler="SaveComment" />
+        @*<input type="submit" name="publish" value="Publish" asp-page-handler="SaveComment" />*@
     </form>
 
 
