@@ -1,19 +1,57 @@
 ﻿@page
+@using BlogTemplate
+@using BlogTemplate.Models
+@*@model Models.Blog*@
+@inject Blog Blog
+@*@model PostModel*@
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
+@functions{
+    [BindProperty]
+    public Models.Post Post { get; set; }
+
+    public void OnPostSaveDraft() {
+        if (ModelState.IsValid)
+        {
+            Blog.Posts.Add(Post);
+            Response.Redirect("/Index");
+        }
+    }
+
+    public void OnPostPublish() { }
+}
 
 @{
     ViewData["Title"] = "New Blog Post";
+
+    //if (Request.Method == "POST")
+    //{
+    //    var data = Request.Form;
+    //    var post = new Models.Post();
+    //    post.Title = data["Title"];
+    //    post.Body = data["Body"];
+    //    post.Excerpt = data["Excerpt"];
+    //    post.Tags = data["Tags"].ToList();
+    //    //post.IsPublic = data["IsPublic"];
+
+    //    //Models.Blog.AddPost(post);
+    //    Blog.Posts.Add(Model);
+    //    Redirect("/Index");
+    //}
 }
 
 <h2>Write a New Post</h2>
-<form method="post">
-    <p><label for="Title">Title</label></p>
-    <p><input type="text" name="Title" /></p>
-    <p><label for="Body">Body</label></p>
-    <p><textarea></textarea></p>
+<form method="POST">
+    <p><h3><label for="Title">Title</></label></h3></p>
+    <p><input type="text" name="Title" asp-for="Post.Title" /></p>
+    <p><h4><label for="Body">Body</label></h4></p>
+    <p><textarea name="Body" asp-for="Post.Body"></textarea></p>
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
-    <p><textarea></textarea></p>
+    <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
     <p><label for="Tags">Tags (separated by comma)</label></p>
     <p><input type="text" name="Tags" /></p>
     <p><input type="checkbox" /><label for="isPublic">Make public</label></p>
-    <input type="submit" name="save" value="Save Draft" /><input type="submit" name="publish" value="Publish" />
+    <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
+    <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
 </form>
