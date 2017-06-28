@@ -3,6 +3,24 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
+<<<<<<< HEAD
+=======
+
+@functions {
+    [BindProperty]
+    public Models.Comment Comment { get; set; }
+    public void OnCommentSaveComment()
+    {
+        if (ModelState.IsValid)
+        {
+            Model.Post.Comments.Add(Comment);
+            Response.Redirect("/Post");
+        }
+    }
+}
+
+
+>>>>>>> origin/DataStore
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -13,8 +31,14 @@
     <p id="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</p>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
+<<<<<<< HEAD
     
     <h2>Comments</h2>
+=======
+    5
+    <h2>Comments</h2>
+
+>>>>>>> origin/DataStore
     @for (int i = 0; i < Model.Post.Comments.Count; i++)
     {
         <p id="Comment-Title">@Model.Post.Comments[i].AuthorName</p>
@@ -22,6 +46,7 @@
         <p id="Comment-Date">@Model.Post.Comments[i].PubDate.ToString("MMM dd, yyyy")</p>
         <p id="Comment-Body">@Model.Post.Comments[i].Body</p>
     }
+<<<<<<< HEAD
 
     <h3>Add Comment</h3>
     <form id="form1" method="post">
@@ -33,4 +58,23 @@
         <p><textarea name="Body" asp-for="Post.Comments[Model.Post.Comments.Count - 1].Body"></textarea></p>
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
     </form>
+=======
+
+
+
+    <h3>Add Comment</h3>
+    <form method="POST">
+        <div> Name <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorName" /></div>
+        <div>Email <input asp-for="Post.Comments[Model.Post.Comments.Count-2].AuthorEmail" /></div>
+        <div>Write a Comment...  <input asp-for="Post.Comments[Model.Post.Comments.Count-1].Body" /></div>
+        <input type="submit" name="save" value="Submit" asp-page-handler="SaveComment" />
+        @*<input type="submit" name="publish" value="Publish" asp-page-handler="SaveComment" />*@
+    </form>
+
+
+
+
+
+
+>>>>>>> origin/DataStore
 </article>
