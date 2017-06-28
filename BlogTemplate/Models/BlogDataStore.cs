@@ -28,5 +28,28 @@ namespace BlogTemplate.Models
 
             doc.Save(outputFilePath);
         }
+
+        public Post GetPost(string slug)
+        {
+            string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
+
+            if(File.Exists(expectedFilePath))
+            {
+                string fileContent = File.ReadAllText(expectedFilePath);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(fileContent);
+
+                Post post = new Post();
+
+                post.Slug = doc.GetElementsByTagName("Slug").Item(0).InnerText;
+                post.Title = doc.GetElementsByTagName("Title").Item(0).InnerText;
+                post.Body = doc.GetElementsByTagName("Body").Item(0).InnerText;
+
+                return post;
+            }
+
+            return null;
+        }
     }
 }
