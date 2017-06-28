@@ -22,6 +22,14 @@ namespace BlogTemplate.Pages
         {
             string slug = RouteData.Values["slug"].ToString();
             Post = _blog.Posts.FirstOrDefault(p => p.Slug == slug);
+
+            BlogDataStore dataStore = new BlogDataStore();
+            Post = dataStore.GetPost(slug);
+
+            if(Post == null)
+            {
+                RedirectToPage("/Index");
+            }
         }
     }
 }

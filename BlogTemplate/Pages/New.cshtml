@@ -14,9 +14,14 @@
     public void OnPostPublish() {
         if (ModelState.IsValid)
         {
-            var arr = Post.Title.Split(" ");
+            /*var arr = Post.Title.Split(" ");
             Post.Slug = string.Join("-", arr);
-            Post.Tags = Post.Tags.ToList();
+            Post.Tags = Post.Tags.ToList();*/
+
+            Post.Slug = Post.Title.Replace(" ", "-");
+            BlogDataStore dataStore = new BlogDataStore();
+            dataStore.SavePost(Post);
+
             Blog.Posts.Add(Post);
             Response.Redirect("/Index");
         }
