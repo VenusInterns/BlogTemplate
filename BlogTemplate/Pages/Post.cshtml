@@ -13,7 +13,7 @@
     <p id="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</p>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
-    5
+    
     <h2>Comments</h2>
     @for (int i = 0; i < Model.Post.Comments.Count; i++)
     {
@@ -29,8 +29,8 @@
         <p><input type="text" name="AuthorName" asp-for="Post.Comments[Model.Post.Comments.Count - 1].AuthorName" /></p>
         <p><h4><label for="AuthorEmail">Email</label></h4></p>
         <p><textarea name="AuthorEmail" asp-for="Post.Comments[Model.Post.Comments.Count - 1].AuthorEmail"></textarea></p>
-        <p><label for="CommentBody">Write a comment...</label></p>
-        <p><textarea name="CommentBody" asp-for="Post.Comments[Model.Post.Comments.Count - 1].Body"></textarea></p>
+        <p><label for="Body">Write a comment...</label></p>
+        <p><textarea name="Body" asp-for="Post.Comments[Model.Post.Comments.Count - 1].Body"></textarea></p>
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
     </form>
 </article>
