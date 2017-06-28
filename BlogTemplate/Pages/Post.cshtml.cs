@@ -31,5 +31,10 @@ namespace BlogTemplate.Pages
                 RedirectToPage("/Index");
             }
         }
+
+        public void OnPostPublish()
+        {
+            
+        }
     }
 }
