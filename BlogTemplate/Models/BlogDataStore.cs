@@ -16,12 +16,19 @@ namespace BlogTemplate.Models
         {
             Directory.CreateDirectory(StorageFolder);
 
-            string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
+            //format attributes of the post
+            post.Tags = post.Tags.ToList();
+            post.Slug = post.Title.Replace(" ", "-");
 
-            if(File.Exists(outputFilePath))
+            string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
+            int count = 0;
+            while(File.Exists(outputFilePath))
             {
-                throw new InvalidOperationException("A post with this slug already exists");
+                count++;
+                outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
+                //throw new InvalidOperationException("A post with this slug already exists");
             }
+            post.Slug = $"{post.Slug}-{count}";
 
             XmlDocument doc = new XmlDocument();
 
@@ -30,6 +37,15 @@ namespace BlogTemplate.Models
             rootNode.AppendChild(doc.CreateElement("Slug")).InnerText = post.Slug;
             rootNode.AppendChild(doc.CreateElement("Title")).InnerText = post.Title;
             rootNode.AppendChild(doc.CreateElement("Body")).InnerText = post.Body;
+            rootNode.AppendChild(doc.CreateElement("PubDate")).InnerText = post.PubDate.ToString();
+            rootNode.AppendChild(doc.CreateElement("LastModified")).InnerText = post.LastModified.ToString();
+            rootNode.AppendChild(doc.CreateElement("IsPublic")).InnerText = post.IsPublic.ToString();
+            rootNode.AppendChild(doc.CreateElement("Excerpt")).InnerText = post.Excerpt;
+            XmlElement tagsNode = doc.CreateElement("Tags");
+            rootNode.AppendChild(tagsNode);
+            foreach(string tag in post.Tags)
+                tagsNode.AppendChild(doc.CreateElement("Tag")).InnerText = tag;
+
 
             doc.Save(outputFilePath);
         }

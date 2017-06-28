@@ -17,8 +17,9 @@
             /*var arr = Post.Title.Split(" ");
             Post.Slug = string.Join("-", arr);
             Post.Tags = Post.Tags.ToList();*/
+            //Post.Slug = Post.Title.Replace(" ", "-");
 
-            Post.Slug = Post.Title.Replace(" ", "-");
+            Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             BlogDataStore dataStore = new BlogDataStore();
             dataStore.SavePost(Post);
 
@@ -32,21 +33,6 @@
 
 @{
     ViewData["Title"] = "New Blog Post";
-
-    //if (Request.Method == "POST")
-    //{
-    //    var data = Request.Form;
-    //    var post = new Models.Post();
-    //    post.Title = data["Title"];
-    //    post.Body = data["Body"];
-    //    post.Excerpt = data["Excerpt"];
-    //    post.Tags = data["Tags"].ToList();
-    //    //post.IsPublic = data["IsPublic"];
-
-    //    //Models.Blog.AddPost(post);
-    //    Blog.Posts.Add(Model);
-    //    Redirect("/Index");
-    //}
 }
 
 <h2>Write a New Post</h2>
@@ -58,7 +44,8 @@
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
     <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
     <p><label for="Tags">Tags (separated by comma)</label></p>
-    <p><input type="text" name="Tags" asp-for="Post.Tags"/></p>
+    @*<p><input type="text" name="Tags" asp-for="Post.Tags"/></p>*@
+    <p><input type="text" name="Tags" /></p>
     <p><input type="checkbox" /><label for="isPublic">Make public</label></p>
     <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
     <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
