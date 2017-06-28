@@ -50,5 +50,10 @@ namespace BlogTemplate.Pages
             }
             return Page();
         }
+
+        public void OnPostPublish()
+        {
+            
+        }
     }
 }

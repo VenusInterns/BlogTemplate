@@ -47,8 +47,6 @@ namespace BlogTemplate.Models
         {
             Directory.CreateDirectory(StorageFolder);
 
-            //format attributes of the post
-            post.Tags = post.Tags.ToList();
             post.Slug = post.Title.Replace(" ", "-");
 
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
@@ -59,7 +57,8 @@ namespace BlogTemplate.Models
                 outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
                 //throw new InvalidOperationException("A post with this slug already exists");
             }
-            post.Slug = $"{post.Slug}-{count}";
+            if(count != 0)
+                post.Slug = $"{post.Slug}-{count}";
 
             XmlDocument doc = new XmlDocument();
 
