@@ -18,6 +18,11 @@ namespace BlogTemplate.Models
 
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
 
+            if(File.Exists(outputFilePath))
+            {
+                throw new InvalidOperationException("A post with this slug already exists");
+            }
+
             XmlDocument doc = new XmlDocument();
 
             XmlElement rootNode = doc.CreateElement("Post");
