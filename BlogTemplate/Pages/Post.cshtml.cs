@@ -41,11 +41,6 @@ namespace BlogTemplate.Pages
             }
         }
 
-        public void OnPostPublish()
-        {
-            
-        }
-
         public IActionResult OnPostPublish()
         {
             InitializePost();
