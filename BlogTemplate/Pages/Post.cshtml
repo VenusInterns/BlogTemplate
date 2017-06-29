@@ -3,23 +3,6 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
-
-
-@functions {
-    [BindProperty]
-    public Models.Comment Comment { get; set; }
-    public void OnCommentSaveComment()
-    {
-        if (ModelState.IsValid)
-        {
-            Model.Post.Comments.Add(Comment);
-            Response.Redirect("/Post");
-        }
-    }
-}
-
-
-
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -31,9 +14,7 @@
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
 
-    
     <h2>Comments</h2>
-
 
     @for (int i = 0; i < Model.Post.Comments.Count; i++)
     {
@@ -42,7 +23,6 @@
         <p id="Comment-Date">@Model.Post.Comments[i].PubDate.ToString("MMM dd, yyyy")</p>
         <p id="Comment-Body">@Model.Post.Comments[i].Body</p>
     }
-
 
     <h3>Add Comment</h3>
     <form id="form1" method="post">
@@ -54,5 +34,4 @@
         <p><textarea name="Body" asp-for="Comment.Body"></textarea></p>
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
     </form>
-
 </article>
