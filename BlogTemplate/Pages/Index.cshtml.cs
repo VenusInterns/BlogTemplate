@@ -25,8 +25,8 @@ namespace BlogTemplate.Pages
         public void OnGet()
         {
             Blog = _blog;
-            //string filePath = $"{StorageFolder}";
-            //IEnumerable<string> files = Directory.EnumerateFiles(filePath);
+            BlogDataStore dataStore = new BlogDataStore();
+            _blog.Posts = dataStore.GetAllPosts();
         }
     }
 }

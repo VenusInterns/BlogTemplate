@@ -13,13 +13,14 @@ namespace BlogTemplate.Models
             Init();
         }
        
-        public List<Post> Posts { get; } = new List<Post>();
+        public List<Post> Posts { get; set; } = new List<Post>();
         public List<Comment> Comments { get; } = new List<Comment>();
         public object Comment { get; private set; }
 
         private void Init()
         {
-
+            BlogDataStore dataStore = new BlogDataStore();
+            dataStore.InitStorageFolder();
         }
     }
 }

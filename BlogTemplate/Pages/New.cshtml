@@ -14,6 +14,19 @@
     public IActionResult OnPostPublish()
     {
         Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
+        Post.Slug = Post.Title.Replace(" ", "-");
+        string outputFilePath = $"BlogFiles\\{Post.Slug}";
+        int count = 0;
+        while (System.IO.File.Exists(outputFilePath))
+        {
+            count++;
+            outputFilePath = $"BlogFiles\\{Post.Slug}-{count}";
+
+        }
+        if (count != 0)
+        {
+            Post.Slug = $"{Post.Slug}-{count}";
+        }
         BlogDataStore dataStore = new BlogDataStore();
         dataStore.SavePost(Post);
         Blog.Posts.Add(Post);
