@@ -81,8 +81,9 @@ namespace BlogTemplate.Models
         public Post GetPost(string slug)
         {
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
 
-            if(File.Exists(expectedFilePath))
+            if (File.Exists(expectedFilePath))
             {
                 string fileContent = File.ReadAllText(expectedFilePath);
 
@@ -94,6 +95,28 @@ namespace BlogTemplate.Models
                 post.Slug = doc.GetElementsByTagName("Slug").Item(0).InnerText;
                 post.Title = doc.GetElementsByTagName("Title").Item(0).InnerText;
                 post.Body = doc.GetElementsByTagName("Body").Item(0).InnerText;
+                post.PubDate = DateTime.Parse((doc.GetElementsByTagName("PubDate").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.LastModified = DateTime.Parse((doc.GetElementsByTagName("LastModified").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.IsPublic = Convert.ToBoolean(doc.GetElementsByTagName("IsPublic").Item(0).InnerText);
+                post.Excerpt = doc.GetElementsByTagName("Excerpt").Item(0).InnerText;
+
+                //load comments into post's list of comments
+                List<Comment> comments = new List<Comment>();
+                XmlNodeList nodeList = doc.GetElementsByTagName("Comments");
+                foreach(XmlElement node in nodeList)
+                {
+                    Comment comment = new Comment
+                    {
+                        AuthorName = node.GetElementsByTagName("AuthorName").Item(0).InnerText,
+                        AuthorEmail = node.GetElementsByTagName("AuthorEmail").Item(0).InnerText,
+                        Body = node.GetElementsByTagName("Body").Item(0).InnerText,
+                        PubDate = DateTime.Parse((node.GetElementsByTagName("PubDate").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                        IsPublic = Convert.ToBoolean(doc.GetElementsByTagName("IsPublic").Item(0).InnerText)
+                    };
+
+                    comments.Add(comment);
+                }
+                post.Comments = comments;
 
                 return post;
             }
