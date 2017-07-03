@@ -79,8 +79,9 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true,
                 Excerpt = "Test excerpt",
             };
-            test.Comments.Add(comment);
+            //test.Comments.Add(comment);
             testDataStore.SavePost(test);
+            testDataStore.SaveComment(comment, test);
             Post result = testDataStore.GetPost("Test-Title");
 
             Assert.NotNull(result);
@@ -91,7 +92,15 @@ namespace BlogTemplate.Tests.Model
             Assert.NotNull(result.LastModified);
             Assert.True(result.IsPublic);
             Assert.Equal(result.Excerpt, "Test excerpt");
-            Assert.NotEmpty(result.Comments);
+            //Assert.NotEmpty(result.Comments);
+        }
+
+        [Fact]
+        public void GetPost_PostDNE_ReturnsNull()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+
+            Assert.Null(testDataStore.GetPost("does-not-exist"));
         }
 
         public void Dispose()

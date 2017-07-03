@@ -115,22 +115,6 @@ namespace BlogTemplate.Models
                 post.Excerpt = doc.GetElementsByTagName("Excerpt").Item(0).InnerText;
 
                 //load comments into post's list of comments
-                List<Comment> comments = new List<Comment>();
-                XmlNodeList nodeList = doc.GetElementsByTagName("Comments");
-                foreach(XmlElement node in nodeList)
-                {
-                    Comment comment = new Comment
-                    {
-                        AuthorName = node.GetElementsByTagName("AuthorName").Item(0).InnerText,
-                        AuthorEmail = node.GetElementsByTagName("AuthorEmail").Item(0).InnerText,
-                        Body = node.GetElementsByTagName("Body").Item(0).InnerText,
-                        PubDate = DateTime.Parse((node.GetElementsByTagName("PubDate").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal),
-                        IsPublic = Convert.ToBoolean(doc.GetElementsByTagName("IsPublic").Item(0).InnerText)
-                    };
-
-                    comments.Add(comment);
-                }
-                post.Comments = comments;
 
                 return post;
             }
