@@ -59,20 +59,20 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            Directory.CreateDirectory(StorageFolder);
+            //Directory.CreateDirectory(StorageFolder);
 
-            post.Slug = post.Title.Replace(" ", "-");
+            //post.Slug = post.Title.Replace(" ", "-");
 
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
-            int count = 0;
-            while(File.Exists(outputFilePath))
-            {
-                count++;
-                outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
-                //throw new InvalidOperationException("A post with this slug already exists");
-            }
-            if(count != 0)
-                post.Slug = $"{post.Slug}-{count}";
+            //int count = 0;
+            //while(File.Exists(outputFilePath))
+            //{
+            //    count++;
+            //    outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
+            //    //throw new InvalidOperationException("A post with this slug already exists");
+            //}
+            //if(count != 0)
+            //    post.Slug = $"{post.Slug}-{count}";
 
             XmlDocument doc = new XmlDocument();
 
@@ -113,6 +113,39 @@ namespace BlogTemplate.Models
             }
 
             return null;
+        }
+
+        public List<Post> GetAllPosts()
+        {
+            string filePath = $"{StorageFolder}";
+            List<FileInfo> files = new DirectoryInfo(filePath).GetFiles().OrderBy(f => f.LastWriteTime).ToList();
+            List<Post> allPosts = new List<Post>();
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                var file = files[files.Count - i - 1];
+                string fileContent = File.ReadAllText($"{StorageFolder}\\{file.Name}");
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(fileContent);
+                Post post = new Post();
+
+                post.Title = doc.GetElementsByTagName("Title").Item(0).InnerText;
+                post.Body = doc.GetElementsByTagName("Body").Item(0).InnerText;
+                post.PubDate = DateTime.Parse((doc.GetElementsByTagName("PubDate").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.LastModified = DateTime.Parse((doc.GetElementsByTagName("LastModified").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.Slug = doc.GetElementsByTagName("Slug").Item(0).InnerText;
+                post.IsPublic = Convert.ToBoolean(doc.GetElementsByTagName("IsPublic").Item(0).InnerText);
+                post.Excerpt = doc.GetElementsByTagName("Excerpt").Item(0).InnerText;
+
+                allPosts.Add(post);
+            }
+            return allPosts;
+        }
+
+        public void InitStorageFolder()
+        {
+            Directory.CreateDirectory(StorageFolder);
         }
     }
 }
