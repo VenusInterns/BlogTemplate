@@ -44,5 +44,12 @@ namespace BlogTemplate.Pages
             _blog.Posts.Add(Post);
             return Redirect("/Index");
         }
+
+        public IActionResult OnPostSaveDraft()
+        {
+            Post.IsPublic = false;
+
+            return Redirect("/Index");
+        }
     }
 }
