@@ -3,23 +3,6 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
-
-
-@functions {
-    [BindProperty]
-    public Models.Comment Comment { get; set; }
-    public void OnCommentSaveComment()
-    {
-        if (ModelState.IsValid)
-        {
-            Model.Post.Comments.Add(Comment);
-            Response.Redirect("/Post");
-        }
-    }
-}
-
-
-
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -35,13 +18,14 @@
     <h2>Comments</h2>
 
 
-    @for (int i = 0; i < Model.Post.Comments.Count; i++)
+    @foreach (var comment in Model.Post.Comments)
     {
-        <p id="Comment-Title">@Model.Post.Comments[i].AuthorName</p>
-        <p id="Comment-Body">@Model.Post.Comments[i].AuthorEmail</p>
-        <p id="Comment-Date">@Model.Post.Comments[i].PubDate.ToString("MMM dd, yyyy")</p>
-        <p id="Comment-Body">@Model.Post.Comments[i].Body</p>
+        <p id="Comment-Title">@comment.AuthorName</p>
+        <p id="Comment-Body">@comment.AuthorEmail</p>
+        <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
+        <p id="Comment-Body">@comment.Body</p>
     }
+
 
 
     <h3>Add Comment</h3>
@@ -54,5 +38,4 @@
         <p><textarea name="Body" asp-for="Comment.Body"></textarea></p>
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
     </form>
-
 </article>
