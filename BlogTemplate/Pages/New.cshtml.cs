@@ -25,23 +25,6 @@ namespace BlogTemplate.Pages
 
         public IActionResult OnPostPublish()
         {
-            //Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-            //Post.Slug = Post.Title.Replace(" ", "-");
-            //string outputFilePath = $"{StorageFolder}\\{Post.Slug}";
-            //int count = 0;
-            //while (System.IO.File.Exists(outputFilePath))
-            //{
-            //    count++;
-            //    outputFilePath = $"{StorageFolder}\\{Post.Slug}-{count}";
-
-            //}
-            //if (count != 0)
-            //{
-            //    Post.Slug = $"{Post.Slug}-{count}";
-            //}
-            //BlogDataStore dataStore = new BlogDataStore();
-            //dataStore.SavePost(Post);
-            //_blog.Posts.Add(Post);
             Post.IsPublic = true;
             SavePost(Post);
             return Redirect("/Index");
@@ -57,20 +40,11 @@ namespace BlogTemplate.Pages
         public void SavePost(Post post)
         {
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-            Post.Slug = Post.Title.Replace(" ", "-");
-            string outputFilePath = $"{StorageFolder}\\{Post.Slug}";
-            int count = 0;
-            while (System.IO.File.Exists(outputFilePath))
-            {
-                count++;
-                outputFilePath = $"{StorageFolder}\\{Post.Slug}-{count}";
 
-            }
-            if (count != 0)
-            {
-                Post.Slug = $"{Post.Slug}-{count}";
-            }
             BlogDataStore dataStore = new BlogDataStore();
+            SlugGenerator slugGenerator = new SlugGenerator();
+            Post.Slug = slugGenerator.CreateSlug(Post.Title);
+
             dataStore.SavePost(Post);
             _blog.Posts.Add(Post);
         }

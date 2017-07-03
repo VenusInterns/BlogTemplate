@@ -31,32 +31,6 @@ namespace BlogTemplate.Tests.Model
             Assert.Equal("Test contents", result.Body);
         }
 
-        //[Fact]
-        //public void SavePost_DuplicatePostSlug_ShouldAppendNumber()
-        //{
-        //    // Arrange
-        //    BlogDataStore testDataStore = new BlogDataStore();
-        //    Post testPost1 = new Post
-        //    {
-        //        Slug = "Test-Post-Slug",
-        //        Title = "Test Title",
-        //        Body = "Test contents",
-        //    };
-        //    Post testPost2 = new Post
-        //    {
-        //        Slug = "Test-Post-Slug",
-        //        Title = "Test Title 2",
-        //        Body = "Test contents 2",
-        //    };
-        //    testDataStore.SavePost(testPost1);
-        //    testDataStore.SavePost(testPost2);
-
-        //    // Act and Assert
-        //    Assert.True(File.Exists("BlogFiles\\Test-Post-Slug.xml"));
-        //    Assert.True(File.Exists("BlogFiles\\Test-Post-Slug-1.xml"));
-        //    Assert.NotEqual(testPost1.Slug, testPost2.Slug);
-        //}
-
         [Fact]
         public void GetPost_FindPostBySlug_ReturnsPost()
         {

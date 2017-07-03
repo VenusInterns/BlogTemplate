@@ -59,20 +59,7 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            //Directory.CreateDirectory(StorageFolder);
-
-            //post.Slug = post.Title.Replace(" ", "-");
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
-            //int count = 0;
-            //while(File.Exists(outputFilePath))
-            //{
-            //    count++;
-            //    outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
-            //    //throw new InvalidOperationException("A post with this slug already exists");
-            //}
-            //if(count != 0)
-            //    post.Slug = $"{post.Slug}-{count}";
 
             XmlDocument doc = new XmlDocument();
 
@@ -153,6 +140,11 @@ namespace BlogTemplate.Models
         public void InitStorageFolder()
         {
             Directory.CreateDirectory(StorageFolder);
+        }
+
+        public bool CheckSlugExists(string slug)
+        {
+            return File.Exists($"{StorageFolder}\\{slug}");
         }
     }
 }
