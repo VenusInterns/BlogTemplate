@@ -11,37 +11,51 @@ namespace BlogTemplate.Models
     public class BlogDataStore
     {
         const string StorageFolder = "BlogFiles";
-        
-        //public void SaveComment(Comment comment, Post post)
-        //{
-        //    //Find XmlDocument corresponding to the post
-        //    string postFilePath = $"{StorageFolder}\\{post.Slug}.xml";
-        //    string fileContent = File.ReadAllText(postFilePath);
 
-        //    XmlDocument doc = new XmlDocument();
-        //    doc.LoadXml(fileContent);
+        private static XmlNode GetCommentsRootNode(Post Post, XmlDocument doc)
+        {
+            XmlNode commentsNode;
+            XmlNodeList nodeList = doc.GetElementsByTagName("Comments");
+            if (nodeList.Count == 0)
+            {
+                commentsNode = doc.CreateElement("Comments");
+                doc.DocumentElement.AppendChild(commentsNode);               
+            }
+            else
+            {
+                commentsNode = nodeList.Item(0);
+            }
+            return commentsNode;
+        }
 
-        //    //If this is the first comment to the post, then we need to create an XmlElement in the XmlDocument corresponding to the post
-        //    XmlElement rootNode;
-        //    if (post.Comments.Count() == 0)
-        //    {
-        //        rootNode = doc.CreateElement("Comments");
-        //    }
-        //    else
-        //    {
-        //        XmlNodeList nodeList = doc.GetElementsByTagName("Comments");
-        //        rootNode = (XmlElement)nodeList.Item(0);
-        //    }
+        public void AppendInfo(Comment comment, Post Post, XmlDocument doc)
+        {
+            XmlNode commentsNode = GetCommentsRootNode(Post, doc);
+            XmlNode commentNode = doc.CreateElement("Comment");
 
-        //    //Append information
-        //    rootNode.AppendChild(doc.CreateElement("AuthorName")).InnerText = comment.AuthorName;
-        //    rootNode.AppendChild(doc.CreateElement("AuthorEmail")).InnerText = comment.AuthorEmail;
-        //    rootNode.AppendChild(doc.CreateElement("PubDate")).InnerText = comment.PubDate.ToString();
-        //    rootNode.AppendChild(doc.CreateElement("CommentBody")).InnerText = comment.Body;
+            commentNode.AppendChild(doc.CreateElement("AuthorName")).InnerText = comment.AuthorName;
+            commentNode.AppendChild(doc.CreateElement("AuthorEmail")).InnerText = comment.AuthorEmail;
+            commentNode.AppendChild(doc.CreateElement("PubDate")).InnerText = comment.PubDate.ToString();
+            commentNode.AppendChild(doc.CreateElement("CommentBody")).InnerText = comment.Body;
 
-        //    doc.Save(postFilePath);
-        //}
+            commentsNode.AppendChild(commentNode);
+        }
 
+        public XmlDocument LoadInfo(Post Post, string postFilePath)
+        {
+            string fileContent = File.ReadAllText(postFilePath);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(fileContent);
+            return doc;
+        }
+
+        public void SaveComment(Comment comment, Post Post)
+        {
+            string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
+            XmlDocument doc = LoadInfo(Post, postFilePath);
+            AppendInfo(comment, Post, doc);
+            doc.Save(postFilePath);
+        }
 
         public void SavePost(Post post)
         {
