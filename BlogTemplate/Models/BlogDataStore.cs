@@ -59,20 +59,7 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            //Directory.CreateDirectory(StorageFolder);
-
-            //post.Slug = post.Title.Replace(" ", "-");
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
-            //int count = 0;
-            //while(File.Exists(outputFilePath))
-            //{
-            //    count++;
-            //    outputFilePath = $"{StorageFolder}\\{post.Slug}-{count}.xml";
-            //    //throw new InvalidOperationException("A post with this slug already exists");
-            //}
-            //if(count != 0)
-            //    post.Slug = $"{post.Slug}-{count}";
 
             XmlDocument doc = new XmlDocument();
 
@@ -95,6 +82,7 @@ namespace BlogTemplate.Models
         public Post GetPost(string slug)
         {
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
 
             if (File.Exists(expectedFilePath))
             {
@@ -108,6 +96,12 @@ namespace BlogTemplate.Models
                 post.Slug = doc.GetElementsByTagName("Slug").Item(0).InnerText;
                 post.Title = doc.GetElementsByTagName("Title").Item(0).InnerText;
                 post.Body = doc.GetElementsByTagName("Body").Item(0).InnerText;
+                post.PubDate = DateTime.Parse((doc.GetElementsByTagName("PubDate").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.LastModified = DateTime.Parse((doc.GetElementsByTagName("LastModified").Item(0).InnerText), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.IsPublic = Convert.ToBoolean(doc.GetElementsByTagName("IsPublic").Item(0).InnerText);
+                post.Excerpt = doc.GetElementsByTagName("Excerpt").Item(0).InnerText;
+
+                //load comments into post's list of comments
 
                 post.Comments = GetAllComments(post.Slug);
                 return post;
@@ -195,6 +189,11 @@ namespace BlogTemplate.Models
         public void InitStorageFolder()
         {
             Directory.CreateDirectory(StorageFolder);
+        }
+
+        public bool CheckSlugExists(string slug)
+        {
+            return File.Exists($"{StorageFolder}\\{slug}");
         }
     }
 }

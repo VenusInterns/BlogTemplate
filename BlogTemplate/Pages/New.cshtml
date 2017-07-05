@@ -3,36 +3,9 @@
 @using BlogTemplate.Models
 @*@model Models.Blog*@
 @inject Blog Blog
-@model Models.Post
+@model NewModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
-
-@functions{
-    [BindProperty]
-    public Post Post { get; set; }
-
-    public IActionResult OnPostPublish()
-    {
-        Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-        Post.Slug = Post.Title.Replace(" ", "-");
-        string outputFilePath = $"BlogFiles\\{Post.Slug}";
-        int count = 0;
-        while (System.IO.File.Exists(outputFilePath))
-        {
-            count++;
-            outputFilePath = $"BlogFiles\\{Post.Slug}-{count}";
-
-        }
-        if (count != 0)
-        {
-            Post.Slug = $"{Post.Slug}-{count}";
-        }
-        BlogDataStore dataStore = new BlogDataStore();
-        dataStore.SavePost(Post);
-        Blog.Posts.Add(Post);
-        return Redirect("/Index");
-    }
-}
 
 @{
     ViewData["Title"] = "New Blog Post";
@@ -41,11 +14,11 @@
 <h2>Write a New Post</h2>
 <form method="POST">
     <p><h3><label for="Title">Title</></label></h3></p>
-    <p><input type="text" name="Title" asp-for="Title" /></p>
+    <p><input type="text" name="Title" asp-for="Post.Title" /></p>
     <p><h4><label for="Body">Body</label></h4></p>
-    <p><textarea name="Body" asp-for="Body"></textarea></p>
+    <p><textarea name="Body" asp-for="Post.Body"></textarea></p>
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
-    <p><textarea name="Excerpt" asp-for="Excerpt"></textarea></p>
+    <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
     <p><label for="Tags">Tags (separated by comma)</label></p>
     @*<p><input type="text" name="Tags" asp-for="Post.Tags"/></p>*@
     <p><input type="text" name="Tags" /></p>

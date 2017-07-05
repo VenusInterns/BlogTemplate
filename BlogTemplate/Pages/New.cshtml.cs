@@ -25,24 +25,28 @@ namespace BlogTemplate.Pages
 
         public IActionResult OnPostPublish()
         {
-            Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-            Post.Slug = Post.Title.Replace(" ", "-");
-            string outputFilePath = $"{StorageFolder}\\{Post.Slug}";
-            int count = 0;
-            while (System.IO.File.Exists(outputFilePath))
-            {
-                count++;
-                outputFilePath = $"{StorageFolder}\\{Post.Slug}-{count}";
+            Post.IsPublic = true;
+            SavePost(Post);
+            return Redirect("/Index");
+        }
 
-            }
-            if (count != 0)
-            {
-                Post.Slug = $"{Post.Slug}-{count}";
-            }
+        public IActionResult OnPostSaveDraft()
+        {
+            Post.IsPublic = false;
+            SavePost(Post);
+            return Redirect("/Index");
+        }
+
+        public void SavePost(Post post)
+        {
+            Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
+
             BlogDataStore dataStore = new BlogDataStore();
+            SlugGenerator slugGenerator = new SlugGenerator();
+            Post.Slug = slugGenerator.CreateSlug(Post.Title);
+
             dataStore.SavePost(Post);
             _blog.Posts.Add(Post);
-            return Redirect("/Index");
         }
     }
 }

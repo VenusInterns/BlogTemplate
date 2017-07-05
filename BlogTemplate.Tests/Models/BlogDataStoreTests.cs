@@ -32,26 +32,49 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
-        public void SavePost_DuplicatePostSlug_ShouldThrow()
+        public void GetPost_FindPostBySlug_ReturnsPost()
         {
-            // Arrange
             BlogDataStore testDataStore = new BlogDataStore();
-            Post testPost1 = new Post
+            var comment = new Comment
             {
-                Slug = "Test-Post-Slug",
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            Post test = new Post
+            {
+                Slug = "Test-Title",
                 Title = "Test Title",
-                Body = "Test contents",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt",
             };
-            Post testPost2 = new Post
-            {
-                Slug = "Test-Post-Slug",
-                Title = "Test Title 2",
-                Body = "Test contents 2",
-            };
-            testDataStore.SavePost(testPost1);
+            //test.Comments.Add(comment);
+            testDataStore.SavePost(test);
+            testDataStore.SaveComment(comment, test);
+            Post result = testDataStore.GetPost("Test-Title");
 
-            // Act and Assert
-            Assert.Throws<InvalidOperationException>(() => testDataStore.SavePost(testPost2));
+            Assert.NotNull(result);
+            Assert.Equal(result.Slug, "Test-Title");
+            Assert.Equal(result.Body, "Test body");
+            Assert.Equal(result.Title, "Test Title");
+            Assert.NotNull(result.PubDate);
+            Assert.NotNull(result.LastModified);
+            Assert.True(result.IsPublic);
+            Assert.Equal(result.Excerpt, "Test excerpt");
+            //Assert.NotEmpty(result.Comments);
+        }
+
+        [Fact]
+        public void GetPost_PostDNE_ReturnsNull()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+
+            Assert.Null(testDataStore.GetPost("does-not-exist"));
         }
 
         public void Dispose()
