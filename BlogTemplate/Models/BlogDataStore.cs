@@ -41,7 +41,7 @@ namespace BlogTemplate.Models
             commentsNode.AppendChild(commentNode);
         }
 
-        public XmlDocument LoadInfo(Post Post, string postFilePath)
+        public XmlDocument LoadInfo(string postFilePath)
         {
             string fileContent = File.ReadAllText(postFilePath);
             XmlDocument doc = new XmlDocument();
@@ -52,7 +52,7 @@ namespace BlogTemplate.Models
         public void SaveComment(Comment comment, Post Post)
         {
             string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
-            XmlDocument doc = LoadInfo(Post, postFilePath);
+            XmlDocument doc = LoadInfo(postFilePath);
             AppendInfo(comment, Post, doc);
             doc.Save(postFilePath);
         }
@@ -86,10 +86,11 @@ namespace BlogTemplate.Models
 
             if (File.Exists(expectedFilePath))
             {
-                string fileContent = File.ReadAllText(expectedFilePath);
+                //string fileContent = File.ReadAllText(expectedFilePath);
 
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(fileContent);
+                //XmlDocument doc = new XmlDocument();
+                //doc.LoadXml(fileContent);
+                XmlDocument doc = LoadInfo(expectedFilePath);
 
                 Post post = new Post();
 

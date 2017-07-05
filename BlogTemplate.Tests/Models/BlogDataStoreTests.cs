@@ -55,7 +55,7 @@ namespace BlogTemplate.Tests.Model
             };
             //test.Comments.Add(comment);
             testDataStore.SavePost(test);
-            testDataStore.SaveComment(comment, test);
+            //testDataStore.SaveComment(comment, test);
             Post result = testDataStore.GetPost("Test-Title");
 
             Assert.NotNull(result);
