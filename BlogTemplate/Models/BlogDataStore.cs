@@ -28,6 +28,9 @@ namespace BlogTemplate.Models
             return commentsNode;
         }
 
+
+
+
         public void AppendInfo(Comment comment, Post Post, XmlDocument doc)
         {
             XmlNode commentsNode = GetCommentsRootNode(doc);
@@ -41,6 +44,9 @@ namespace BlogTemplate.Models
             commentsNode.AppendChild(commentNode);
         }
 
+
+
+
         public XmlDocument LoadInfo(Post Post, string postFilePath)
         {
             string fileContent = File.ReadAllText(postFilePath);
@@ -49,13 +55,76 @@ namespace BlogTemplate.Models
             return doc;
         }
 
+
+
         public void SaveComment(Comment comment, Post Post)
         {
             string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
             XmlDocument doc = LoadInfo(Post, postFilePath);
+        //         IEnumerable<XElement> comments = loadDocument(Post.Slug);
+            //if there are no comments make a check?
+
             AppendInfo(comment, Post, doc);
             doc.Save(postFilePath);
         }
+
+
+
+        public IEnumerable<XElement> loadDocument(string slug)
+        {
+            IEnumerable<XElement> comments;
+            string filePath = $"{StorageFolder}//{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);
+
+            if (xDoc.Root.Element("Comments") == null)
+            {
+                comments = null;
+                return comments;
+            }
+            comments = xDoc.Root
+                           .Element("Comments")
+                               .Elements("Comment");
+            return comments;
+        }
+
+
+
+
+
+
+
+        public List<Comment> appendInfor(IEnumerable<XElement> comments, List<Comment> allComments)
+        {
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+            foreach (XElement comment in comments)
+            {
+                Comment newComment = new Comment();
+                newComment.AuthorName = comment.Element("AuthorName").Value;
+                newComment.Body = comment.Element("CommentBody").Value;
+                newComment.AuthorEmail = comment.Element("AuthorEmail").Value;
+                newComment.PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                allComments.Add(newComment);
+            }
+            return allComments;
+        }
+
+
+
+
+
+
+        public List<Comment> GetAllComments(string slug)
+        {
+            List<Comment> allComments = new List<Comment>();
+            IEnumerable<XElement> comments = loadDocument(slug);
+            if (comments == null) return allComments;
+
+            return appendInfor(comments, allComments);
+        }
+
+
+
+
 
         public void SavePost(Post post)
         {
@@ -108,29 +177,6 @@ namespace BlogTemplate.Models
             }
 
             return null;
-        }
-
-        public List<Comment> GetAllComments(string slug)
-        {
-            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-
-            string filePath = $"{StorageFolder}//{slug}.xml";
-            XDocument xDoc = XDocument.Load(filePath);
-            IEnumerable<XElement> comments = xDoc.Root
-                                                .Element("Comments")
-                                                    .Elements("Comment");
-
-            List<Comment> allComments = new List<Comment>();
-            foreach (XElement comment in comments)
-            {
-                Comment newComment = new Comment();
-                newComment.AuthorName = comment.Element("AuthorName").Value;
-                newComment.Body = comment.Element("CommentBody").Value;
-                newComment.AuthorEmail = comment.Element("AuthorEmail").Value;
-                newComment.PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal); 
-                allComments.Add(newComment);
-            }
-            return allComments;
         }
 
         //public List<Post> GetAllPosts()
