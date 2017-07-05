@@ -12,14 +12,14 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
-        private static XmlNode GetCommentsRootNode(Post Post, XmlDocument doc)
+        private static XmlNode GetCommentsRootNode(XmlDocument doc)
         {
             XmlNode commentsNode;
             XmlNodeList nodeList = doc.GetElementsByTagName("Comments");
             if (nodeList.Count == 0)
             {
                 commentsNode = doc.CreateElement("Comments");
-                doc.DocumentElement.AppendChild(commentsNode);               
+                doc.DocumentElement.AppendChild(commentsNode);
             }
             else
             {
@@ -30,7 +30,7 @@ namespace BlogTemplate.Models
 
         public void AppendInfo(Comment comment, Post Post, XmlDocument doc)
         {
-            XmlNode commentsNode = GetCommentsRootNode(Post, doc);
+            XmlNode commentsNode = GetCommentsRootNode(doc);
             XmlNode commentNode = doc.CreateElement("Comment");
 
             commentNode.AppendChild(doc.CreateElement("AuthorName")).InnerText = comment.AuthorName;
@@ -74,7 +74,7 @@ namespace BlogTemplate.Models
             rootNode.AppendChild(doc.CreateElement("Excerpt")).InnerText = post.Excerpt;
             XmlElement tagsNode = doc.CreateElement("Tags");
             rootNode.AppendChild(tagsNode);
-            foreach(string tag in post.Tags)
+            foreach (string tag in post.Tags)
                 tagsNode.AppendChild(doc.CreateElement("Tag")).InnerText = tag;
             doc.Save(outputFilePath);
         }
@@ -104,11 +104,60 @@ namespace BlogTemplate.Models
 
                 //load comments into post's list of comments
 
+                post.Comments = GetAllComments(post.Slug);
                 return post;
             }
 
             return null;
         }
+
+        public List<Comment> GetAllComments(string slug)
+        {
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+
+            string filePath = $"{StorageFolder}//{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);
+            IEnumerable<XElement> comments = xDoc.Root
+                                                .Element("Comments")
+                                                    .Elements("Comment");
+
+            List<Comment> allComments = new List<Comment>();
+            foreach (XElement comment in comments)
+            {
+                Comment newComment = new Comment();
+                newComment.AuthorName = comment.Element("AuthorName").Value;
+                newComment.Body = comment.Element("CommentBody").Value;
+                newComment.AuthorEmail = comment.Element("AuthorEmail").Value;
+                newComment.PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal); 
+                allComments.Add(newComment);
+            }
+            return allComments;
+        }
+
+        //public List<Post> GetAllPosts()
+        //{
+        //    IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+
+        //    string filePath = $"{StorageFolder}";
+        //    XDocument xDoc = XDocument.Load(filePath);
+        //    IEnumerable<XElement> posts = (IEnumerable<XElement>)xDoc.Root.Element("Posts");
+
+        //    List<Post> TestAllPosts = new List<Post>();
+        //    foreach(XElement post in posts)
+        //    {
+        //        Post newPost = new Post();
+        //        newPost.Title = post.Element("Title").Value;
+        //        newPost.Body = post.Element("Body").Value;
+        //        newPost.PubDate = DateTime.Parse((post.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+        //        newPost.LastModified = DateTime.Parse((post.Element("LastModified").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal);
+        //        newPost.Slug = post.Element("Slug").Value;
+        //        newPost.IsPublic = Convert.ToBoolean(post.Element("IsPublic").Value);
+        //        newPost.Excerpt = post.Element("Excerpt").Value;
+        //        TestAllPosts.Add(newPost);
+        //    }
+        //    return TestAllPosts;
+        //}
+
 
         public List<Post> GetAllPosts()
         {
