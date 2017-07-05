@@ -21,9 +21,9 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Comment Comment { get; set; }
-
+        
         public Post Post { get; set; }
-
+        private Post _post;
         public void OnGet()
         {
             InitializePost();
