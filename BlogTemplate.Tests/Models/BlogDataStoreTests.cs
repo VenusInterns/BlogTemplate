@@ -32,6 +32,42 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
+        public void SaveComment_SaveSimpleComment()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+
+            Comment testComment = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+
+            };
+
+            testDataStore.SavePost(testPost);
+            testDataStore.SaveComment(testComment, testPost);
+
+            Assert.NotEmpty(testPost.Comments);
+            Assert.NotNull(testComment.PubDate);
+            Assert.True(testComment.IsPublic);
+            Assert.True(File.Exists("BlogFiles\\Test-slug.xml"));
+
+
+        }
+
+        [Fact]
         public void GetPost_FindPostBySlug_ReturnsPost()
         {
             BlogDataStore testDataStore = new BlogDataStore();
