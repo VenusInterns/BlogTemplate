@@ -4,6 +4,8 @@ using System.Text;
 using BlogTemplate.Models;
 using Xunit;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace BlogTemplate.Tests.Model
 {
@@ -58,13 +60,10 @@ namespace BlogTemplate.Tests.Model
 
             testDataStore.SavePost(testPost);
             testDataStore.SaveComment(testComment, testPost);
-
-            Assert.NotEmpty(testPost.Comments);
-            Assert.NotNull(testComment.PubDate);
-            Assert.True(testComment.IsPublic);
+            
             Assert.True(File.Exists("BlogFiles\\Test-slug.xml"));
-
-
+            XDocument doc = XDocument.Load("BlogFiles\\Test-slug.xml");
+            Assert.True(doc.Root.Elements("Comments").Any());
         }
 
         [Fact]
@@ -111,6 +110,75 @@ namespace BlogTemplate.Tests.Model
             BlogDataStore testDataStore = new BlogDataStore();
 
             Assert.Null(testDataStore.GetPost("does-not-exist"));
+        }
+
+        [Fact]
+        public void GetAllComments_ReturnsList()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            var comment1 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            var comment2 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            testDataStore.SavePost(testPost);
+            testDataStore.SaveComment(comment1, testPost);
+            testDataStore.SaveComment(comment2, testPost);
+
+            List<Comment> comments = testDataStore.GetAllComments(testPost.Slug);
+            Assert.NotEmpty(comments);
+        }
+
+        [Fact]
+        public void GetAllPosts_ReturnsList()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+            Post post1 = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            Post post2 = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            testDataStore.SavePost(post1);
+            testDataStore.SavePost(post2);
+
+            List<Post> posts = testDataStore.GetAllPosts();
+            Assert.NotEmpty(posts);
         }
 
         public void Dispose()
