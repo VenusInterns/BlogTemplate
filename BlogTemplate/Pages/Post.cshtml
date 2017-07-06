@@ -25,7 +25,7 @@
 
     <h3>Add Comment</h3>
     <form id="form1" method="post">
-        <p><h3><label for="AuthorName">Name</></label></h3></p>
+        <p><h4><label for="AuthorName">Name</></label></h4></p>
         <p><input type="text" name="AuthorName" asp-for="Post.Comments[Model.Post.Comments.Count - 1].AuthorName" /></p>
         <p><h4><label for="AuthorEmail">Email</></label></h4></p>
         <p><input type="text" name="AuthorEmail" asp-for="Post.Comments[Model.Post.Comments.Count - 1].AuthorEmail" /></p>
