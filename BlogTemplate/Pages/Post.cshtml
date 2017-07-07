@@ -10,6 +10,7 @@
 
 <article>
     <h1>@Model.Post.Title</h1>
+    <a href="/edit/@Model.Post.Slug">Edit Post</a>
     <p id="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</p>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>

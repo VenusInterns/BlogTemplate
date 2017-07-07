@@ -152,8 +152,8 @@ namespace BlogTemplate.Tests.Model
             Post result1 = testDataStore.GetPost("Test-Title-1");
             Assert.Equal("Test-Title-1", result1.Slug);
 
-            Post result2 = testDataStore.GetPost("Test-Title-1-2");
-            Assert.Equal("Test-Title-1-2", result2.Slug);
+            Post result2 = testDataStore.GetPost("Test-Title-2");
+            Assert.Equal("Test-Title-2", result2.Slug);
         }
 
 

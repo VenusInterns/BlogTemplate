@@ -102,6 +102,21 @@ namespace BlogTemplate.Models
             return rootNode;
         }
 
+        public List<string> GetTags(XDocument doc)
+        {
+            List<string> tags = new List<string>();
+            IEnumerable<XElement> tagElements;
+            if((tagElements = doc.Root.Element("Tags").Elements("Tag")).Any())
+            {
+                foreach (string tag in tagElements)
+                {
+                    tags.Add(tag);
+                }
+            }
+            
+            return tags;
+        }
+
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));            
@@ -128,7 +143,6 @@ namespace BlogTemplate.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
             Post post = new Post
@@ -142,6 +156,7 @@ namespace BlogTemplate.Models
                 Excerpt = doc.Root.Element("Excerpt").Value
             };
             post.Comments = GetAllComments(post.Slug);
+            post.Tags = GetTags(doc);
             return post;
         }
 
@@ -173,6 +188,7 @@ namespace BlogTemplate.Models
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
                 post.Comments = GetAllComments(post.Slug);
+                post.Tags = GetTags(doc);
                 allPosts.Add(post);
             }
             return allPosts;
@@ -188,9 +204,9 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allPosts);
         }
 
-        public void InitStorageFolder()
+        public void UpdatePost(Post newPost, Post oldPost)
         {
-            Directory.CreateDirectory(StorageFolder);
+
         }
 
 
