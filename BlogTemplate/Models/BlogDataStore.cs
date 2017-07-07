@@ -12,6 +12,15 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
+        public BlogDataStore()
+        {
+            InitStorageFolder();
+        }
+
+        public void InitStorageFolder()
+        {
+            Directory.CreateDirectory(StorageFolder);
+        }
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
@@ -61,22 +70,6 @@ namespace BlogTemplate.Models
 
 
 
-        public IEnumerable<XElement> loadDocument(string slug)
-        {
-            IEnumerable<XElement> comments;
-            string filePath = $"{StorageFolder}//{slug}.xml";
-            XDocument xDoc = XDocument.Load(filePath);
-
-            if (xDoc.Root.Element("Comments") == null)
-            {
-                comments = null;
-                return comments;
-            }
-            comments = xDoc.Root
-                           .Element("Comments")
-                               .Elements("Comment");
-            return comments;
-        }
 
         public List<Comment> appendInfor(IEnumerable<XElement> comments, List<Comment> allComments)
         {
@@ -150,15 +143,28 @@ namespace BlogTemplate.Models
             return null;
         }
 
+        public XDocument loadDocumentFromSlug(string slug)
+        {
+            string filePath = $"{StorageFolder}\\{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);
+
+            if (File.Exists(filePath))
+            {
+                return xDoc;
+            }
+            return null;
+        }
+
         public List<Comment> GetAllComments(string slug)
         {
+            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
 
             List<Comment> allComments = new List<Comment>();
 
             string filePath = $"{StorageFolder}\\{slug}.xml";
             XDocument xDoc = XDocument.Load(filePath);
-            IEnumerable<XElement> comments;// = xDoc.Root.Element("Comments").Elements("Comment");
+            IEnumerable<XElement> comments;
             if (xDoc.Root.Elements("Comments").Any())
             {
                 comments = xDoc.Root.Element("Comments").Elements("Comment");
@@ -207,14 +213,11 @@ namespace BlogTemplate.Models
             return allPosts;
         }
 
-        public void InitStorageFolder()
-        {
-            Directory.CreateDirectory(StorageFolder);
-        }
+
 
         public bool CheckSlugExists(string slug)
         {
-            return File.Exists($"{StorageFolder}\\{slug}");
+            return File.Exists($"{StorageFolder}\\{slug}.xml");
         }
     }
 }

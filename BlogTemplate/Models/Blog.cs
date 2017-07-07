@@ -20,7 +20,6 @@ namespace BlogTemplate.Models
         private void Init()
         {
             BlogDataStore dataStore = new BlogDataStore();
-            dataStore.InitStorageFolder();
         }
     }
 }
