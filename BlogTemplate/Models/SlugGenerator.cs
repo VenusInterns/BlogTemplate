@@ -9,16 +9,16 @@ namespace BlogTemplate.Models
     {
         public string CreateSlug(string title)
         {
-            string slug = title.Replace(" ", "-");
-
             BlogDataStore dataStore = new BlogDataStore();
+            string slug = title.Replace(" ", "-");
             int count = 0;
-            while (dataStore.CheckSlugExists(slug))
+            string tempSlug = slug;
+            while (dataStore.CheckSlugExists(tempSlug))
             {
                 count++;
-                slug = $"{slug}-{count}";
+                tempSlug = $"{slug}-{count}";
             }
-            return slug;
+            return tempSlug;
         }
     }
 }
