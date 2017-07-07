@@ -12,12 +12,13 @@ namespace BlogTemplate.Models
             BlogDataStore dataStore = new BlogDataStore();
             string slug = title.Replace(" ", "-");
             int count = 0;
-            while (dataStore.CheckSlugExists(slug))
+            string tempSlug = slug;
+            while (dataStore.CheckSlugExists(tempSlug))
             {
                 count++;
-                slug = $"{slug}-{count}";
-            }   
-            return slug;
+                tempSlug = $"{slug}-{count}";
+            }
+            return tempSlug;
         }
     }
 }
