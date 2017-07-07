@@ -13,12 +13,13 @@ namespace BlogTemplate.Models
 
             BlogDataStore dataStore = new BlogDataStore();
             int count = 0;
-            while (dataStore.CheckSlugExists(slug))
+            string tempSlug = slug;
+            while (dataStore.CheckSlugExists(tempSlug))
             {
                 count++;
-                slug = $"{slug}-{count}";
+                tempSlug = $"{slug}-{count}";
             }
-            return slug;
+            return tempSlug;
         }
     }
 }
