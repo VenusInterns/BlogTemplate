@@ -143,6 +143,12 @@ namespace BlogTemplate.Models
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
                 //comments
                 post.Comments = GetAllComments(post.Slug);
+                //tags
+                IEnumerable<XElement> tags = doc.Root.Element("Tags").Elements("Tag");
+                foreach(XElement tag in tags)
+                {
+                    post.Tags.Add(tag.Value);
+                }
 
                 return post;
             }
