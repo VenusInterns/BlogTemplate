@@ -4,4 +4,5 @@ A blog template to empower Visual Studio users to create new web applications fa
 
 Table of Contents:
 1. Branches
-2. Backlog (for bugs and tasks)
+2. Tests
+3. Backlog (for bugs and tasks)
