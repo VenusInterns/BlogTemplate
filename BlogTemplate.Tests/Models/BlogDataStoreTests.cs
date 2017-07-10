@@ -234,6 +234,41 @@ namespace BlogTemplate.Tests.Model
             Assert.NotEmpty(posts);
         }
 
+        [Fact]
+        public void UpdatePost_ChangePost_UpdatesXMLFile()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+
+            Post oldPost = new Post
+            {
+                Slug = "Old-Title",
+                Title = "Old Title",
+                Body = "Old body",
+                IsPublic = true,
+                Excerpt = "Old excerpt"
+            };
+
+            Post newPost = new Post
+            {
+                Slug = "New-Title",
+                Title = "New Title",
+                Body = "New body",
+                IsPublic = true,
+                Excerpt = "New excerpt"
+            };
+
+            testDataStore.SavePost(oldPost);
+            testDataStore.UpdatePost(newPost, oldPost);
+
+            Assert.True(File.Exists($"BlogFiles//New-Title.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles//New-Title.xml", "New-Title");
+            Assert.Equal(result.Slug, "New-Title");
+            Assert.Equal(result.Title, "New Title");
+            Assert.Equal(result.Body, "New body");
+            Assert.True(result.IsPublic);
+            Assert.Equal(result.Excerpt, "New excerpt");
+        }
+
         public void Dispose()
         {
             // Delete all the files we created along the way
