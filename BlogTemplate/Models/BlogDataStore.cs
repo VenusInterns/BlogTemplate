@@ -224,7 +224,6 @@ namespace BlogTemplate.Models
             System.IO.File.Move($"{StorageFolder}//{oldPost.Slug}.xml", $"{StorageFolder}//{newPost.Slug}.xml");
         }
 
-
         public bool CheckSlugExists(string slug)
         {
             return File.Exists($"{StorageFolder}\\{slug}.xml");
