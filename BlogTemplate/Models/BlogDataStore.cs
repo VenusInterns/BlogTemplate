@@ -126,7 +126,7 @@ namespace BlogTemplate.Models
         }
 
 
-        public Post CollectPostInfo(string expectedFilePath)
+        public Post CollectPostInfo(string expectedFilePath, string slug)
         {
             if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
@@ -151,7 +151,7 @@ namespace BlogTemplate.Models
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
             if (File.Exists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath);
+                return CollectPostInfo(expectedFilePath, slug);
             }
             return null;
         }
@@ -187,12 +187,6 @@ namespace BlogTemplate.Models
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
         }
-
-        public void InitStorageFolder()
-        {
-            Directory.CreateDirectory(StorageFolder);
-        }
-
 
         public bool CheckSlugExists(string slug)
         {
