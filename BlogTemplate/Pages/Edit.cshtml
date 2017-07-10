@@ -22,7 +22,6 @@
         <p><textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea></p>
         <p><label for="Tags">Tags (separated by comma)</label></p>
         <p><input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" /></p>
-        <p><input type="checkbox" /><label for="IsPublic">Make public</label></p>
         <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
     </form>
