@@ -57,6 +57,9 @@ namespace BlogTemplate.Pages
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
             BlogDataStore dataStore = new BlogDataStore();
+            SlugGenerator slugGenerator = new SlugGenerator();
+            newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+
             dataStore.UpdatePost(newPost, oldPost);
 
             //update post in blog's list of posts
