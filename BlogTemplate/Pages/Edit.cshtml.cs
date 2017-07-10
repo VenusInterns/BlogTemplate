@@ -20,6 +20,7 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Post newPost { get; set; }
+        [BindProperty]
         public Post oldPost { get; set; }
         public void OnGet()
         {
@@ -30,7 +31,7 @@ namespace BlogTemplate.Pages
         {
             string slug = RouteData.Values["slug"].ToString();
             BlogDataStore dataStore = new BlogDataStore();
-            oldPost = dataStore.GetPost(slug);
+            newPost = oldPost = dataStore.GetPost(slug);
 
             if(oldPost == null)
             {
@@ -41,18 +42,18 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostPublish()
         {
             newPost.IsPublic = true;
-            UpdatePost(newPost);
+            UpdatePost(newPost, oldPost);
             return Redirect("/Index");
         }
 
         public IActionResult OnPostSaveDraft()
         {
             newPost.IsPublic = false;
-            UpdatePost(newPost);
+            UpdatePost(newPost, oldPost);
             return Redirect("/Index");
         }
 
-        public void UpdatePost(Post newPost)
+        public void UpdatePost(Post newPost, Post oldPost)
         {
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
@@ -61,11 +62,6 @@ namespace BlogTemplate.Pages
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
 
             dataStore.UpdatePost(newPost, oldPost);
-
-            //update post in blog's list of posts
-            //might need to do in datastore instead
-            int index = _blog.Posts.IndexOf(oldPost);
-            _blog.Posts[index] = newPost;
         }
     }
 }

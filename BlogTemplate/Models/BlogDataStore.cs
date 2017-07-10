@@ -141,8 +141,9 @@ namespace BlogTemplate.Models
         }
 
 
-        public Post CollectPostInfo(string expectedFilePath)
+        public Post CollectPostInfo(string expectedFilePath, string slug)
         {
+            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
             Post post = new Post
@@ -166,7 +167,7 @@ namespace BlogTemplate.Models
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
             if (File.Exists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath);
+                return CollectPostInfo(expectedFilePath, slug);
             }
             return null;
         }
@@ -215,6 +216,12 @@ namespace BlogTemplate.Models
             doc.Root.Element("LastModified").Value = newPost.LastModified.ToString();
             doc.Root.Element("Slug").Value = newPost.Slug;
             doc.Root.Element("IsPublic").Value = newPost.IsPublic.ToString();
+            doc.Root.Element("Excerpt").Value = newPost.Excerpt;
+            doc.Root.Elements("Tags").Remove();
+            doc.Root.Elements("Tag").Remove();
+            AddTags(newPost, doc.Root);
+            doc.Save($"{StorageFolder}//{oldPost.Slug}.xml");
+            System.IO.File.Move($"{StorageFolder}//{oldPost.Slug}.xml", $"{StorageFolder}//{newPost.Slug}.xml");
         }
 
 
