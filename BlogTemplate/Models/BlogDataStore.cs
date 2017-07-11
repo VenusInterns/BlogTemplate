@@ -16,10 +16,6 @@ namespace BlogTemplate.Models
             InitStorageFolder();
         }
 
-        public void InitStorageFolder()
-        {
-            Directory.CreateDirectory(StorageFolder);
-        }
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
@@ -42,7 +38,9 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
-            commentNode.Add(new XElement("CommentBody", comment.Body));           
+            commentNode.Add(new XElement("CommentBody", comment.Body));
+            commentNode.Add(new XElement("IsPublic", true));
+            commentNode.Add(new XElement("UniqueId", comment.UniqueId));
             commentsNode.Add(commentNode);
         }
 
@@ -50,6 +48,10 @@ namespace BlogTemplate.Models
         {
             string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
             XDocument doc = XDocument.Load(postFilePath);
+            if(comment.UniqueId == default(Guid))
+            {
+                comment.UniqueId = Guid.NewGuid();
+            }
             AppendCommentInfo(comment, Post, doc);
             doc.Save(postFilePath);
         }
@@ -73,9 +75,11 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
-                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal)
+                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                    IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
+                    UniqueId = (Guid.Parse(comment.Element("UniqueId").Value))
                 };
-                listAllComments.Add(newComment);
+            listAllComments.Add(newComment);
             }
         }
 
@@ -84,12 +88,21 @@ namespace BlogTemplate.Models
             IEnumerable<XElement> commentRoot = GetCommentRoot(slug);
             IEnumerable<XElement> comments;
             List<Comment> listAllComments = new List<Comment>();            
-          if (commentRoot.Any())
+            if (commentRoot.Any())
             {
                 comments = commentRoot.Elements("Comment");
                 IterateComments(comments, listAllComments);
             }
             return listAllComments;
+        }
+
+        public Comment findComment(Guid UniqueId, Post post)
+        {
+            List<Comment> commentsList = post.Comments;
+            foreach (Comment comment in commentsList) {
+                if (comment.UniqueId.Equals(UniqueId)) return comment;
+            }
+            return null;
         }
 
         public XElement AddTags(Post post, XElement rootNode)
@@ -105,7 +118,7 @@ namespace BlogTemplate.Models
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));            
-          rootNode.Add(new XElement("Title", post.Title));
+            rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString()));
@@ -128,7 +141,6 @@ namespace BlogTemplate.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
             Post post = new Post

@@ -23,7 +23,7 @@ namespace BlogTemplate.Pages
         public Comment Comment { get; set; }
         
         public Post Post { get; set; }
-        private Post _post;
+
         public void OnGet()
         {
             InitializePost();
@@ -42,7 +42,7 @@ namespace BlogTemplate.Pages
             }
         }
 
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublishComment()
         {
             string slug = RouteData.Values["slug"].ToString();
 
@@ -58,6 +58,22 @@ namespace BlogTemplate.Pages
                 Post.Comments.Add(Comment);
             }
             return Page();
+        }
+
+        public IActionResult OnPostDeleteComment(Guid commentId)
+        {
+
+            string slug = RouteData.Values["slug"].ToString();
+            BlogDataStore dataStore = new BlogDataStore();
+            Post = dataStore.GetPost(slug);
+
+            //not finding the Comment.UniqueId that was clicked on
+            Comment foundComment = dataStore.findComment(commentId, Post);
+            foundComment.IsPublic = false;
+            //dataStore.SaveComment(Comment.Post);
+            //dataStore.SavePost(Post);
+            return Page();
+
         }
     }
 }

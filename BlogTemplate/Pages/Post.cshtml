@@ -19,13 +19,17 @@
 
     @foreach (var comment in Model.Post.Comments)
     {
-        <p id="Comment-Title">@comment.AuthorName</p>
-        <p id="Comment-Body">@comment.AuthorEmail</p>
-        <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
-        <p id="Comment-Body">@comment.Body</p>
+        <form id="form1" method="post">
+            <p id="Comment-Title">@comment.AuthorName</p>
+            <p id="Comment-Body">@comment.AuthorEmail</p>
+            <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
+            <p id="Comment-Body">@comment.Body</p>
+            <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId"/>
+            <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment"/>
+        </form>
     }
 
-
+    <hr />
     <h3>Add Comment</h3>
     <form id="form1" method="post">
         <p><h3><label for="AuthorName">Name</></label></h3></p>
