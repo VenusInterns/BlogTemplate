@@ -117,6 +117,25 @@ namespace BlogTemplate.Models
             return rootNode;
         }
 
+        public XElement AddComments(Post post, XElement rootNode)
+        {
+            XElement commentsNode = new XElement("Comments");
+
+            foreach (Comment comment in post.Comments)
+            {
+                XElement commentNode = new XElement("Comment");
+                commentNode.Add(new XElement("AuthorName", comment.AuthorName));
+                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
+                commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
+                commentNode.Add(new XElement("CommentBody", comment.Body));
+                commentNode.Add(new XElement("IsPublic", comment.IsPublic));
+                commentNode.Add(new XElement("UniqueId", comment.UniqueId));
+                commentsNode.Add(commentNode);
+            }
+            rootNode.Add(commentsNode);
+            return rootNode;
+        }
+
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));
@@ -130,13 +149,15 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
-            AppendPostInfo(rootNode, post);
 
-            doc.Add(AddTags(post, rootNode));
+            AppendPostInfo(rootNode, post);
+            AddComments(post, rootNode);
+            AddTags(post, rootNode);
+
+            doc.Add(rootNode);
             doc.Save(outputFilePath);
         }
 
