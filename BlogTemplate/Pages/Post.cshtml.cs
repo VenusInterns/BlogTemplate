@@ -67,11 +67,9 @@ namespace BlogTemplate.Pages
             BlogDataStore dataStore = new BlogDataStore();
             Post = dataStore.GetPost(slug);
 
-            //not finding the Comment.UniqueId that was clicked on
             Comment foundComment = dataStore.FindComment(commentId, Post);
             foundComment.IsPublic = false;
-            //dataStore.SaveComment(Comment.Post);
-            //dataStore.SavePost(Post);
+            dataStore.SavePost(Post);
             return Page();
 
         }
