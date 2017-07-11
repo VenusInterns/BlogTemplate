@@ -71,7 +71,19 @@ namespace BlogTemplate.Pages
             foundComment.IsPublic = false;
             dataStore.SavePost(Post);
             return Page();
-
         }
+
+        public IActionResult OnPostUndeleteComment(Guid commentId)
+        {
+            string slug = RouteData.Values["slug"].ToString();
+            BlogDataStore dataStore = new BlogDataStore();
+            Post = dataStore.GetPost(slug);
+
+            Comment foundComment = dataStore.FindComment(commentId, Post);
+            foundComment.IsPublic = true;
+            dataStore.SavePost(Post);
+            return Page();
+        }
+
     }
 }

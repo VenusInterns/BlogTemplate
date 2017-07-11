@@ -76,3 +76,7 @@ footer {
 #Comment-Body{
     font: 16px/1 arial !important;
 }
+
+.deletedContent {
+    background-color: hsl(336, 100%, 76%);
+}

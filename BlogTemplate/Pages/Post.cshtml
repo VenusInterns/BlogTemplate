@@ -19,13 +19,23 @@
 
     @foreach (var comment in Model.Post.Comments)
     {
+        string cssClass = comment.IsPublic ? "" : "deletedContent";
         <form id="form1" method="post">
-            <p id="Comment-Title">@comment.AuthorName</p>
-            <p id="Comment-Body">@comment.AuthorEmail</p>
-            <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
-            <p id="Comment-Body">@comment.Body</p>
-            <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId"/>
-            <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment"/>
+            <div class="@cssClass">
+                <p id="Comment-Title">@comment.AuthorName</p>
+                <p id="Comment-Body">@comment.AuthorEmail</p>
+                <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
+                <p id="Comment-Body">@comment.Body</p>
+                <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                @if (comment.IsPublic)
+                {
+                    <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment" />
+                }
+                else
+                {
+                    <input type="submit" name="delete" value="Republish Comment" asp-page-handler="UndeleteComment" />
+                }
+            </div>
         </form>
     }
 
