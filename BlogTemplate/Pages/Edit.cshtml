@@ -24,5 +24,6 @@
         <p><input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" /></p>
         <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
+        <p><a href="/Index">Cancel</a></p>
     </form>
 </article>

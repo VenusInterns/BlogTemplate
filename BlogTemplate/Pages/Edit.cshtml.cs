@@ -43,7 +43,7 @@ namespace BlogTemplate.Pages
         {
             newPost.IsPublic = true;
             UpdatePost(newPost, oldPost);
-            return Redirect("/Index");
+            return Redirect($"/Post/{newPost.Slug}");
         }
 
         public IActionResult OnPostSaveDraft()
