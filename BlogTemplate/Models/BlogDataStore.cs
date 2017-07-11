@@ -21,7 +21,7 @@ namespace BlogTemplate.Models
             XElement commentsNode;
             if (doc.Root.Elements("Comments").Any())
             {
-                commentsNode = doc.Root.Element("Comments");                
+                commentsNode = doc.Root.Element("Comments");
             }
             else
             {
@@ -48,7 +48,7 @@ namespace BlogTemplate.Models
         {
             string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
             XDocument doc = XDocument.Load(postFilePath);
-            if(comment.UniqueId == default(Guid))
+            if (comment.UniqueId == default(Guid))
             {
                 comment.UniqueId = Guid.NewGuid();
             }
@@ -57,7 +57,7 @@ namespace BlogTemplate.Models
         }
 
 
-        public IEnumerable<XElement> GetCommentRoot (string slug)
+        public IEnumerable<XElement> GetCommentRoot(string slug)
         {
             string filePath = $"{StorageFolder}\\{slug}.xml";
             XDocument xDoc = XDocument.Load(filePath);
@@ -79,7 +79,7 @@ namespace BlogTemplate.Models
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value))
                 };
-            listAllComments.Add(newComment);
+                listAllComments.Add(newComment);
             }
         }
 
@@ -87,7 +87,7 @@ namespace BlogTemplate.Models
         {
             IEnumerable<XElement> commentRoot = GetCommentRoot(slug);
             IEnumerable<XElement> comments;
-            List<Comment> listAllComments = new List<Comment>();            
+            List<Comment> listAllComments = new List<Comment>();
             if (commentRoot.Any())
             {
                 comments = commentRoot.Elements("Comment");
@@ -96,10 +96,11 @@ namespace BlogTemplate.Models
             return listAllComments;
         }
 
-        public Comment findComment(Guid UniqueId, Post post)
+        public Comment FindComment(Guid UniqueId, Post post)
         {
             List<Comment> commentsList = post.Comments;
-            foreach (Comment comment in commentsList) {
+            foreach (Comment comment in commentsList)
+            {
                 if (comment.UniqueId.Equals(UniqueId)) return comment;
             }
             return null;
@@ -111,13 +112,14 @@ namespace BlogTemplate.Models
             foreach (string tag in post.Tags)
             {
                 tagsNode.Add(new XElement("Tag", tag));
-            }            rootNode.Add(tagsNode);
+            }
+            rootNode.Add(tagsNode);
             return rootNode;
         }
 
         public void AppendPostInfo(XElement rootNode, Post post)
         {
-            rootNode.Add(new XElement("Slug", post.Slug));            
+            rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
