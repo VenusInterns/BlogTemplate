@@ -21,7 +21,7 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Comment Comment { get; set; }
-        
+
         public Post Post { get; set; }
 
         public void OnGet()
@@ -36,9 +36,9 @@ namespace BlogTemplate.Pages
             BlogDataStore dataStore = new BlogDataStore();
             Post = dataStore.GetPost(slug);
 
-            if(Post == null)
+            if (Post == null)
             {
-                 RedirectToPage("/Index");
+                RedirectToPage("/Index");
             }
         }
 
@@ -52,17 +52,19 @@ namespace BlogTemplate.Pages
             if (Post == null)
             {
                 RedirectToPage("/Index");
-            }else if (ModelState.IsValid)
+            }
+            else if (ModelState.IsValid)
             {
-               dataStore.SaveComment(Comment, Post);
+                Comment.IsPublic = true;
+                Comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(Comment);
+                dataStore.SavePost(Post);
             }
             return Page();
         }
 
         public IActionResult OnPostDeleteComment(Guid commentId)
         {
-
             string slug = RouteData.Values["slug"].ToString();
             BlogDataStore dataStore = new BlogDataStore();
             Post = dataStore.GetPost(slug);
