@@ -43,7 +43,7 @@ namespace BlogTemplate.Pages
 
             BlogDataStore dataStore = new BlogDataStore();
             SlugGenerator slugGenerator = new SlugGenerator();
-            Post.Slug = slugGenerator.CreateSlug(Post.Title);
+            Post.Slug = slugGenerator.CreateSlug(Post);
 
             dataStore.SavePost(Post);
             _blog.Posts.Add(Post);

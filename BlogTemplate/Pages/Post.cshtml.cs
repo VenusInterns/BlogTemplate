@@ -54,7 +54,7 @@ namespace BlogTemplate.Pages
                 RedirectToPage("/Index");
             }else if (ModelState.IsValid)
             {
-               dataStore.SaveComment(Comment, Post);
+                dataStore.SaveComment(Comment, Post);
                 Post.Comments.Add(Comment);
             }
             return Page();
