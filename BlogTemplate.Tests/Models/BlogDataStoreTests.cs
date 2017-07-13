@@ -104,57 +104,57 @@ namespace BlogTemplate.Tests.Model
             //Assert.NotEmpty(result.Comments);
         }
 
-        //[Fact]
-        //public void CreateSlug_ReturnValidSlug()
-        //{
-        //    BlogDataStore testDataStore = new BlogDataStore();
-        //    SlugGenerator testSlug = new SlugGenerator();
-        //    Post test = new Post
-        //    {
-        //        Title = "Test Title",
-        //        Slug = testSlug.CreateSlug("Test Title"),
-        //        Body = "Test body",
-        //        PubDate = DateTime.Now,
-        //        LastModified = DateTime.Now,
-        //        IsPublic = true,
-        //        Excerpt = "Test excerpt",
-        //    };
-        //    testDataStore.SavePost(test);
+        [Fact]
+        public void CreateSlug_ReturnValidSlug()
+        {
+            BlogDataStore testDataStore = new BlogDataStore();
+            SlugGenerator testSlug = new SlugGenerator();
+            Post test = new Post
+            {
+                Title = "Test Title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt",
+            };
+            test.Slug = testSlug.CreateSlug(test);
+            testDataStore.SavePost(test);
 
 
-        //    Post test1 = new Post
-        //    {
-        //        Title = "Test Title",
-        //        Slug = testSlug.CreateSlug("Test Title"),
-        //        Body = "Test body",
-        //        PubDate = DateTime.Now,
-        //        LastModified = DateTime.Now,
-        //        IsPublic = true,
-        //        Excerpt = "Test excerpt",
-        //    };
-        //    testDataStore.SavePost(test1);
+            Post test1 = new Post
+            {
+                Title = "Test Title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt",
+            };
+            test1.Slug = testSlug.CreateSlug(test1);
+            testDataStore.SavePost(test1);
 
-        //    Post test2 = new Post
-        //    {
-        //        Title = "Test Title",
-        //        Slug = testSlug.CreateSlug("Test Title"),
-        //        Body = "Test body",
-        //        PubDate = DateTime.Now,
-        //        LastModified = DateTime.Now,
-        //        IsPublic = true,
-        //        Excerpt = "Test excerpt",
-        //    };
-        //    testDataStore.SavePost(test2);
+            Post test2 = new Post
+            {
+                Title = "Test Title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt",
+            };
+            test2.Slug = testSlug.CreateSlug(test2);
+            testDataStore.SavePost(test2);
 
-        //    Post result = testDataStore.GetPost("Test-Title");
-        //    Assert.Equal("Test-Title", result.Slug);
+            Post result = testDataStore.GetPost($"{test.PubDate.ToFileTimeUtc()}_Test-Title");
+            Assert.Equal($"{test.PubDate.ToFileTimeUtc()}_Test-Title", result.Slug);
 
-        //    Post result1 = testDataStore.GetPost("Test-Title-1");
-        //    Assert.Equal("Test-Title-1", result1.Slug);
+            Post result1 = testDataStore.GetPost($"{test1.PubDate.ToFileTimeUtc()}_Test-Title");
+            Assert.Equal($"{test1.PubDate.ToFileTimeUtc()}_Test-Title", result1.Slug);
 
-        //    Post result2 = testDataStore.GetPost("Test-Title-1-2");
-        //    Assert.Equal("Test-Title-1-2", result2.Slug);
-        //}
+            Post result2 = testDataStore.GetPost($"{test2.PubDate.ToFileTimeUtc()}_Test-Title");
+            Assert.Equal($"{test2.PubDate.ToFileTimeUtc()}_Test-Title", result2.Slug);
+        }
 
 
         [Fact]
