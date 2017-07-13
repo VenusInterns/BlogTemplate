@@ -71,6 +71,7 @@ namespace BlogTemplate.Pages
 
             Comment foundComment = dataStore.FindComment(commentId, Post);
             foundComment.IsPublic = false;
+
             dataStore.SavePost(Post);
             return Page();
         }
@@ -83,9 +84,9 @@ namespace BlogTemplate.Pages
 
             Comment foundComment = dataStore.FindComment(commentId, Post);
             foundComment.IsPublic = true;
+
             dataStore.SavePost(Post);
             return Page();
         }
-
     }
 }

@@ -88,9 +88,8 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true,
                 Excerpt = "Test excerpt",
             };
-            //test.Comments.Add(comment);
+            test.Comments.Add(comment);
             testDataStore.SavePost(test);
-            //testDataStore.SaveComment(comment, test);
             Post result = testDataStore.GetPost("Test-Title");
 
             Assert.NotNull(result);
@@ -101,7 +100,6 @@ namespace BlogTemplate.Tests.Model
             Assert.NotNull(result.LastModified);
             Assert.True(result.IsPublic);
             Assert.Equal(result.Excerpt, "Test excerpt");
-            //Assert.NotEmpty(result.Comments);
         }
 
         [Fact]
@@ -152,8 +150,8 @@ namespace BlogTemplate.Tests.Model
             Post result1 = testDataStore.GetPost("Test-Title-1");
             Assert.Equal("Test-Title-1", result1.Slug);
 
-            Post result2 = testDataStore.GetPost("Test-Title-1-2");
-            Assert.Equal("Test-Title-1-2", result2.Slug);
+            Post result2 = testDataStore.GetPost("Test-Title-2");
+            Assert.Equal("Test-Title-2", result2.Slug);
         }
 
 
@@ -195,6 +193,8 @@ namespace BlogTemplate.Tests.Model
                 PubDate = DateTime.Now,
                 IsPublic = true
             };
+            testPost.Comments.Add(comment1);
+            testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
             testDataStore.SaveComment(comment1, testPost);
             testDataStore.SaveComment(comment2, testPost);
@@ -232,6 +232,49 @@ namespace BlogTemplate.Tests.Model
 
             List<Post> posts = testDataStore.GetAllPosts();
             Assert.NotEmpty(posts);
+        }
+
+        [Fact]
+        public void FindComment_SwitchIsPublicValue()
+        {
+
+            BlogDataStore testDataStore = new BlogDataStore();
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            var comment1 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            var comment2 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            testPost.Comments.Add(comment1);
+            testPost.Comments.Add(comment2);
+            testDataStore.SavePost(testPost);
+            testDataStore.SaveComment(comment1, testPost);
+            testDataStore.SaveComment(comment2, testPost);
+
+            Comment newcom = testDataStore.FindComment(comment1.UniqueId, testPost);
+
+            Assert.NotEmpty(testDataStore.GetAllComments(testPost.Slug));
+            Assert.Equal(newcom.UniqueId, comment1.UniqueId);
         }
 
         public void Dispose()

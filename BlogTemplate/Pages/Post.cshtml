@@ -43,11 +43,11 @@
     <h3>Add Comment</h3>
     <form id="form1" method="post">
         <p><h3><label for="AuthorName">Name</></label></h3></p>
-        <p><input type="text" name="AuthorName" asp-for="Comment.AuthorName" /></p>
+        <p><input type="text" placeholder="" name="AuthorName" asp-for="Comment.AuthorName" /></p>
         <p><h4><label for="AuthorEmail">Email</label></h4></p>
-        <p><textarea name="AuthorEmail" asp-for="Comment.AuthorEmail"></textarea></p>
-        <p><label for="Body">Write a comment...</label></p>
-        <p><textarea name="Body" asp-for="Comment.Body"></textarea></p>
+        <p><textarea name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail"></textarea></p>
+        <p><label for="Body">Comment</label></p>
+        <p><textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea></p>
         <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
     </form>
 </article>

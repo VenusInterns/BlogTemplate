@@ -31,6 +31,14 @@ namespace BlogTemplate.Models
             return commentsNode;
         }
 
+        public IEnumerable<XElement> GetCommentRoot(string slug)
+        {
+            string filePath = $"{StorageFolder}\\{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);      
+            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            return commentRoot;
+        }
+
         public void AppendCommentInfo(Comment comment, Post Post, XDocument doc)
         {
             XElement commentsNode = GetCommentsRootNode(doc);
@@ -54,15 +62,7 @@ namespace BlogTemplate.Models
             }
             AppendCommentInfo(comment, Post, doc);
             doc.Save(postFilePath);
-        }
 
-
-        public IEnumerable<XElement> GetCommentRoot(string slug)
-        {
-            string filePath = $"{StorageFolder}\\{slug}.xml";
-            XDocument xDoc = XDocument.Load(filePath);
-            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
-            return commentRoot;
         }
 
         public void IterateComments(IEnumerable<XElement> comments, List<Comment> listAllComments)
@@ -161,7 +161,6 @@ namespace BlogTemplate.Models
             doc.Save(outputFilePath);
         }
 
-
         public Post CollectPostInfo(string expectedFilePath)
         {
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
@@ -179,7 +178,6 @@ namespace BlogTemplate.Models
             post.Comments = GetAllComments(post.Slug);
             return post;
         }
-
 
         public Post GetPost(string slug)
         {
@@ -213,7 +211,6 @@ namespace BlogTemplate.Models
             return allPosts;
         }
 
-
         public List<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
@@ -227,7 +224,6 @@ namespace BlogTemplate.Models
         {
             Directory.CreateDirectory(StorageFolder);
         }
-
 
         public bool CheckSlugExists(string slug)
         {
