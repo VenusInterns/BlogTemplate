@@ -15,11 +15,6 @@ namespace BlogTemplate.Models
         {
             InitStorageFolder();
         }
-
-        public void InitStorageFolder()
-        {
-            Directory.CreateDirectory(StorageFolder);
-        }
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
@@ -105,7 +100,7 @@ namespace BlogTemplate.Models
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));            
-          rootNode.Add(new XElement("Title", post.Title));
+            rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString()));
@@ -126,7 +121,7 @@ namespace BlogTemplate.Models
         }
 
 
-        public Post CollectPostInfo(string expectedFilePath)
+        public Post CollectPostInfo(string expectedFilePath, string slug)
         {
             if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
@@ -151,7 +146,7 @@ namespace BlogTemplate.Models
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
             if (File.Exists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath);
+                return CollectPostInfo(expectedFilePath, slug);
             }
             return null;
         }
@@ -192,7 +187,6 @@ namespace BlogTemplate.Models
         {
             Directory.CreateDirectory(StorageFolder);
         }
-
 
         public bool CheckSlugExists(string slug)
         {
