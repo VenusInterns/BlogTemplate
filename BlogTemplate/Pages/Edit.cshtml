@@ -13,15 +13,14 @@
 <article>
     <h2>Edit Post</h2>
     <form method="post">
-        <p><h3><label for="Title">Title</label></h3></p>
-        <p><input type="text" name="Title" asp-for="newPost.Title" /></p>
-        <p><h4><label for="Body">Body</label></h4></p>
-        <p><textarea name="Body" asp-for="newPost.Body"></textarea></p>
-        @*<p><input type="text" name="Body" asp-for="newPost.Body" value="@Model.oldPost.Body" /></p>*@
+        <h3><label for="Title">Title</label></h3>
+        <input type="text" name="Title" asp-for="newPost.Title" />
+        <h4><label for="Body">Body</label></h4>
+        <textarea name="Body" asp-for="newPost.Body"></textarea>
         <p><label for="Excerpt">Excerpt (Optional)</label></p>
-        <p><textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea></p>
+        <textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea>
         <p><label for="Tags">Tags (separated by comma)</label></p>
-        <p><input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" /></p>
+        <input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" />
         <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
         <p><a href="/Index">Cancel</a></p>

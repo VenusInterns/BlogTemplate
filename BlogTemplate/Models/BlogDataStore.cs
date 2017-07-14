@@ -105,8 +105,8 @@ namespace BlogTemplate.Models
         public List<string> GetTags(XDocument doc)
         {
             List<string> tags = new List<string>();
-            IEnumerable<XElement> tagElements;
-            if((tagElements = doc.Root.Element("Tags").Elements("Tag")).Any())
+            IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
+            if(tagElements.Any())
             {
                 foreach (string tag in tagElements)
                 {
@@ -120,7 +120,7 @@ namespace BlogTemplate.Models
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));            
-          rootNode.Add(new XElement("Title", post.Title));
+            rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString()));

@@ -20,7 +20,7 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Post newPost { get; set; }
-        [BindProperty]
+
         public Post oldPost { get; set; }
         public void OnGet()
         {
@@ -55,9 +55,11 @@ namespace BlogTemplate.Pages
 
         public void UpdatePost(Post newPost, Post oldPost)
         {
-            newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-
             BlogDataStore dataStore = new BlogDataStore();
+            string slug = RouteData.Values["slug"].ToString();
+            oldPost = dataStore.GetPost(slug);
+            newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
+            
             SlugGenerator slugGenerator = new SlugGenerator();
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
 
