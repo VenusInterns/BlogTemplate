@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +15,8 @@ namespace BlogTemplate.Models
         {
             InitStorageFolder();
         }
+
+
 
         private static XElement GetCommentsRootNode(XDocument doc)
         {
@@ -63,6 +65,14 @@ namespace BlogTemplate.Models
             AppendCommentInfo(comment, Post, doc);
             doc.Save(postFilePath);
 
+
+
+        public IEnumerable<XElement> GetCommentRoot(string slug)
+        {
+            string filePath = $"{StorageFolder}\\{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);
+            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            return commentRoot;
         }
 
         public void IterateComments(IEnumerable<XElement> comments, List<Comment> listAllComments)
@@ -75,9 +85,12 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
+
                     PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
+                    PubDate = DateTime.Parse(comment.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal)
+
                 };
                 listAllComments.Add(newComment);
             }
@@ -117,6 +130,7 @@ namespace BlogTemplate.Models
                 tagsNode.Add(new XElement("Tag", tag));
             }
             rootNode.Add(tagsNode);
+
             return rootNode;
         }
 
@@ -136,6 +150,7 @@ namespace BlogTemplate.Models
                 commentsNode.Add(commentNode);
             }
             rootNode.Add(commentsNode);
+
             return rootNode;
         }
 
@@ -164,7 +179,9 @@ namespace BlogTemplate.Models
             doc.Save(outputFilePath);
         }
 
+
         public Post CollectPostInfo(string expectedFilePath)
+
         {
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
@@ -187,7 +204,7 @@ namespace BlogTemplate.Models
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
             if (File.Exists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath);
+                return CollectPostInfo(expectedFilePath, slug);
             }
             return null;
         }
@@ -222,6 +239,7 @@ namespace BlogTemplate.Models
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
         }
+
 
         public void InitStorageFolder()
         {
