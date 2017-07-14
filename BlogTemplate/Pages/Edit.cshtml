@@ -1,0 +1,28 @@
+﻿@page "{slug}"
+@using BlogTemplate
+@using BlogTemplate.Models
+@inject Blog Blog
+@model EditModel
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
+@{
+    ViewData["Title"] = "Edit Post";
+}
+
+<article>
+    <h2>Edit Post</h2>
+    <form method="post">
+        <h3><label for="Title">Title</label></h3>
+        <input type="text" name="Title" asp-for="newPost.Title" />
+        <h4><label for="Body">Body</label></h4>
+        <textarea name="Body" asp-for="newPost.Body"></textarea>
+        <p><label for="Excerpt">Excerpt (Optional)</label></p>
+        <textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea>
+        <p><label for="Tags">Tags (separated by comma)</label></p>
+        <input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" />
+        <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
+        <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
+        <p><a href="/Index">Cancel</a></p>
+    </form>
+</article>

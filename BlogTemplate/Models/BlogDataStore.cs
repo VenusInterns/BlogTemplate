@@ -86,7 +86,6 @@ namespace BlogTemplate.Models
             }
             return listAllComments;
         }
-
         public XElement AddTags(Post post, XElement rootNode)
         {
             XElement tagsNode = new XElement("Tags");
@@ -97,10 +96,25 @@ namespace BlogTemplate.Models
             rootNode.Add(tagsNode);
             return rootNode;
         }
+        public List<string> GetTags(XDocument doc)
+        {
+            List<string> tags = new List<string>();
+            IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
+            if(tagElements.Any())
+            {
+                foreach (string tag in tagElements)
+                {
+                    tags.Add(tag);
+                }
+            }
+            
+            return tags;
+        }
+
 
         public void AppendPostInfo(XElement rootNode, Post post)
         {
-            rootNode.Add(new XElement("Slug", post.Slug));
+            rootNode.Add(new XElement("Slug", post.Slug));            
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
@@ -111,13 +125,14 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
-            AppendPostInfo(rootNode, post);
 
-            doc.Add(AddTags(post, rootNode));
+            AppendPostInfo(rootNode, post);
+            //TODO: add existing comments to post
+            AddTags(post, rootNode);
+            doc.Add(rootNode);
             doc.Save(outputFilePath);
         }
 
@@ -138,6 +153,7 @@ namespace BlogTemplate.Models
                 Excerpt = doc.Root.Element("Excerpt").Value
             };
             post.Comments = GetAllComments(post.Slug);
+            post.Tags = GetTags(doc);
             return post;
         }
 
@@ -169,6 +185,7 @@ namespace BlogTemplate.Models
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
                 post.Comments = GetAllComments(post.Slug);
+                post.Tags = GetTags(doc);
                 allPosts.Add(post);
             }
             return allPosts;
@@ -184,10 +201,10 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allPosts);
         }
 
-
-        public void InitStorageFolder()
+        public void UpdatePost(Post newPost, Post oldPost)
         {
-            Directory.CreateDirectory(StorageFolder);
+            SavePost(newPost);
+            System.IO.File.Delete($"{StorageFolder}\\{oldPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)
