@@ -77,7 +77,7 @@ namespace BlogTemplate.Models
                     AuthorEmail = comment.Element("AuthorEmail").Value,
                     PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
-                    UniqueId = (Guid.Parse(comment.Element("UniqueId").Value))
+                    UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
                 };
                 listAllComments.Add(newComment);
             }
@@ -101,7 +101,10 @@ namespace BlogTemplate.Models
             List<Comment> commentsList = post.Comments;
             foreach (Comment comment in commentsList)
             {
-                if (comment.UniqueId.Equals(UniqueId)) return comment;
+                if (comment.UniqueId.Equals(UniqueId))
+                {
+                    return comment;
+                }
             }
             return null;
         }
@@ -173,7 +176,7 @@ namespace BlogTemplate.Models
                 PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value
+                Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(post.Slug);
             return post;

@@ -14,7 +14,6 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void SavePost_SaveSimplePost()
         {
-            // Arrange
             BlogDataStore testDataStore = new BlogDataStore();
             Post testPost = new Post {
                 Slug = "Test-Post-Slug",
@@ -22,10 +21,8 @@ namespace BlogTemplate.Tests.Model
                 Body = "Test contents",
             };
 
-            // Act
             testDataStore.SavePost(testPost);
 
-            // Assert
             Assert.True(File.Exists("BlogFiles\\Test-Post-Slug.xml"));
             Post result = testDataStore.GetPost("Test-Post-Slug");
             Assert.Equal("Test-Post-Slug", result.Slug);
@@ -59,8 +56,7 @@ namespace BlogTemplate.Tests.Model
             };
 
             testDataStore.SavePost(testPost);
-            testDataStore.SaveComment(testComment, testPost);
-            
+
             Assert.True(File.Exists("BlogFiles\\Test-slug.xml"));
             XDocument doc = XDocument.Load("BlogFiles\\Test-slug.xml");
             Assert.True(doc.Root.Elements("Comments").Any());
@@ -196,8 +192,6 @@ namespace BlogTemplate.Tests.Model
             testPost.Comments.Add(comment1);
             testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
-            testDataStore.SaveComment(comment1, testPost);
-            testDataStore.SaveComment(comment2, testPost);
 
             List<Comment> comments = testDataStore.GetAllComments(testPost.Slug);
             Assert.NotEmpty(comments);
@@ -268,12 +262,10 @@ namespace BlogTemplate.Tests.Model
             testPost.Comments.Add(comment1);
             testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
-            testDataStore.SaveComment(comment1, testPost);
-            testDataStore.SaveComment(comment2, testPost);
 
             Comment newcom = testDataStore.FindComment(comment1.UniqueId, testPost);
 
-            Assert.NotEmpty(testDataStore.GetAllComments(testPost.Slug));
+            Assert.Equal(testPost.Comments.Count, 2);
             Assert.Equal(newcom.UniqueId, comment1.UniqueId);
         }
 
