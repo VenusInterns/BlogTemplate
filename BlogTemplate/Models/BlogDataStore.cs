@@ -117,6 +117,7 @@ namespace BlogTemplate.Models
             return tags;
         }
 
+
         public void AppendPostInfo(XElement rootNode, Post post)
         {
             rootNode.Add(new XElement("Slug", post.Slug));            
@@ -130,13 +131,14 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
-            AppendPostInfo(rootNode, post);
 
-            doc.Add(AddTags(post, rootNode));
+            AppendPostInfo(rootNode, post);
+            //TODO: add existing comments to post
+            AddTags(post, rootNode);
+            doc.Add(rootNode);
             doc.Save(outputFilePath);
         }
 
@@ -207,21 +209,23 @@ namespace BlogTemplate.Models
 
         public void UpdatePost(Post newPost, Post oldPost)
         {
-            XDocument doc = XDocument.Load($"{StorageFolder}\\{oldPost.Slug}.xml");
+            SavePost(newPost);
+            System.IO.File.Delete($"{StorageFolder}\\{oldPost.Slug}.xml");
+            //XDocument doc = XDocument.Load($"{StorageFolder}\\{oldPost.Slug}.xml");
             
-            doc.Root.Element("Title").Value = newPost.Title;
-            doc.Root.Element("Body").Value = newPost.Body;
-            doc.Root.Element("PubDate").Value = newPost.PubDate.ToString();
-            doc.Root.Element("LastModified").Value = DateTime.Now.ToString();
-            doc.Root.Element("Slug").Value = newPost.Slug;
-            doc.Root.Element("IsPublic").Value = newPost.IsPublic.ToString();
-            doc.Root.Element("Excerpt").Value = newPost.Excerpt;
-            doc.Root.Elements("Tags").Remove();
-            doc.Root.Elements("Tag").Remove();
-            AddTags(newPost, doc.Root);
-            doc.Save($"{StorageFolder}//{oldPost.Slug}.xml");
-            //change file name to reflect new slug
-            System.IO.File.Move($"{StorageFolder}//{oldPost.Slug}.xml", $"{StorageFolder}//{newPost.Slug}.xml");
+            //doc.Root.Element("Title").Value = newPost.Title;
+            //doc.Root.Element("Body").Value = newPost.Body;
+            //doc.Root.Element("PubDate").Value = newPost.PubDate.ToString();
+            //doc.Root.Element("LastModified").Value = DateTime.Now.ToString();
+            //doc.Root.Element("Slug").Value = newPost.Slug;
+            //doc.Root.Element("IsPublic").Value = newPost.IsPublic.ToString();
+            //doc.Root.Element("Excerpt").Value = newPost.Excerpt;
+            //doc.Root.Elements("Tags").Remove();
+            //doc.Root.Elements("Tag").Remove();
+            //AddTags(newPost, doc.Root);
+            //doc.Save($"{StorageFolder}//{oldPost.Slug}.xml");
+            ////change file name to reflect new slug
+            //System.IO.File.Move($"{StorageFolder}//{oldPost.Slug}.xml", $"{StorageFolder}//{newPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)

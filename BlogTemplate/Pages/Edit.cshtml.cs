@@ -41,22 +41,23 @@ namespace BlogTemplate.Pages
 
         public IActionResult OnPostPublish()
         {
+            string slug = RouteData.Values["slug"].ToString();
             newPost.IsPublic = true;
-            UpdatePost(newPost, oldPost);
+            UpdatePost(newPost, slug);
             return Redirect($"/Post/{newPost.Slug}");
         }
 
         public IActionResult OnPostSaveDraft()
         {
+            string slug = RouteData.Values["slug"].ToString();
             newPost.IsPublic = false;
-            UpdatePost(newPost, oldPost);
+            UpdatePost(newPost, slug);
             return Redirect("/Index");
         }
 
-        public void UpdatePost(Post newPost, Post oldPost)
+        public void UpdatePost(Post newPost, string slug)
         {
             BlogDataStore dataStore = new BlogDataStore();
-            string slug = RouteData.Values["slug"].ToString();
             oldPost = dataStore.GetPost(slug);
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             
