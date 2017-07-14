@@ -55,7 +55,7 @@ namespace BlogTemplate.Pages
             }else if (ModelState.IsValid)
             {
                dataStore.SaveComment(Comment, Post);
-                Post.Comments.Add(Comment);
+               Post.Comments.Add(Comment);
             }
             return Page();
         }
