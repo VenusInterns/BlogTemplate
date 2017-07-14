@@ -55,10 +55,12 @@ namespace BlogTemplate.Pages
             }
             else if (ModelState.IsValid)
             {
+
                 Comment.IsPublic = true;
                 Comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(Comment);
                 dataStore.SavePost(Post);
+
             }
             return Page();
         }
