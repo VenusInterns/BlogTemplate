@@ -15,6 +15,9 @@ namespace BlogTemplate.Models
         {
             InitStorageFolder();
         }
+
+
+
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
@@ -30,6 +33,14 @@ namespace BlogTemplate.Models
             return commentsNode;
         }
 
+        public IEnumerable<XElement> GetCommentRoot(string slug)
+        {
+            string filePath = $"{StorageFolder}\\{slug}.xml";
+            XDocument xDoc = XDocument.Load(filePath);      
+            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            return commentRoot;
+        }
+
         public void AppendCommentInfo(Comment comment, Post Post, XDocument doc)
         {
             XElement commentsNode = GetCommentsRootNode(doc);
@@ -38,6 +49,8 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
             commentNode.Add(new XElement("CommentBody", comment.Body));
+            commentNode.Add(new XElement("IsPublic", true));
+            commentNode.Add(new XElement("UniqueId", comment.UniqueId));
             commentsNode.Add(commentNode);
         }
 
@@ -45,9 +58,13 @@ namespace BlogTemplate.Models
         {
             string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
             XDocument doc = XDocument.Load(postFilePath);
+            if (comment.UniqueId == default(Guid))
+            {
+                comment.UniqueId = Guid.NewGuid();
+            }
             AppendCommentInfo(comment, Post, doc);
             doc.Save(postFilePath);
-        }
+
 
 
         public IEnumerable<XElement> GetCommentRoot(string slug)
@@ -68,7 +85,12 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
+
+                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                    IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
+                    UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
                     PubDate = DateTime.Parse(comment.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal)
+
                 };
                 listAllComments.Add(newComment);
             }
@@ -87,6 +109,19 @@ namespace BlogTemplate.Models
             return listAllComments;
         }
 
+        public Comment FindComment(Guid UniqueId, Post post)
+        {
+            List<Comment> commentsList = post.Comments;
+            foreach (Comment comment in commentsList)
+            {
+                if (comment.UniqueId.Equals(UniqueId))
+                {
+                    return comment;
+                }
+            }
+            return null;
+        }
+
         public XElement AddTags(Post post, XElement rootNode)
         {
             XElement tagsNode = new XElement("Tags");
@@ -95,6 +130,27 @@ namespace BlogTemplate.Models
                 tagsNode.Add(new XElement("Tag", tag));
             }
             rootNode.Add(tagsNode);
+
+            return rootNode;
+        }
+
+        public XElement AddComments(Post post, XElement rootNode)
+        {
+            XElement commentsNode = new XElement("Comments");
+
+            foreach (Comment comment in post.Comments)
+            {
+                XElement commentNode = new XElement("Comment");
+                commentNode.Add(new XElement("AuthorName", comment.AuthorName));
+                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
+                commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
+                commentNode.Add(new XElement("CommentBody", comment.Body));
+                commentNode.Add(new XElement("IsPublic", comment.IsPublic));
+                commentNode.Add(new XElement("UniqueId", comment.UniqueId));
+                commentsNode.Add(commentNode);
+            }
+            rootNode.Add(commentsNode);
+
             return rootNode;
         }
 
@@ -111,20 +167,22 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
-            AppendPostInfo(rootNode, post);
 
-            doc.Add(AddTags(post, rootNode));
+            AppendPostInfo(rootNode, post);
+            AddComments(post, rootNode);
+            AddTags(post, rootNode);
+
+            doc.Add(rootNode);
             doc.Save(outputFilePath);
         }
 
 
-        public Post CollectPostInfo(string expectedFilePath, string slug)
+        public Post CollectPostInfo(string expectedFilePath)
+
         {
-            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
             Post post = new Post
@@ -135,12 +193,11 @@ namespace BlogTemplate.Models
                 PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value
+                Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(post.Slug);
             return post;
         }
-
 
         public Post GetPost(string slug)
         {
@@ -173,7 +230,6 @@ namespace BlogTemplate.Models
             }
             return allPosts;
         }
-
 
         public List<Post> GetAllPosts()
         {

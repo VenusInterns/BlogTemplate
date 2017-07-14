@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +21,9 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Comment Comment { get; set; }
-        
+
         public Post Post { get; set; }
-        private Post _post;
+
         public void OnGet()
         {
             InitializePost();
@@ -36,13 +36,13 @@ namespace BlogTemplate.Pages
             BlogDataStore dataStore = new BlogDataStore();
             Post = dataStore.GetPost(slug);
 
-            if(Post == null)
+            if (Post == null)
             {
-                 RedirectToPage("/Index");
+                RedirectToPage("/Index");
             }
         }
 
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublishComment()
         {
             string slug = RouteData.Values["slug"].ToString();
 
@@ -52,11 +52,42 @@ namespace BlogTemplate.Pages
             if (Post == null)
             {
                 RedirectToPage("/Index");
-            }else if (ModelState.IsValid)
-            {
-               dataStore.SaveComment(Comment, Post);
-               Post.Comments.Add(Comment);
             }
+            else if (ModelState.IsValid)
+            {
+
+                Comment.IsPublic = true;
+                Comment.UniqueId = Guid.NewGuid();
+                Post.Comments.Add(Comment);
+                dataStore.SavePost(Post);
+
+            }
+            return Page();
+        }
+
+        public IActionResult OnPostDeleteComment(Guid commentId)
+        {
+            string slug = RouteData.Values["slug"].ToString();
+            BlogDataStore dataStore = new BlogDataStore();
+            Post = dataStore.GetPost(slug);
+
+            Comment foundComment = dataStore.FindComment(commentId, Post);
+            foundComment.IsPublic = false;
+
+            dataStore.SavePost(Post);
+            return Page();
+        }
+
+        public IActionResult OnPostUndeleteComment(Guid commentId)
+        {
+            string slug = RouteData.Values["slug"].ToString();
+            BlogDataStore dataStore = new BlogDataStore();
+            Post = dataStore.GetPost(slug);
+
+            Comment foundComment = dataStore.FindComment(commentId, Post);
+            foundComment.IsPublic = true;
+
+            dataStore.SavePost(Post);
             return Page();
         }
     }

@@ -19,21 +19,35 @@
 
     @foreach (var comment in Model.Post.Comments)
     {
-        <p id="Comment-Title">@comment.AuthorName</p>
-        <p id="Comment-Body">@comment.AuthorEmail</p>
-        <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
-        <p id="Comment-Body">@comment.Body</p>
+        string cssClass = comment.IsPublic ? "" : "deletedContent";
+        <form id="form1" method="post">
+            <div class="@cssClass">
+                <p id="Comment-Title">@comment.AuthorName</p>
+                <p id="Comment-Body">@comment.AuthorEmail</p>
+                <p id="Comment-Date">@comment.PubDate.ToString("MMM dd, yyyy")</p>
+                <p id="Comment-Body">@comment.Body</p>
+                <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                @if (comment.IsPublic)
+                {
+                    <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment" />
+                }
+                else
+                {
+                    <input type="submit" name="delete" value="Republish Comment" asp-page-handler="UndeleteComment" />
+                }
+            </div>
+        </form>
     }
 
-
+    <hr />
     <h3>Add Comment</h3>
     <form id="form1" method="post">
         <p><h3><label for="AuthorName">Name</></label></h3></p>
-        <p><input type="text" name="AuthorName" asp-for="Comment.AuthorName" /></p>
+        <p><input type="text" placeholder="" name="AuthorName" asp-for="Comment.AuthorName" /></p>
         <p><h4><label for="AuthorEmail">Email</label></h4></p>
-        <p><textarea name="AuthorEmail" asp-for="Comment.AuthorEmail"></textarea></p>
-        <p><label for="Body">Write a comment...</label></p>
-        <p><textarea name="Body" asp-for="Comment.Body"></textarea></p>
-        <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
+        <p><textarea name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail"></textarea></p>
+        <p><label for="Body">Comment</label></p>
+        <p><textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea></p>
+        <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
     </form>
 </article>

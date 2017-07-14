@@ -13,5 +13,6 @@ namespace BlogTemplate.Models
         public string Body { get; set; }
         public DateTime PubDate { get; set; } = DateTime.Now;
         public bool IsPublic { get; set; }
+        public Guid UniqueId { get; set; }
     }
 }
