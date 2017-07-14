@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,17 +15,12 @@ namespace BlogTemplate.Models
         {
             InitStorageFolder();
         }
-
-        public void InitStorageFolder()
-        {
-            Directory.CreateDirectory(StorageFolder);
-        }
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
             if (doc.Root.Elements("Comments").Any())
             {
-                commentsNode = doc.Root.Element("Comments");                
+                commentsNode = doc.Root.Element("Comments");
             }
             else
             {
@@ -42,7 +37,7 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
-            commentNode.Add(new XElement("CommentBody", comment.Body));           
+            commentNode.Add(new XElement("CommentBody", comment.Body));
             commentsNode.Add(commentNode);
         }
 
@@ -55,7 +50,7 @@ namespace BlogTemplate.Models
         }
 
 
-        public IEnumerable<XElement> GetCommentRoot (string slug)
+        public IEnumerable<XElement> GetCommentRoot(string slug)
         {
             string filePath = $"{StorageFolder}\\{slug}.xml";
             XDocument xDoc = XDocument.Load(filePath);
@@ -73,7 +68,7 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
-                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal)
+                    PubDate = DateTime.Parse(comment.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal)
                 };
                 listAllComments.Add(newComment);
             }
@@ -83,25 +78,24 @@ namespace BlogTemplate.Models
         {
             IEnumerable<XElement> commentRoot = GetCommentRoot(slug);
             IEnumerable<XElement> comments;
-            List<Comment> listAllComments = new List<Comment>();            
-          if (commentRoot.Any())
+            List<Comment> listAllComments = new List<Comment>();
+            if (commentRoot.Any())
             {
                 comments = commentRoot.Elements("Comment");
                 IterateComments(comments, listAllComments);
             }
             return listAllComments;
         }
-
         public XElement AddTags(Post post, XElement rootNode)
         {
             XElement tagsNode = new XElement("Tags");
             foreach (string tag in post.Tags)
             {
                 tagsNode.Add(new XElement("Tag", tag));
-            }            rootNode.Add(tagsNode);
+            }
+            rootNode.Add(tagsNode);
             return rootNode;
         }
-
         public List<string> GetTags(XDocument doc)
         {
             List<string> tags = new List<string>();
@@ -211,21 +205,6 @@ namespace BlogTemplate.Models
         {
             SavePost(newPost);
             System.IO.File.Delete($"{StorageFolder}\\{oldPost.Slug}.xml");
-            //XDocument doc = XDocument.Load($"{StorageFolder}\\{oldPost.Slug}.xml");
-            
-            //doc.Root.Element("Title").Value = newPost.Title;
-            //doc.Root.Element("Body").Value = newPost.Body;
-            //doc.Root.Element("PubDate").Value = newPost.PubDate.ToString();
-            //doc.Root.Element("LastModified").Value = DateTime.Now.ToString();
-            //doc.Root.Element("Slug").Value = newPost.Slug;
-            //doc.Root.Element("IsPublic").Value = newPost.IsPublic.ToString();
-            //doc.Root.Element("Excerpt").Value = newPost.Excerpt;
-            //doc.Root.Elements("Tags").Remove();
-            //doc.Root.Elements("Tag").Remove();
-            //AddTags(newPost, doc.Root);
-            //doc.Save($"{StorageFolder}//{oldPost.Slug}.xml");
-            ////change file name to reflect new slug
-            //System.IO.File.Move($"{StorageFolder}//{oldPost.Slug}.xml", $"{StorageFolder}//{newPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)
