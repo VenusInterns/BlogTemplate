@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <UserSecretsId>aspnet-BlogTemplate-CF75B3C1-3391-4BFB-8D59-DFEEEA9D5DFE</UserSecretsId>
+    <AssetTargetFallback>portable-net45+win8</AssetTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
