@@ -15,6 +15,12 @@ namespace BlogTemplate.Models
         {
             InitStorageFolder();
         }
+
+        public void InitStorageFolder()
+        {
+            Directory.CreateDirectory(StorageFolder);
+        }
+
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
