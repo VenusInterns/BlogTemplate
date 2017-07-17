@@ -334,7 +334,9 @@ namespace BlogTemplate.Tests.Model
             };
 
             testDataStore.SavePost(oldPost);
+            oldPost.Comments.Add(comment);
             testDataStore.SaveComment(comment, oldPost);
+            newPost.Comments = oldPost.Comments;
             testDataStore.UpdatePost(newPost, oldPost);
             Post result = testDataStore.GetPost(newPost.Slug);
             List<Comment> comments = testDataStore.GetAllComments(newPost.Slug);

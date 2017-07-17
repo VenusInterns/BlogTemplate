@@ -63,6 +63,7 @@ namespace BlogTemplate.Pages
             
             SlugGenerator slugGenerator = new SlugGenerator();
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+            newPost.Comments = oldPost.Comments;
 
             dataStore.UpdatePost(newPost, oldPost);
         }
