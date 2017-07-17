@@ -14,7 +14,6 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void SavePost_SaveSimplePost()
         {
-            // Arrange
             BlogDataStore testDataStore = new BlogDataStore();
             Post testPost = new Post {
                 Slug = "Test-Post-Slug",
@@ -22,10 +21,8 @@ namespace BlogTemplate.Tests.Model
                 Body = "Test contents",
             };
 
-            // Act
             testDataStore.SavePost(testPost);
 
-            // Assert
             Assert.True(File.Exists("BlogFiles\\Test-Post-Slug.xml"));
             Post result = testDataStore.GetPost("Test-Post-Slug");
             Assert.Equal("Test-Post-Slug", result.Slug);
@@ -59,8 +56,7 @@ namespace BlogTemplate.Tests.Model
             };
 
             testDataStore.SavePost(testPost);
-            testDataStore.SaveComment(testComment, testPost);
-            
+
             Assert.True(File.Exists("BlogFiles\\Test-slug.xml"));
             XDocument doc = XDocument.Load("BlogFiles\\Test-slug.xml");
             Assert.True(doc.Root.Elements("Comments").Any());
@@ -88,9 +84,8 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true,
                 Excerpt = "Test excerpt",
             };
-            //test.Comments.Add(comment);
+            test.Comments.Add(comment);
             testDataStore.SavePost(test);
-            //testDataStore.SaveComment(comment, test);
             Post result = testDataStore.GetPost("Test-Title");
 
             Assert.NotNull(result);
@@ -101,7 +96,6 @@ namespace BlogTemplate.Tests.Model
             Assert.NotNull(result.LastModified);
             Assert.True(result.IsPublic);
             Assert.Equal(result.Excerpt, "Test excerpt");
-            //Assert.NotEmpty(result.Comments);
         }
 
         [Fact]
@@ -195,9 +189,9 @@ namespace BlogTemplate.Tests.Model
                 PubDate = DateTime.Now,
                 IsPublic = true
             };
+            testPost.Comments.Add(comment1);
+            testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
-            testDataStore.SaveComment(comment1, testPost);
-            testDataStore.SaveComment(comment2, testPost);
 
             List<Comment> comments = testDataStore.GetAllComments(testPost.Slug);
             Assert.NotEmpty(comments);
@@ -235,6 +229,46 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
+        public void FindComment_SwitchIsPublicValue()
+        {
+
+            BlogDataStore testDataStore = new BlogDataStore();
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            var comment1 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            var comment2 = new Comment
+            {
+                AuthorName = "Test name",
+                AuthorEmail = "Test email",
+                Body = "test body",
+                PubDate = DateTime.Now,
+                IsPublic = true
+            };
+            testPost.Comments.Add(comment1);
+            testPost.Comments.Add(comment2);
+            testDataStore.SavePost(testPost);
+
+            Comment newcom = testDataStore.FindComment(comment1.UniqueId, testPost);
+
+            Assert.Equal(testPost.Comments.Count, 2);
+            Assert.Equal(newcom.UniqueId, comment1.UniqueId);
+        }
+
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
             BlogDataStore testDataStore = new BlogDataStore();
@@ -261,7 +295,7 @@ namespace BlogTemplate.Tests.Model
             testDataStore.UpdatePost(newPost, oldPost);
 
             Assert.True(File.Exists($"BlogFiles//New-Title.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles//New-Title.xml", "New-Title");
+            Post result = testDataStore.CollectPostInfo($"BlogFiles//New-Title.xml");
             Assert.Equal(result.Slug, "New-Title");
             Assert.Equal(result.Title, "New Title");
             Assert.Equal(result.Body, "New body");
