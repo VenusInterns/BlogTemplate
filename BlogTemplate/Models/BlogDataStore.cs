@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,8 +47,10 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
             commentNode.Add(new XElement("CommentBody", comment.Body));
+
             commentNode.Add(new XElement("IsPublic", true));
             commentNode.Add(new XElement("UniqueId", comment.UniqueId));
+
             commentsNode.Add(commentNode);
         }
 
@@ -75,9 +77,11 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
+
                     PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
+
                 };
                 listAllComments.Add(newComment);
             }
@@ -117,6 +121,7 @@ namespace BlogTemplate.Models
                 tagsNode.Add(new XElement("Tag", tag));
             }
             rootNode.Add(tagsNode);
+
             return rootNode;
         }
 
@@ -136,6 +141,7 @@ namespace BlogTemplate.Models
                 commentsNode.Add(commentNode);
             }
             rootNode.Add(commentsNode);
+
             return rootNode;
         }
 
@@ -164,7 +170,9 @@ namespace BlogTemplate.Models
             doc.Save(outputFilePath);
         }
 
+
         public Post CollectPostInfo(string expectedFilePath)
+
         {
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = XDocument.Load(expectedFilePath);
@@ -187,7 +195,7 @@ namespace BlogTemplate.Models
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
             if (File.Exists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath);
+                return CollectPostInfo(expectedFilePath, slug);
             }
             return null;
         }
@@ -222,6 +230,7 @@ namespace BlogTemplate.Models
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
         }
+
 
         public void InitStorageFolder()
         {
