@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace BlogTemplate.Models
 {
+    /*
+     * It would have been nice to use a supported mockable interface like 
+     * Microsoft.Extensions.FileProviders.IFileProvider, but that specifically
+     * does not support writing files (see https://github.com/aspnet/FileSystem/issues/200)
+     */
     public interface IFileSystem
     {
         bool FileExists(string path);
