@@ -1,7 +1,6 @@
 ﻿@page
 @using BlogTemplate
 @using BlogTemplate.Models
-@*@model Models.Blog*@
 @inject Blog Blog
 @model NewModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
@@ -13,6 +12,7 @@
 
 <h2>Write a New Post</h2>
 <form method="POST">
+    @Html.ValidationSummary()
     <div class="form-group">
         @Html.LabelFor(x => Model.Post.Title, "Title")
         @Html.TextBoxFor(x => Model.Post.Title, new { @class = "form-control" })
