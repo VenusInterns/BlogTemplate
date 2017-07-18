@@ -273,9 +273,11 @@ namespace BlogTemplate.Tests.Model
             Assert.Equal(newcom.UniqueId, comment1.UniqueId);
         }
 
+        [Fact]
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
+            IFileSystem fakeFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
 
             Post oldPost = new Post
             {
@@ -298,8 +300,8 @@ namespace BlogTemplate.Tests.Model
             testDataStore.SavePost(oldPost);
             testDataStore.UpdatePost(newPost, oldPost);
 
-            Assert.True(File.Exists($"BlogFiles//New-Title.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles//New-Title.xml");
+            Assert.True(fakeFileSystem.FileExists($"BlogFiles\\New-Title.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\New-Title.xml");
             Assert.Equal(result.Slug, "New-Title");
             Assert.Equal(result.Title, "New Title");
             Assert.Equal(result.Body, "New body");
