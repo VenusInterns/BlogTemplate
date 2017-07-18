@@ -11,11 +11,12 @@ namespace BlogTemplate.Pages
     public class EditModel : PageModel
     {
         private Blog _blog;
-        public Blog Blog { get; set; }
+        private BlogDataStore _dataStore;
 
-        public EditModel(Blog blog)
+        public EditModel(Blog blog, BlogDataStore dataStore)
         {
             _blog = blog;
+            _dataStore = dataStore;
         }
 
         [BindProperty]
@@ -30,8 +31,7 @@ namespace BlogTemplate.Pages
         private void InitializePost()
         {
             string slug = RouteData.Values["slug"].ToString();
-            BlogDataStore dataStore = new BlogDataStore();
-            newPost = oldPost = dataStore.GetPost(slug);
+            newPost = oldPost = _dataStore.GetPost(slug);
 
             if(oldPost == null)
             {
@@ -57,15 +57,14 @@ namespace BlogTemplate.Pages
 
         public void UpdatePost(Post newPost, string slug)
         {
-            BlogDataStore dataStore = new BlogDataStore();
-            oldPost = dataStore.GetPost(slug);
+            oldPost = _dataStore.GetPost(slug);
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             
-            SlugGenerator slugGenerator = new SlugGenerator();
+            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
             newPost.Comments = oldPost.Comments;
 
-            dataStore.UpdatePost(newPost, oldPost);
+            _dataStore.UpdatePost(newPost, oldPost);
         }
     }
 }

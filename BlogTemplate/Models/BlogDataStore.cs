@@ -11,13 +11,16 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
-        public BlogDataStore()
+        private IFileSystem _fileSystem;
+
+        public BlogDataStore(IFileSystem fileSystem)
         {
+            _fileSystem = fileSystem;
             InitStorageFolder();
         }
         public void InitStorageFolder()
         {
-            Directory.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(StorageFolder);
         }
 
         private static XElement GetCommentsRootNode(XDocument doc)
@@ -211,20 +214,20 @@ namespace BlogTemplate.Models
         public Post GetPost(string slug)
         {
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
-            if (File.Exists(expectedFilePath))
+            if (_fileSystem.FileExists(expectedFilePath))
             {
                 return CollectPostInfo(expectedFilePath);
             }
             return null;
         }
 
-        public List<Post> IteratePosts(List<FileInfo> files, List<Post> allPosts)
+        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
         {
             for (int i = 0; i < files.Count; i++)
             {
                 IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
                 var file = files[files.Count - i - 1];
-                XDocument doc = XDocument.Load($"{StorageFolder}\\{file.Name}");
+                XDocument doc = XDocument.Load($"{StorageFolder}\\{Path.GetFileName(file)}");
                 Post post = new Post();
 
                 post.Title = doc.Root.Element("Title").Value;
@@ -244,7 +247,7 @@ namespace BlogTemplate.Models
         public List<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
-            List<FileInfo> files = new DirectoryInfo(filePath).GetFiles().OrderBy(f => f.LastWriteTime).ToList();
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
             List<Post> allPosts = new List<Post>();
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
@@ -253,12 +256,12 @@ namespace BlogTemplate.Models
         public void UpdatePost(Post newPost, Post oldPost)
         {
             SavePost(newPost);
-            System.IO.File.Delete($"{StorageFolder}\\{oldPost.Slug}.xml");
+            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)
         {
-            return File.Exists($"{StorageFolder}\\{slug}.xml");
+            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
         }
     }
 }

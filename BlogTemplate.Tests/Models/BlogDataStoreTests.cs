@@ -14,7 +14,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void SavePost_SaveSimplePost()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             Post testPost = new Post {
                 Slug = "Test-Post-Slug",
                 Title = "Test Title",
@@ -33,7 +33,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void SaveComment_SaveSimpleComment()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -65,7 +65,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetPost_FindPostBySlug_ReturnsPost()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             var comment = new Comment
             {
                 AuthorName = "Test name",
@@ -101,8 +101,8 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void CreateSlug_ReturnValidSlug()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
-            SlugGenerator testSlug = new SlugGenerator();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            SlugGenerator testSlug = new SlugGenerator(testDataStore);
             Post test = new Post
             {
                 Title = "Test Title",
@@ -154,7 +154,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetPost_PostDNE_ReturnsNull()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
 
             Assert.Null(testDataStore.GetPost("does-not-exist"));
         }
@@ -162,7 +162,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetAllComments_ReturnsList()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -200,7 +200,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetAllPosts_ReturnsList()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             Post post1 = new Post
             {
                 Slug = "Test-slug",
@@ -232,7 +232,7 @@ namespace BlogTemplate.Tests.Model
         public void FindComment_SwitchIsPublicValue()
         {
 
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -271,7 +271,7 @@ namespace BlogTemplate.Tests.Model
 
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
 
             Post oldPost = new Post
             {
@@ -306,7 +306,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void UpdatePost_ChangePost_DoesNotRemoveComments()
         {
-            BlogDataStore testDataStore = new BlogDataStore();
+            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
 
             Post oldPost = new Post
             {

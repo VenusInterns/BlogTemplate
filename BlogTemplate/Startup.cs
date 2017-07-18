@@ -26,6 +26,8 @@ namespace BlogTemplate
         {
             services.AddMvc();
             services.AddSingleton<Blog>();
+            services.AddSingleton<IFileSystem, PhysicalFileSystem>();
+            services.AddScoped<BlogDataStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

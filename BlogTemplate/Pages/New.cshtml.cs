@@ -12,9 +12,12 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
         private Blog _blog;
-        public NewModel(Blog blog)
+        private BlogDataStore _dataStore;
+
+        public NewModel(Blog blog, BlogDataStore dataStore)
         {
             _blog = blog;
+            _dataStore = dataStore;
         }
         public void OnGet()
         {
@@ -41,11 +44,10 @@ namespace BlogTemplate.Pages
         {
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
-            BlogDataStore dataStore = new BlogDataStore();
-            SlugGenerator slugGenerator = new SlugGenerator();
+            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             Post.Slug = slugGenerator.CreateSlug(Post.Title);
 
-            dataStore.SavePost(Post);
+            _dataStore.SavePost(Post);
             _blog.Posts.Add(Post);
         }
     }
