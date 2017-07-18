@@ -12,7 +12,7 @@ namespace BlogTemplate.Models
         [Required(ErrorMessage = "Name required")]
         public string AuthorName { get; set; }
         [Required(ErrorMessage = "Email required")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Not a valid email")]
         public string AuthorEmail { get; set; }
         [Required(ErrorMessage = "Comment text required")]
         public string Body { get; set; }
