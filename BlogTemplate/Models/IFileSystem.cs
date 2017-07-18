@@ -7,8 +7,8 @@ namespace BlogTemplate.Models
     public interface IFileSystem
     {
         bool FileExists(string path);
-        Stream OpenFileRead(string path);
-        Stream OpenFileWrite(string path);
+        string ReadFileText(string path);
+        void WriteFileText(string path, string text);
         void DeleteFile(string path);
         DateTime GetFileLastWriteTime(string path);
 

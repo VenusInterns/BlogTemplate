@@ -26,14 +26,14 @@ namespace BlogTemplate.Models
             return File.Exists(path);
         }
 
-        public Stream OpenFileRead(string path)
+        public string ReadFileText(string path)
         {
-            return File.OpenRead(path);
+            return File.ReadAllText(path);
         }
 
-        public Stream OpenFileWrite(string path)
+        public void WriteFileText(string path, string text)
         {
-            return File.OpenWrite(path);
+            File.WriteAllText(path, text);
         }
 
         public IEnumerable<string> EnumerateFiles(string directoryPath)

@@ -11,7 +11,7 @@ namespace BlogTemplate.Tests.Fakes
     public class FakeFileSystem : IFileSystem
     {
         HashSet<string> _directories = new HashSet<string>();
-        Dictionary<string, byte[]> _files = new Dictionary<string, byte[]>();
+        Dictionary<string, MemoryStream> _files = new Dictionary<string, MemoryStream>();
 
         public void AddFile(string filePath)
         {
@@ -29,7 +29,8 @@ namespace BlogTemplate.Tests.Fakes
 
         public void AddFile(string filePath, byte[] content)
         {
-            _files.Add(filePath, content);
+            _files.Add(filePath, new MemoryStream(content.Length));
+            _files[filePath].Write(content, 0, content.Length);
             AddDirectory(Path.GetDirectoryName(filePath));
         }
 
@@ -76,34 +77,32 @@ namespace BlogTemplate.Tests.Fakes
 
         DateTime IFileSystem.GetFileLastWriteTime(string path)
         {
-            throw new NotSupportedException();
+            return DateTime.UtcNow;
         }
 
-        Stream IFileSystem.OpenFileRead(string path)
+        string IFileSystem.ReadFileText(string path)
         {
             if(!_files.ContainsKey(path))
             {
                 throw new FileNotFoundException(path);
             }
 
-            MemoryStream fileStream = new MemoryStream(_files[path], false);
-            return fileStream;
+            _files[path].Seek(0, SeekOrigin.Begin);
+            StreamReader reader = new StreamReader(_files[path]);
+            return reader.ReadToEnd();
         }
 
-        Stream IFileSystem.OpenFileWrite(string path)
+        void IFileSystem.WriteFileText(string path, string text)
         {
             if(!_files.ContainsKey(path))
             {
-                throw new FileNotFoundException(path);
+                AddFile(path);
             }
 
-            // Initialize by length but not buffer content so that it will be resizeable.
-            // This is a writeable stream, afterall.
-            MemoryStream fileStream = new MemoryStream(_files[path].Length);
-            fileStream.Write(_files[path], 0, _files[path].Length);
-            fileStream.Seek(0, SeekOrigin.Begin);
-
-            return fileStream;
+            _files[path].Seek(0, SeekOrigin.Begin);
+            StreamWriter writer = new StreamWriter(_files[path]);
+            writer.Write(text);
+            writer.Flush();
         }
         #endregion
 
@@ -157,10 +156,7 @@ namespace BlogTemplate.Tests.Fakes
 
                 ((FakeFileSystem)ut).AddFile(filePath, "sample content");
 
-                using (StreamReader reader = new StreamReader(ut.OpenFileRead(filePath)))
-                {
-                    Assert.Equal("sample content", reader.ReadToEnd());
-                }
+                Assert.Equal("sample content", ut.ReadFileText(filePath));
             }
 
             [Fact]
@@ -178,28 +174,15 @@ namespace BlogTemplate.Tests.Fakes
             }
 
             [Fact]
-            public void OpenFileRead_StreamIsNotWriteable()
+            public void WriteFileText_IfFileDoesNotExit_CreatesNewFile()
             {
                 IFileSystem ut = new FakeFileSystem();
                 string filePath = @"test\path\file.txt";
 
-                ((FakeFileSystem)ut).AddFile(filePath);
+                ut.WriteFileText(filePath, "test");
 
-                Assert.False(ut.OpenFileRead(filePath).CanWrite);
-            }
-
-            [Fact]
-            public void OpenFileWrite_StreamIsWriteableAndResizeable()
-            {
-                IFileSystem ut = new FakeFileSystem();
-                string filePath = @"test\path\file.txt";
-
-                ((FakeFileSystem)ut).AddFile(filePath, "");
-                Stream writeStream = ut.OpenFileWrite(filePath);
-
-                Assert.True(writeStream.CanWrite);
-                // this should not throw
-                writeStream.Write(new byte[] { 0x7e, 0x57 }, 0, 2);
+                Assert.True(ut.FileExists(filePath));
+                Assert.Equal("test", ut.ReadFileText(filePath));
             }
         }
         #endregion
