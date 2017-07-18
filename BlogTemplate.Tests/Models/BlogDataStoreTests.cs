@@ -6,15 +6,17 @@ using Xunit;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using BlogTemplate.Tests.Fakes;
 
 namespace BlogTemplate.Tests.Model
 {
-    public class BlogDataStoreTests : IDisposable
+    public class BlogDataStoreTests
     {
         [Fact]
         public void SavePost_SaveSimplePost()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
             Post testPost = new Post {
                 Slug = "Test-Post-Slug",
                 Title = "Test Title",
@@ -23,7 +25,7 @@ namespace BlogTemplate.Tests.Model
 
             testDataStore.SavePost(testPost);
 
-            Assert.True(File.Exists("BlogFiles\\Test-Post-Slug.xml"));
+            Assert.True(testFileSystem.FileExists("BlogFiles\\Test-Post-Slug.xml"));
             Post result = testDataStore.GetPost("Test-Post-Slug");
             Assert.Equal("Test-Post-Slug", result.Slug);
             Assert.Equal("Test Title", result.Title);
@@ -33,7 +35,8 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void SaveComment_SaveSimpleComment()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -57,15 +60,16 @@ namespace BlogTemplate.Tests.Model
 
             testDataStore.SavePost(testPost);
 
-            Assert.True(File.Exists("BlogFiles\\Test-slug.xml"));
-            XDocument doc = XDocument.Load("BlogFiles\\Test-slug.xml");
+            Assert.True(testFileSystem.FileExists("BlogFiles\\Test-slug.xml"));
+            StringReader xmlFileContents = new StringReader(testFileSystem.ReadFileText("BlogFiles\\Test-slug.xml"));
+            XDocument doc = XDocument.Load(xmlFileContents);
             Assert.True(doc.Root.Elements("Comments").Any());
         }
 
         [Fact]
         public void GetPost_FindPostBySlug_ReturnsPost()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             var comment = new Comment
             {
                 AuthorName = "Test name",
@@ -101,7 +105,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void CreateSlug_ReturnValidSlug()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator testSlug = new SlugGenerator(testDataStore);
             Post test = new Post
             {
@@ -154,7 +158,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetPost_PostDNE_ReturnsNull()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
 
             Assert.Null(testDataStore.GetPost("does-not-exist"));
         }
@@ -162,7 +166,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetAllComments_ReturnsList()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -200,7 +204,7 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void GetAllPosts_ReturnsList()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             Post post1 = new Post
             {
                 Slug = "Test-slug",
@@ -232,7 +236,7 @@ namespace BlogTemplate.Tests.Model
         public void FindComment_SwitchIsPublicValue()
         {
 
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             Post testPost = new Post
             {
                 Slug = "Test-slug",
@@ -271,7 +275,7 @@ namespace BlogTemplate.Tests.Model
 
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
 
             Post oldPost = new Post
             {
@@ -306,7 +310,8 @@ namespace BlogTemplate.Tests.Model
         [Fact]
         public void UpdatePost_ChangePost_DoesNotRemoveComments()
         {
-            BlogDataStore testDataStore = new BlogDataStore(new PhysicalFileSystem());
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
 
             Post oldPost = new Post
             {
@@ -333,26 +338,16 @@ namespace BlogTemplate.Tests.Model
                 Excerpt = "New excerpt"
             };
 
-            testDataStore.SavePost(oldPost);
             oldPost.Comments.Add(comment);
-            testDataStore.SaveComment(comment, oldPost);
+            testDataStore.SavePost(oldPost);
             newPost.Comments = oldPost.Comments;
             testDataStore.UpdatePost(newPost, oldPost);
             Post result = testDataStore.GetPost(newPost.Slug);
             List<Comment> comments = testDataStore.GetAllComments(newPost.Slug);
 
-            Assert.True(File.Exists($"BlogFiles//New-Title.xml"));
-            Assert.False(File.Exists($"BlogFiles//Old-Title.xml"));
+            Assert.True(testFileSystem.FileExists(@"BlogFiles\New-Title.xml"));
+            Assert.False(testFileSystem.FileExists(@"BlogFiles\Old-Title.xml"));
             Assert.NotEmpty(comments);
-        }
-
-        public void Dispose()
-        {
-            // Delete all the files we created along the way
-            foreach(string file in Directory.EnumerateFiles("BlogFiles"))
-            {
-                File.Delete(file);
-            }
         }
     }
 }
