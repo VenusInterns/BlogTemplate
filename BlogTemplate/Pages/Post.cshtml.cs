@@ -13,10 +13,12 @@ namespace BlogTemplate.Pages
     public class PostModel : PageModel
     {
         private Blog _blog;
+        private BlogDataStore _dataStore;
 
-        public PostModel(Blog blog)
+        public PostModel(Blog blog, BlogDataStore dataStore)
         {
             _blog = blog;
+            _dataStore = dataStore;
         }
 
         [BindProperty]
@@ -33,8 +35,7 @@ namespace BlogTemplate.Pages
         {
             string slug = RouteData.Values["slug"].ToString();
 
-            BlogDataStore dataStore = new BlogDataStore();
-            Post = dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(slug);
 
             if (Post == null)
             {
@@ -46,8 +47,7 @@ namespace BlogTemplate.Pages
         {
             string slug = RouteData.Values["slug"].ToString();
 
-            BlogDataStore dataStore = new BlogDataStore();
-            Post = dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(slug);
 
             if (Post == null)
             {
@@ -58,7 +58,7 @@ namespace BlogTemplate.Pages
                 Comment.IsPublic = true;
                 Comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(Comment);
-                dataStore.SavePost(Post);
+                _dataStore.SavePost(Post);
             }
             return Page();
         }
@@ -66,26 +66,24 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostDeleteComment(Guid commentId)
         {
             string slug = RouteData.Values["slug"].ToString();
-            BlogDataStore dataStore = new BlogDataStore();
-            Post = dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(slug);
 
-            Comment foundComment = dataStore.FindComment(commentId, Post);
+            Comment foundComment = _dataStore.FindComment(commentId, Post);
             foundComment.IsPublic = false;
 
-            dataStore.SavePost(Post);
+            _dataStore.SavePost(Post);
             return Page();
         }
 
         public IActionResult OnPostUndeleteComment(Guid commentId)
         {
             string slug = RouteData.Values["slug"].ToString();
-            BlogDataStore dataStore = new BlogDataStore();
-            Post = dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(slug);
 
-            Comment foundComment = dataStore.FindComment(commentId, Post);
+            Comment foundComment = _dataStore.FindComment(commentId, Post);
             foundComment.IsPublic = true;
 
-            dataStore.SavePost(Post);
+            _dataStore.SavePost(Post);
             return Page();
         }
     }

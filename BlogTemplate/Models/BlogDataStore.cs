@@ -11,13 +11,16 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
-        public BlogDataStore()
+        private IFileSystem _fileSystem;
+
+        public BlogDataStore(IFileSystem fileSystem)
         {
+            _fileSystem = fileSystem;
             InitStorageFolder();
         }
         public void InitStorageFolder()
         {
-            Directory.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(StorageFolder);
         }
 
         private static XElement GetCommentsRootNode(XDocument doc)
@@ -35,10 +38,18 @@ namespace BlogTemplate.Models
             return commentsNode;
         }
 
+        private XDocument LoadPostXml(string filePath)
+        {
+            string text = _fileSystem.ReadFileText(filePath);
+            StringReader reader = new StringReader(text);
+
+            return XDocument.Load(reader);
+        }
+
         public IEnumerable<XElement> GetCommentRoot(string slug)
         {
             string filePath = $"{StorageFolder}\\{slug}.xml";
-            XDocument xDoc = XDocument.Load(filePath);      
+            XDocument xDoc = LoadPostXml(filePath);
             IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
             return commentRoot;
         }
@@ -56,19 +67,6 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("UniqueId", comment.UniqueId));
 
             commentsNode.Add(commentNode);
-        }
-
-        public void SaveComment(Comment comment, Post Post)
-        {
-            string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
-            XDocument doc = XDocument.Load(postFilePath);
-            if (comment.UniqueId == default(Guid))
-            {
-                comment.UniqueId = Guid.NewGuid();
-            }
-            AppendCommentInfo(comment, Post, doc);
-            doc.Save(postFilePath);
-
         }
 
         public void IterateComments(IEnumerable<XElement> comments, List<Comment> listAllComments)
@@ -152,21 +150,21 @@ namespace BlogTemplate.Models
         {
             List<string> tags = new List<string>();
             IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
-            if(tagElements.Any())
+            if (tagElements.Any())
             {
                 foreach (string tag in tagElements)
                 {
                     tags.Add(tag);
                 }
             }
-            
+
             return tags;
         }
 
 
         public void AppendPostInfo(XElement rootNode, Post post)
         {
-            rootNode.Add(new XElement("Slug", post.Slug));            
+            rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
@@ -185,14 +183,24 @@ namespace BlogTemplate.Models
             AddComments(post, rootNode);
             AddTags(post, rootNode);
             doc.Add(rootNode);
-            doc.Save(outputFilePath);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                doc.Save(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                using (StreamReader reader = new StreamReader(ms))
+                {
+                    string text = reader.ReadToEnd();
+                    _fileSystem.WriteFileText(outputFilePath, text);
+                }
+            }
         }
 
 
         public Post CollectPostInfo(string expectedFilePath)
         {
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-            XDocument doc = XDocument.Load(expectedFilePath);
+            XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
                 Slug = doc.Root.Element("Slug").Value,
@@ -211,20 +219,20 @@ namespace BlogTemplate.Models
         public Post GetPost(string slug)
         {
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
-            if (File.Exists(expectedFilePath))
+            if (_fileSystem.FileExists(expectedFilePath))
             {
                 return CollectPostInfo(expectedFilePath);
             }
             return null;
         }
 
-        public List<Post> IteratePosts(List<FileInfo> files, List<Post> allPosts)
+        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
         {
             for (int i = 0; i < files.Count; i++)
             {
                 IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
                 var file = files[files.Count - i - 1];
-                XDocument doc = XDocument.Load($"{StorageFolder}\\{file.Name}");
+                XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
                 Post post = new Post();
 
                 post.Title = doc.Root.Element("Title").Value;
@@ -244,7 +252,7 @@ namespace BlogTemplate.Models
         public List<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
-            List<FileInfo> files = new DirectoryInfo(filePath).GetFiles().OrderBy(f => f.LastWriteTime).ToList();
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
             List<Post> allPosts = new List<Post>();
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
@@ -253,12 +261,12 @@ namespace BlogTemplate.Models
         public void UpdatePost(Post newPost, Post oldPost)
         {
             SavePost(newPost);
-            System.IO.File.Delete($"{StorageFolder}\\{oldPost.Slug}.xml");
+            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)
         {
-            return File.Exists($"{StorageFolder}\\{slug}.xml");
+            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
         }
     }
 }
