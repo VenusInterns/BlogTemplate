@@ -44,18 +44,12 @@
     <h3>Add Comment</h3>
     <form id="form1" method="post">
         @Html.ValidationSummary()
-        <div class="form-group">
-            @Html.LabelFor(x => Model.Comment.AuthorName, "Name")
-            @Html.TextBoxFor(x => Model.Comment.AuthorName, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => Model.Comment.AuthorEmail, "Email")
-            @Html.TextBoxFor(x => Model.Comment.AuthorEmail, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => Model.Comment.Body, "Write a comment...")
-            @Html.TextBoxFor(x => Model.Comment.Body, new { @class = "form-control" })
-        </div>
+        <p><h3><label for="AuthorName">Name</></label></h3></p>
+        <p><input type="text" placeholder="" name="AuthorName" asp-for="Comment.AuthorName" /></p>
+        <p><h4><label for="AuthorEmail">Email</label></h4></p>
+        <p><textarea name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail"></textarea></p>
+        <p><label for="Body">Comment</label></p>
+        <p><textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea></p> 
         <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
     </form>
 </article>

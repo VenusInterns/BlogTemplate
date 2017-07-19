@@ -13,22 +13,15 @@
 <h2>Write a New Post</h2>
 <form method="POST">
     @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(x => Model.Post.Title, "Title")
-        @Html.TextBoxFor(x => Model.Post.Title, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => Model.Post.Body, "Your post...")
-        @Html.TextBoxFor(x => Model.Post.Body, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => Model.Post.Excerpt, "Excerpt (optional)")
-        @Html.TextBoxFor(x => Model.Post.Excerpt, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => Model.Post.TagsString, "Tags (separated by comma)")
-        @Html.TextBoxFor(x => Model.Post.TagsString, new { @class = "form-control" })
-    </div>
+    <p><h3><label for="Title">Title</></label></h3></p>
+    <p><input type="text" name="Title" asp-for="Post.Title" /></p>
+    <p><h4><label for="Body">Body</label></h4></p>
+    <p><textarea name="Body" asp-for="Post.Body"></textarea></p>
+    <p><label for="Excerpt">Excerpt (Optional)</label></p>
+    <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
+    <p><label for="Tags">Tags (separated by comma)</label></p>
+    @*<p><input type="text" name="Tags" asp-for="Post.Tags"/></p>*@
+    <p><input type="text" name="Tags" /></p> 
     <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
     <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
 </form>
