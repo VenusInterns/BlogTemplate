@@ -1,7 +1,8 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    font: 16px/1.5 arial;
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    font-size: 16px/1.5;
 }
 
 .container {
@@ -14,7 +15,8 @@ a {
 }
 
 nav {
-    background-color: #555;
+    background-color: #6abffb;
+    background-color: hsl(205, 95%, 70%);
     padding: 10px 0;
 }
 
@@ -22,6 +24,7 @@ nav {
         list-style: none;
         padding: 0;
         margin: 0;
+        font-family: Futura, Oswald, "Trebuchet MS", Arial;
     }
 
     nav li:first-child {
@@ -39,7 +42,8 @@ nav {
     }
 
     nav a {
-        color: white;
+        color: #141414;
+        color: hsl(0, 0%, 8%);
         text-decoration: none;
     }
 
@@ -70,11 +74,10 @@ footer {
     font: 12px/.5 arial;
 }
 #Comment-Title{
-    font-size: 150%; 
-    font: 24px/1.5 arial !important;
+    font-size: 24px/1.5;
 }
 #Comment-Body{
-    font: 16px/1 arial !important;
+    font-size: 16px/1;
 }
 
 .deletedContent {

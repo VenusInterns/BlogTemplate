@@ -14,14 +14,13 @@
 <form method="POST">
     @Html.ValidationSummary()
     <p><h3><label for="Title">Title</></label></h3></p>
-    <p><input type="text" name="Title" asp-for="Post.Title" /></p>
+    <p><input type="text" placeholder="" name="Title" asp-for="Post.Title" /></p>
     <p><h4><label for="Body">Body</label></h4></p>
-    <p><textarea name="Body" asp-for="Post.Body"></textarea></p>
+    <p><textarea name="Body" placeholder="" asp-for="Post.Body"></textarea></p>
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
     <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
     <p><label for="Tags">Tags (separated by comma)</label></p>
-    @*<p><input type="text" name="Tags" asp-for="Post.Tags"/></p>*@
-    <p><input type="text" name="Tags" /></p> 
+    <p><input type="text" name="Tags" asp-for="Post.Tags"/></p>
     <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
     <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
 </form>
