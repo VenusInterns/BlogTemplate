@@ -1,8 +1,11 @@
-﻿body {
+﻿@import "colors.css";
+
+body {
     margin: 0;
     padding: 0;
     font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
-    font-size: 16px/1.5;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .container {
@@ -11,12 +14,11 @@
 }
 
 a {
-    color: dodgerblue;
+    color: var(--link-color);
 }
 
 nav {
-    background-color: #6abffb;
-    background-color: hsl(205, 95%, 70%);
+    background-color: var(--nav-color);
     height: 60px;
     line-height: 60px;
 }
@@ -25,7 +27,7 @@ nav {
         list-style: none;
         padding: 0;
         margin: 0;
-        font-family: Futura, Oswald, "Trebuchet MS", Arial;
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     }
 
 
@@ -45,22 +47,20 @@ nav {
         }
 
             nav li:last-child:before {
-                content: "hello";
+                content: "🔒";
             }
 
     nav a {
-        color: #141414;
-        color: hsl(0, 0%, 8%);
+        color: var(--content-color);
         text-decoration: none;
     }
 
         nav a:hover {
-            color: #7f7f7f;
-            color: hsl(0, 0%, 50%);
+            color: var(--hover-color);
         }
 
 article {
-    border: 1px solid hsl(0, 0%, 80%);
+    border: 1px solid var(--line-color);
     padding: 25px;
     margin: 25px 0;
 }
@@ -68,7 +68,7 @@ article {
     article h2 a {
         color: black;
         text-decoration: none;
-        font-family: Futura, Oswald, "Trebuchet MS", Arial;
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     }
 
         article h2 a:hover {
@@ -77,31 +77,33 @@ article {
 
 footer {
     margin-top: 80px !important;
-    border-top: 1px solid hsl(0, 0%, 65%);
+    border-top: 1px solid var(--line-color);
 }
 
     footer p {
-        color: hsl(0, 0%, 65%);
+        color: var(--light-color);
     }
 
 #date {
     font-size: 12px;
-    color: darkgrey;
+    color: var(--light-color);
 }
 
 #Comment-Date {
-    color: darkgrey;
+    color: var(--light-color);
     font: 12px/.5 arial;
 }
 
 #Comment-Title {
-    font-size: 24px/1.5;
+    font-size: 24px;
+    line-height: 1.5;
 }
 
 #Comment-Body {
-    font-size: 16px/1;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .deletedContent {
-    background-color: hsl(336, 95%, 76%);
+    background-color: #fc88b6;
 }

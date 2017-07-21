@@ -13,10 +13,8 @@ namespace BlogTemplate.Models
     {
         public List<Comment> Comments { get; set; } = new List<Comment>();
         [Required(ErrorMessage = "Title required")]
-        [MinLength(1)]
         public string Title { get; set; }
         [Required(ErrorMessage = "Post text required")]
-        [MinLength(1)]
         public string Body { get; set; }
         public DateTime PubDate { get; set; } = DateTime.Now;
         public DateTime LastModified { get; set; } = DateTime.Now;

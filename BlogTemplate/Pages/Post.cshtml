@@ -43,7 +43,7 @@
     <hr />
     <h3>Add Comment</h3>
     <form id="form1" method="post">
-        @Html.ValidationSummary()
+        <div asp-validation-summary="All"></div>
         <p><h3><label for="AuthorName">Name</></label></h3></p>
         <p><input type="text" placeholder="" name="AuthorName" asp-for="Comment.AuthorName" /></p>
         <p><h4><label for="AuthorEmail">Email</label></h4></p>
