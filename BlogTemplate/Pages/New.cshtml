@@ -8,6 +8,15 @@
 
 @{
     ViewData["Title"] = "New Blog Post";
+    string x;
+    if (Model.Post != null)
+    {
+        x = string.Join(", ", Model.Post.Tags);
+    }
+    else
+    {
+        x = string.Empty;
+    }
 }
 
 <h2>Write a New Post</h2>
@@ -20,7 +29,7 @@
     <p><label for="Excerpt">Excerpt (Optional)</label></p>
     <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
     <p><label for="Tags">Tags (separated by comma)</label></p>
-    <p><input type="text" name="Tags" asp-for="Post.Tags"/></p>
+    <p><input type="text" name="Tags" asp-for="@x"/></p>
     <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
     <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
 </form>

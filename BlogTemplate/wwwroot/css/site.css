@@ -17,7 +17,8 @@ a {
 nav {
     background-color: #6abffb;
     background-color: hsl(205, 95%, 70%);
-    padding: 10px 0;
+    height: 60px;
+    line-height: 60px;
 }
 
     nav ul {
@@ -27,19 +28,25 @@ nav {
         font-family: Futura, Oswald, "Trebuchet MS", Arial;
     }
 
-    nav li:first-child {
-        font-size: 200%;
-        margin: 0;
+
+    nav li {
+        float: left;
+        margin-left: 20px;
+        margin-top: 5px;
     }
 
-    nav li:nth-child(5) {
-        margin-left: 880px;
-        display: inline-block !important;
-    }
-    nav li {
-        display: inline-block;
-        margin-left: 20px;
-    }
+        nav li:first-child {
+            font-size: 200%;
+            margin: 0;
+        }
+
+        nav li:last-child {
+            float: right;
+        }
+
+            nav li:last-child:before {
+                content: "hello";
+            }
 
     nav a {
         color: #141414;
@@ -48,46 +55,53 @@ nav {
     }
 
         nav a:hover {
-            color: #b4b4b4;
+            color: #7f7f7f;
+            color: hsl(0, 0%, 50%);
         }
 
 article {
-    width: 800px;
-    border: 1px solid gray;
+    border: 1px solid hsl(0, 0%, 80%);
     padding: 25px;
-    margin: 25px;
+    margin: 25px 0;
 }
 
-article h2 a {
-    color: black;
-    text-decoration: none;
-}
-
-    article h2 a:hover {
-        text-decoration: underline;
+    article h2 a {
+        color: black;
+        text-decoration: none;
+        font-family: Futura, Oswald, "Trebuchet MS", Arial;
     }
 
+        article h2 a:hover {
+            text-decoration: underline;
+        }
+
 footer {
-    margin-top: 50px !important;
-    border-top: 1px solid silver;
+    margin-top: 80px !important;
+    border-top: 1px solid hsl(0, 0%, 65%);
 }
+
+    footer p {
+        color: hsl(0, 0%, 65%);
+    }
 
 #date {
     font-size: 12px;
     color: darkgrey;
 }
-#Comment-Date{
+
+#Comment-Date {
     color: darkgrey;
     font: 12px/.5 arial;
 }
-#Comment-Title{
+
+#Comment-Title {
     font-size: 24px/1.5;
 }
-#Comment-Body{
+
+#Comment-Body {
     font-size: 16px/1;
 }
 
 .deletedContent {
-    background-color: hsl(336, 100%, 76%);
+    background-color: hsl(336, 95%, 76%);
 }
-
