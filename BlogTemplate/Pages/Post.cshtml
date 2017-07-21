@@ -46,8 +46,10 @@
         <div asp-validation-summary="All"></div>
         <p><h3><label for="AuthorName">Name</></label></h3></p>
         <p><input type="text" placeholder="" name="AuthorName" asp-for="Comment.AuthorName" /></p>
+        <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
         <p><h4><label for="AuthorEmail">Email</label></h4></p>
         <p><textarea name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail"></textarea></p>
+        <span asp-validation-for="Comment.AuthorEmail" class="invalid"></span>
         <p><label for="Body">Comment</label></p>
         <p><textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea></p> 
         <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
