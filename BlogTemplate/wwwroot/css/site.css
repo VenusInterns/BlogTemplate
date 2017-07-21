@@ -42,14 +42,6 @@ nav {
             margin: 0;
         }
 
-        nav li:last-child {
-            float: right;
-        }
-
-            nav li:last-child:before {
-                content: "🔒";
-            }
-
     nav a {
         color: var(--content-color);
         text-decoration: none;
@@ -59,21 +51,42 @@ nav {
             color: var(--hover-color);
         }
 
+h2 {
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+}
+
+h4 {
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    line-height: 0;
+}
+
 article {
     border: 1px solid var(--line-color);
     padding: 25px;
     margin: 25px 0;
 }
 
-    article h2 a {
-        color: black;
-        text-decoration: none;
+    article h1 {
         font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     }
 
-        article h2 a:hover {
-            text-decoration: underline;
+    article h2 {
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    }
+
+        article h2 a {
+            color: black;
+            text-decoration: none;
         }
+
+            article h2 a:hover {
+                text-decoration: underline;
+            }
+
+    article h4 {
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+        line-height: 0;
+    }
 
 footer {
     margin-top: 80px !important;
@@ -84,19 +97,31 @@ footer {
         color: var(--light-color);
     }
 
+        footer p a {
+            float: right;
+        }
+
+        footer p a {
+            content: "🔒";
+        }
+
 #date {
     font-size: 12px;
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     color: var(--light-color);
 }
 
 #Comment-Date {
     color: var(--light-color);
-    font: 12px/.5 arial;
+    font-size: 12px;
+    line-height: .5;
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
 #Comment-Title {
     font-size: 24px;
     line-height: 1.5;
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
 #Comment-Body {
@@ -105,5 +130,43 @@ footer {
 }
 
 .deletedContent {
-    background-color: #fc88b6;
+    background-color: var(--delete-color);
 }
+
+input[type=text] {
+    width: 150px;
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    font-size: 1em;
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+}
+
+input[name=Tags] {
+    width: 300px;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    font-size: 1em;
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+}
+
+input[type=submit] {
+    background-color: white;
+    border: 1.5px solid var(--button-color);
+    border-radius: 3px;
+    color: var(--content-color);
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+}
+
+    input[type=submit]:hover {
+        background-color: var(--button-color);
+    }
