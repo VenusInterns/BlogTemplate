@@ -75,14 +75,14 @@ article {
         font-family: var(--sansSerifFont);
     }
 
-        article h2 a {
-            color: black;
-            text-decoration: none;
-        }
+    article h2 a {
+        color: black;
+        text-decoration: none;
+    }
 
-            article h2 a:hover {
-                text-decoration: underline;
-            }
+        article h2 a:hover {
+            text-decoration: underline;
+        }
 
     article h4 {
         font-family: var(--sansSerifFont);
@@ -183,3 +183,7 @@ input[type=submit] {
     input[type=submit]:hover {
         background-color: var(--button-border-color);
     }
+
+.invalid {
+    color: var(--invalid-color);
+}

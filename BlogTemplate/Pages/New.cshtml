@@ -24,11 +24,12 @@
     <div asp-validation-summary="All"></div>
     <label for="Title" class="primaryField">Title</></label>
     <br />
-    <input type="text" placeholder="" name="Title" asp-for="Post.Title" />
+    <input type="text" placeholder="" asp-for="Post.Title" />
+    <br />
     <span asp-validation-for="Post.Title" class="invalid"></span>
     <br />
     <label for="Body" class="primaryField">Body</label>
-    <textarea name="Body" placeholder="" asp-for="Post.Body"></textarea>
+    <textarea placeholder="" asp-for="Post.Body"></textarea>
     <span asp-validation-for="Post.Body" class="invalid"></span>
     <br />
     <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
