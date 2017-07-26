@@ -44,13 +44,13 @@
     <h3>Add Comment</h3>
     <form id="form1" method="post">
         <div asp-validation-summary="All"></div>
-        <p><h4><label for="AuthorName">Name</></label></h4></p>
+        <label for="AuthorName" class="primaryField">Name</></label>
         <div><input type="text" name="AuthorName" placeholder="" asp-for="Comment.AuthorName" /></div>
         <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
-        <p><h4><label for="AuthorEmail">Email</label></h4></p>
+        <label for="AuthorEmail" class="primaryField">Email</label>
         <div><input type="text" name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail" /></div>
         <span asp-validation-for="Comment.AuthorEmail" class="invalid"></span>
-        <p><h4><label for="Body">Comment</label></h4></p>
+        <label for="Body" class="primaryField">Comment</label>
         <div><textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea></div> 
         <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
     </form>
