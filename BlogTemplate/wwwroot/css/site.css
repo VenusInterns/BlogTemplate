@@ -1,7 +1,16 @@
-﻿body {
+﻿@import "colors.css";
+
+:root {
+    --serifFont: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    --sansSerifFont: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+}
+
+body {
     margin: 0;
     padding: 0;
-    font: 16px/1.5 arial;
+    font-family: var(--serifFont);
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .container {
@@ -10,74 +19,167 @@
 }
 
 a {
-    color: dodgerblue;
+    color: var(--link-color);
 }
 
 nav {
-    background-color: #555;
-    padding: 10px 0;
+    background-color: var(--nav-color);
+    height: 60px;
+    line-height: 60px;
 }
 
     nav ul {
         list-style: none;
         padding: 0;
         margin: 0;
+        font-family: var(--sansSerifFont);
     }
 
-    nav li:first-child {
-        font-size: 200%;
-        margin: 0;
-    }
 
-    nav li:nth-child(5) {
-        margin-left: 880px;
-        display: inline-block !important;
-    }
     nav li {
-        display: inline-block;
+        float: left;
         margin-left: 20px;
+        margin-top: 5px;
     }
+
+        nav li:first-child {
+            font-size: 200%;
+            margin: 0;
+        }
 
     nav a {
-        color: white;
+        color: var(--content-color);
         text-decoration: none;
     }
 
         nav a:hover {
-            color: #b4b4b4;
+            color: var(--hover-color);
         }
 
-article h2 a {
-    color: black;
-    text-decoration: none;
+h2 {
+    font-family: var(--sansSerifFont);
 }
 
-    article h2 a:hover {
-        text-decoration: underline;
+h4 {
+    font-family: var(--sansSerifFont);
+    line-height: 0;
+}
+
+article {
+    border: 1px solid var(--line-color);
+    padding: 25px;
+    margin: 25px 0;
+}
+
+    article h1, h2 {
+        font-family: var(--sansSerifFont);
+    }
+
+        article h2 a {
+            color: black;
+            text-decoration: none;
+        }
+
+            article h2 a:hover {
+                text-decoration: underline;
+            }
+
+    article h4 {
+        font-family: var(--sansSerifFont);
+        line-height: 0;
     }
 
 footer {
-    margin-top: 50px !important;
-    border-top: 1px solid silver;
+    margin-top: 80px !important;
+    border-top: 1px solid var(--line-color);
 }
 
-#date {
+    footer p {
+        color: var(--light-color);
+    }
+
+        footer p a {
+            float: right;
+        }
+
+        footer p a {
+            content: "🔒";
+        }
+
+.primaryField {
+    font-family: var(--sansSerifFont);
+    font-weight: bold;
+    line-height: 0;
+}
+
+.secondaryField {
+    font-family: var(--sansSerifFont);
+    line-height: 0;
+}
+
+.date {
     font-size: 12px;
-    color: darkgrey;
+    font-family: var(--sansSerifFont);
+    color: var(--light-color);
 }
-#Comment-Date{
-    color: darkgrey;
-    font: 12px/.5 arial;
+
+.commentDate {
+    color: var(--light-color);
+    font-size: 12px;
+    line-height: .5;
+    font-family: var(--sansSerifFont);
 }
-#Comment-Title{
-    font-size: 150%; 
-    font: 24px/1.5 arial !important;
+
+.commentTitle {
+    font-size: 24px;
+    line-height: 1.5;
+    font-family: var(--sansSerifFont);
 }
-#Comment-Body{
-    font: 16px/1 arial !important;
+
+.commentBody {
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .deletedContent {
-    background-color: hsl(336, 100%, 76%);
+    background-color: var(--delete-color);
 }
 
+input[type=text] {
+    width: 150px;
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    font-size: 1em;
+    font-family: var(--serifFont);
+}
+
+input[name=Tags] {
+    width: 300px;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    font-size: 1em;
+    font-family: var(--serifFont);
+}
+
+input[type=submit] {
+    margin-top: 10px;
+    background-color: var(--button-outline-color);
+    border: 1.5px solid var(--button-border-color);
+    border-radius: 3px;
+    color: var(--content-color);
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    font-family: var(--sansSerifFont);
+}
+
+    input[type=submit]:hover {
+        background-color: var(--button-border-color);
+    }

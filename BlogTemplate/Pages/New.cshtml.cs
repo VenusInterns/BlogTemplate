@@ -28,9 +28,14 @@ namespace BlogTemplate.Pages
 
         public IActionResult OnPostPublish()
         {
-            Post.IsPublic = true;
-            SavePost(Post);
-            return Redirect("/Index");
+            if (ModelState.IsValid)
+            {
+                Post.IsPublic = true;
+                SavePost(Post);
+                return Redirect("/Index");
+            }
+
+            return Page();
         }
 
         public IActionResult OnPostSaveDraft()
