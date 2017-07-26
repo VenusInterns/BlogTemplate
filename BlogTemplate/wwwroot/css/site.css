@@ -167,6 +167,7 @@ textarea {
 }
 
 input[type=submit] {
+    margin-top: 10px;
     background-color: var(--button-outline-color);
     border: 1.5px solid var(--button-border-color);
     border-radius: 3px;
