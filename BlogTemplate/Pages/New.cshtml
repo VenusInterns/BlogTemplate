@@ -22,16 +22,16 @@
 <h2>Write a New Post</h2>
 <form method="POST">
     <div asp-validation-summary="All"></div>
-    <p><h4><label for="Title">Title</></label></h4></p>
-    <p><input type="text" placeholder="" name="Title" asp-for="Post.Title" /></p>
+    <label for="Title" class="primaryField">Title</></label>
+    <input type="text" placeholder="" name="Title" asp-for="Post.Title" />
     <span asp-validation-for="Post.Title" class="invalid"></span>
-    <p><h4><label for="Body">Body</label></h4></p>
-    <p><textarea name="Body" placeholder="" asp-for="Post.Body"></textarea></p>
+    <label for="Body" class="primaryField">Body</label>
+    <textarea name="Body" placeholder="" asp-for="Post.Body"></textarea>
     <span asp-validation-for="Post.Body" class="invalid"></span>
-    <p><h4><label for="Excerpt">Excerpt (Optional)</label></h4></p>
-    <p><textarea name="Excerpt" asp-for="Post.Excerpt"></textarea></p>
-    <p><h4><label for="Tags">Tags (separated by comma)</label></h4></p>
-    <p><input type="text" name="Tags" asp-for="@tagsString"/></p>
+    <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+    <textarea name="Excerpt" asp-for="Post.Excerpt"></textarea>
+    <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
+    <input type="text" name="Tags" asp-for="@tagsString"/>
     <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
     <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
 </form>

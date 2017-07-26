@@ -1,9 +1,14 @@
 ﻿@import "colors.css";
 
+:root {
+    --serifFont: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    --sansSerifFont: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    font-family: var(--serifFont);
     font-size: 16px;
     line-height: 1.5;
 }
@@ -27,7 +32,7 @@ nav {
         list-style: none;
         padding: 0;
         margin: 0;
-        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+        font-family: var(--sansSerifFont);
     }
 
 
@@ -52,11 +57,11 @@ nav {
         }
 
 h2 {
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
 }
 
 h4 {
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
     line-height: 0;
 }
 
@@ -66,12 +71,8 @@ article {
     margin: 25px 0;
 }
 
-    article h1 {
-        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
-    }
-
-    article h2 {
-        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    article h1, h2 {
+        font-family: var(--sansSerifFont);
     }
 
         article h2 a {
@@ -84,7 +85,7 @@ article {
             }
 
     article h4 {
-        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+        font-family: var(--sansSerifFont);
         line-height: 0;
     }
 
@@ -105,9 +106,20 @@ footer {
             content: "🔒";
         }
 
+.primaryField {
+    font-family: var(--sansSerifFont);
+    font-weight: bold;
+    line-height: 0;
+}
+
+.secondaryField {
+    font-family: var(--sansSerifFont);
+    line-height: 0;
+}
+
 #date {
     font-size: 12px;
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
     color: var(--light-color);
 }
 
@@ -115,13 +127,13 @@ footer {
     color: var(--light-color);
     font-size: 12px;
     line-height: .5;
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
 }
 
 #Comment-Title {
     font-size: 24px;
     line-height: 1.5;
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
 }
 
 #Comment-Body {
@@ -138,7 +150,7 @@ input[type=text] {
     border: 1px solid var(--line-color);
     border-radius: 3px;
     font-size: 1em;
-    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    font-family: var(--serifFont);
 }
 
 input[name=Tags] {
@@ -151,12 +163,12 @@ textarea {
     border: 1px solid var(--line-color);
     border-radius: 3px;
     font-size: 1em;
-    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
+    font-family: var(--serifFont);
 }
 
 input[type=submit] {
-    background-color: white;
-    border: 1.5px solid var(--button-color);
+    background-color: var(--button-outline-color);
+    border: 1.5px solid var(--button-border-color);
     border-radius: 3px;
     color: var(--content-color);
     padding: 6px 10px;
@@ -164,9 +176,9 @@ input[type=submit] {
     text-decoration: none;
     display: inline-block;
     font-size: 0.9em;
-    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-family: var(--sansSerifFont);
 }
 
     input[type=submit]:hover {
-        background-color: var(--button-color);
+        background-color: var(--button-border-color);
     }

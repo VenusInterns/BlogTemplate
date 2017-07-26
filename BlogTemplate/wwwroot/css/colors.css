@@ -5,6 +5,7 @@
     --hover-color: #7f7f7f;
     --line-color: #cccccc;
     --light-color: darkgrey;
-    --button-color: palegoldenrod;
+    --button-background-color: white;
+    --button-border-color: palegoldenrod;
     --delete-color: #fc88b6;
 }
