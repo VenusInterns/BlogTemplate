@@ -117,26 +117,26 @@ footer {
     line-height: 0;
 }
 
-#date {
+.date {
     font-size: 12px;
     font-family: var(--sansSerifFont);
     color: var(--light-color);
 }
 
-#Comment-Date {
+.commentDate {
     color: var(--light-color);
     font-size: 12px;
     line-height: .5;
     font-family: var(--sansSerifFont);
 }
 
-#Comment-Title {
+.commentTitle {
     font-size: 24px;
     line-height: 1.5;
     font-family: var(--sansSerifFont);
 }
 
-#Comment-Body {
+.commentBody {
     font-size: 16px;
     line-height: 1.5;
 }
