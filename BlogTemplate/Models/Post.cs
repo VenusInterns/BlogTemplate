@@ -16,8 +16,8 @@ namespace BlogTemplate.Models
         public string Title { get; set; }
         [Required(ErrorMessage = "Post text required")]
         public string Body { get; set; }
-        public DateTime PubDate { get; set; } = DateTime.Now;
-        public DateTime LastModified { get; set; } = DateTime.Now;
+        public DateTime PubDate { get; set; } = DateTime.UtcNow;
+        public DateTime LastModified { get; set; } = DateTime.UtcNow;
         public List<string> Tags { get; set; } = new List<string>();
         public string Slug{ get; set; }
         public bool IsPublic { get; set; }
