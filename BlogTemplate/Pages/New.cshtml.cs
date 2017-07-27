@@ -52,6 +52,11 @@ namespace BlogTemplate.Pages
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             Post.Slug = slugGenerator.CreateSlug(Post.Title);
 
+            if (Post.Excerpt == null)
+            {
+                Post.Excerpt = Post.Body.Substring(0, 140) + "...";
+            }
+
             _dataStore.SavePost(Post);
             _blog.Posts.Add(Post);
         }
