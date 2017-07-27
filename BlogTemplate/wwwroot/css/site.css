@@ -92,19 +92,32 @@ article {
 footer {
     margin-top: 80px !important;
     border-top: 1px solid var(--line-color);
+    margin-bottom: 60px !important;
 }
 
-    footer p {
+    footer ul {
+        margin-top: 12px !important;
+        list-style: none;
+        padding: 0;
+        margin: 0;
         color: var(--light-color);
     }
 
-        footer p a {
-            float: right;
-        }
+    footer li:first-child {
+        float: left;
+    }
 
-        footer p a {
-            content: "🔒";
-        }
+    footer li a {
+        font-family: var(--sansSerifFont);
+        color: var(--content-color);
+        text-decoration: none;
+        float: right;
+        content: "🔒";
+    }
+
+    footer a:hover {
+        color: var(--hover-color);
+    }
 
 .primaryField {
     font-family: var(--sansSerifFont);
