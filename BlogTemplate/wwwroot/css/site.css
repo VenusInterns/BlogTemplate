@@ -112,8 +112,11 @@ footer {
         color: var(--content-color);
         text-decoration: none;
         float: right;
-        content: "🔒";
     }
+
+        footer li a:before {
+            content: "🔒";
+        }
 
     footer a:hover {
         color: var(--hover-color);
@@ -135,6 +138,17 @@ footer {
     font-family: var(--sansSerifFont);
     color: var(--light-color);
 }
+
+.commentCount a {
+    font-family: var(--sansSerifFont);
+    color: var(--content-color);
+    text-decoration: none;
+    content: "🗨️";
+}
+
+    .commentCount:before {
+        content: "🗨️";
+    }
 
 .commentDate {
     color: var(--light-color);
