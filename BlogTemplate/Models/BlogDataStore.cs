@@ -226,7 +226,7 @@ namespace BlogTemplate.Models
             return null;
         }
 
-        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
+        private SortedSet<Post> IteratePosts(List<string> files, SortedSet<Post> allPosts)
         {
             for (int i = 0; i < files.Count; i++)
             {
@@ -249,11 +249,11 @@ namespace BlogTemplate.Models
             return allPosts;
         }
 
-        public List<Post> GetAllPosts()
+        public SortedSet<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
-            List<Post> allPosts = new List<Post>();
+            SortedSet<Post> allPosts = new SortedSet<Post>();
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
         }

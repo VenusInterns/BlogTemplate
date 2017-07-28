@@ -33,7 +33,7 @@ namespace BlogTemplate.Pages
             string slug = RouteData.Values["slug"].ToString();
             newPost = oldPost = _dataStore.GetPost(slug);
 
-            if(oldPost == null)
+            if (oldPost == null)
             {
                 RedirectToPage("/Index");
             }
@@ -58,13 +58,25 @@ namespace BlogTemplate.Pages
         public void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
+            DateTime OrigPubDate = oldPost.PubDate;
+            newPost.PubDate = OrigPubDate;
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-            
+
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+            if (newPost.Slug != oldPost.Slug)
+            {
+                SlugUpdateWarning();
+            }
             newPost.Comments = oldPost.Comments;
 
             _dataStore.UpdatePost(newPost, oldPost);
+        }
+
+        public IActionResult SlugUpdateWarning()
+        {
+            TempData["notice"] = "Updated slug";
+            return Redirect("/Edit");
         }
     }
 }

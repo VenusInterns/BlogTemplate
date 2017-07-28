@@ -14,6 +14,10 @@
     <h2>Edit Post</h2>
     <form method="post">
         <div asp-validation-summary="All"></div>
+        @if (TempData["notice"] != null)
+        {
+            <h3>@TempData["notice"]</h3>
+        }
         <label for="Title" class="primaryField">Title</></label>
         <br />
         <input type="text" placeholder="" asp-for="newPost.Title" />
