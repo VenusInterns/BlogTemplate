@@ -245,6 +245,7 @@ namespace BlogTemplate.Models
                 post.Comments = GetAllComments(post.Slug);
                 post.Tags = GetTags(doc);
                 allPosts.Add(post);
+                allPosts = allPosts.OrderByDescending(p => p.PubDate).ToList();
             }
             return allPosts;
         }

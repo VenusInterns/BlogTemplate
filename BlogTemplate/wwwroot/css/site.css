@@ -1,14 +1,14 @@
-﻿@import "colors.css";
+﻿/*@import "colors.css";*/
 
-:root {
+/*:root {
     --serifFont: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
     --sansSerifFont: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
-}
+}*/
 
 body {
     margin: 0;
     padding: 0;
-    font-family: var(--serifFont);
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
     font-size: 16px;
     line-height: 1.5;
 }
@@ -19,11 +19,11 @@ body {
 }
 
 a {
-    color: var(--link-color);
+    color: dodgerblue;
 }
 
 nav {
-    background-color: var(--nav-color);
+    background-color: #6abffb;
     height: 60px;
     line-height: 60px;
 }
@@ -32,7 +32,7 @@ nav {
         list-style: none;
         padding: 0;
         margin: 0;
-        font-family: var(--sansSerifFont);
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     }
 
 
@@ -48,31 +48,31 @@ nav {
         }
 
     nav a {
-        color: var(--content-color);
+        color: #141414;
         text-decoration: none;
     }
 
         nav a:hover {
-            color: var(--hover-color);
+            color: #7f7f7f;
         }
 
 h2 {
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
 h4 {
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     line-height: 0;
 }
 
 article {
-    border: 1px solid var(--line-color);
+    border: 1px solid #cccccc;
     padding: 25px;
     margin: 25px 0;
 }
 
     article h1, h2 {
-        font-family: var(--sansSerifFont);
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     }
 
     article h2 a {
@@ -85,13 +85,13 @@ article {
         }
 
     article h4 {
-        font-family: var(--sansSerifFont);
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
         line-height: 0;
     }
 
 footer {
     margin-top: 80px !important;
-    border-top: 1px solid var(--line-color);
+    border-top: 1px solid #cccccc;
     margin-bottom: 60px !important;
 }
 
@@ -100,7 +100,7 @@ footer {
         list-style: none;
         padding: 0;
         margin: 0;
-        color: var(--light-color);
+        color: darkgrey;
     }
 
     footer li:first-child {
@@ -108,8 +108,8 @@ footer {
     }
 
     footer li a {
-        font-family: var(--sansSerifFont);
-        color: var(--content-color);
+        font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+        color: #141414;
         text-decoration: none;
         float: right;
     }
@@ -119,29 +119,29 @@ footer {
         }
 
     footer a:hover {
-        color: var(--hover-color);
+        color: #7f7f7f;
     }
 
 .primaryField {
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     font-weight: bold;
     line-height: 0;
 }
 
 .secondaryField {
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     line-height: 0;
 }
 
 .date {
     font-size: 12px;
-    font-family: var(--sansSerifFont);
-    color: var(--light-color);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    color: darkgrey;
 }
 
 .commentCount a {
-    font-family: var(--sansSerifFont);
-    color: var(--content-color);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    color: #141414;
     text-decoration: none;
     content: "🗨️";
 }
@@ -151,16 +151,16 @@ footer {
     }
 
 .commentDate {
-    color: var(--light-color);
+    color: darkgrey;
     font-size: 12px;
     line-height: .5;
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
 .commentTitle {
     font-size: 24px;
     line-height: 1.5;
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
 .commentBody {
@@ -169,15 +169,15 @@ footer {
 }
 
 .deletedContent {
-    background-color: var(--delete-color);
+    background-color: #fc88b6;
 }
 
 input[type=text] {
     width: 150px;
-    border: 1px solid var(--line-color);
+    border: 1px solid #cccccc;
     border-radius: 3px;
     font-size: 1em;
-    font-family: var(--serifFont);
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
 }
 
 input[name=Tags] {
@@ -187,30 +187,30 @@ input[name=Tags] {
 textarea {
     width: 100%;
     height: 200px;
-    border: 1px solid var(--line-color);
+    border: 1px solid #cccccc;
     border-radius: 3px;
     font-size: 1em;
-    font-family: var(--serifFont);
+    font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
 }
 
 input[type=submit] {
     margin-top: 10px;
     background-color: var(--button-outline-color);
-    border: 1.5px solid var(--button-border-color);
+    border: 1.5px solid palegoldenrod;
     border-radius: 3px;
-    color: var(--content-color);
+    color: #141414;
     padding: 6px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 0.9em;
-    font-family: var(--sansSerifFont);
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
 }
 
     input[type=submit]:hover {
-        background-color: var(--button-border-color);
+        background-color: palegoldenrod;
     }
 
 .invalid {
-    color: var(--invalid-color);
+    color: red;
 }

@@ -27,6 +27,7 @@
                 <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
                 <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
                 <p name="Comment-Body" class="commentBody">@comment.Body</p>
+                <a href="/@Model.Post.Slug">Reply</a>
                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                 @if (comment.IsPublic)
                 {
