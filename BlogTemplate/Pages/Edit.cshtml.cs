@@ -64,10 +64,11 @@ namespace BlogTemplate.Pages
 
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
-            if (newPost.Slug != oldPost.Slug)
-            {
-                SlugUpdateWarning();
-            }
+            //if (newPost.Slug != oldPost.Slug)
+            //{
+            //    //SlugUpdateWarning();
+            //    return confirm('Updated slug. Okay?');
+            //}
             newPost.Comments = oldPost.Comments;
 
             _dataStore.UpdatePost(newPost, oldPost);
