@@ -143,7 +143,6 @@ footer {
     font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     color: #141414;
     text-decoration: none;
-    content: "🗨️";
 }
 
     .commentCount:before {
@@ -170,6 +169,17 @@ footer {
 
 .deletedContent {
     background-color: #fc88b6;
+}
+
+.subtleLink {
+    font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
+    font-size: 14px;
+    color: darkgrey;
+    text-decoration: none;
+}
+
+.subtleLink:hover {
+    color: #cccccc;
 }
 
 input[type=text] {
