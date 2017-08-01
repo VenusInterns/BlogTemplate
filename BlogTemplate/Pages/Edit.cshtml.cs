@@ -58,9 +58,7 @@ namespace BlogTemplate.Pages
         public void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
-            DateTime OrigPubDate = oldPost.PubDate;
-            // Body and excerpt are not updated either. They are whatever they were inputted into the form as
-            newPost.PubDate = OrigPubDate;
+            newPost.PubDate = oldPost.PubDate;
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
             if (Request.Form["updateslug"] == "true")
