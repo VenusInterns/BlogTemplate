@@ -75,11 +75,5 @@ namespace BlogTemplate.Pages
 
             _dataStore.UpdatePost(newPost, oldPost);
         }
-
-        public IActionResult SlugUpdateWarning()
-        {
-            TempData["notice"] = "Updated slug";
-            return Redirect("/Edit");
-        }
     }
 }
