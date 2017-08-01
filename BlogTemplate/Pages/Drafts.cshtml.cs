@@ -13,21 +13,18 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
 
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public DraftsModel(Blog blog, BlogDataStore dataStore)
+        public DraftsModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 
-        public Blog Blog { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
 
         public void OnGet()
         {
-            Blog = _blog;
-            _blog.Posts = _dataStore.GetAllPosts();
+            Posts = _dataStore.GetAllPosts();
         }
     }
 }
