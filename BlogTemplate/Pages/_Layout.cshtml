@@ -22,7 +22,7 @@
 
     <footer class="container">
         <p>&copy; 2017 - BlogTemplate</p>
-        <p><a asp-page="/New">Login</a></p>
+        @await Html.PartialAsync("_LoginPartial")
     </footer>
 
     <environment include="Development">
