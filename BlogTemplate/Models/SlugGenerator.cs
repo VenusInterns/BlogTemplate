@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,18 @@ namespace BlogTemplate.Models
 
         public string CreateSlug(string title)
         {
-            string slug = title.Replace(" ", "-");
+            string tempTitle = title;
+            char[] inv = Path.GetInvalidPathChars();
+            char[] real = inv;
+            foreach (char c in Path.GetInvalidPathChars())
+            {
+                if (tempTitle.Contains(c))
+                {
+                    int removeIdx = tempTitle.IndexOf(c);
+                    tempTitle = tempTitle.Remove(removeIdx);
+                }
+            }
+            string slug = tempTitle.Replace(" ", "-");
             int count = 0;
             string tempSlug = slug;
             while (_dataStore.CheckSlugExists(tempSlug))
