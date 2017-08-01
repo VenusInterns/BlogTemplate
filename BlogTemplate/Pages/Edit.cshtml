@@ -12,7 +12,7 @@
 
 <article>
     <h2>Edit Post</h2>
-    <form method="post">
+    <form method="post" id="editpost">
         <div asp-validation-summary="All"></div>
         @if (TempData["notice"] != null)
         {
@@ -20,8 +20,9 @@
         }
         <label for="Title" class="primaryField">Title</></label>
         <br />
-        <input type="text" placeholder="" asp-for="newPost.Title" />
+        <input type="text" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
         <span asp-validation-for="newPost.Title" class="invalid"></span>
+        <input type="hidden" name="updateslug" id="updateslug" value="false" />
         <br />
         <label for="Body" class="primaryField">Body</label>
         <textarea placeholder="" asp-for="newPost.Body"></textarea>

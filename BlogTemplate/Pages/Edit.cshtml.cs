@@ -59,16 +59,21 @@ namespace BlogTemplate.Pages
         {
             oldPost = _dataStore.GetPost(slug);
             DateTime OrigPubDate = oldPost.PubDate;
+            // Body and excerpt are not updated either. They are whatever they were inputted into the form as
             newPost.PubDate = OrigPubDate;
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
-            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
-            newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
-            //if (newPost.Slug != oldPost.Slug)
-            //{
-            //    //SlugUpdateWarning();
-            //    return confirm('Updated slug. Okay?');
-            //}
+            if (Request.Form["updateslug"] == "true")
+            {
+                SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
+                newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+            }
+
+            else
+            {
+                newPost.Slug = oldPost.Slug;
+            }
+
             newPost.Comments = oldPost.Comments;
 
             _dataStore.UpdatePost(newPost, oldPost);

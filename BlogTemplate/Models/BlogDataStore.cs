@@ -293,7 +293,10 @@ namespace BlogTemplate.Models
         public void UpdatePost(Post newPost, Post oldPost)
         {
             SavePost(newPost);
-            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+            if (newPost.Slug != oldPost.Slug)
+            {
+                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+            }
         }
 
         public bool CheckSlugExists(string slug)

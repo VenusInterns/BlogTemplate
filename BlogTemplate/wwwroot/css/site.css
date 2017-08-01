@@ -139,6 +139,10 @@ footer {
     color: darkgrey;
 }
 
+.commentsDivider {
+    border: 0.5px solid #ccc;
+}
+
 .commentCount a {
     font-family: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
     color: #141414;
