@@ -47,6 +47,10 @@ nav {
             margin: 0;
         }
 
+        nav li:nth-child(5){
+            margin-left:500px;
+        }
+
     nav a {
         color: var(--content-color);
         text-decoration: none;
