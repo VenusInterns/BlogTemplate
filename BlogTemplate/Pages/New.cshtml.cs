@@ -54,14 +54,8 @@ namespace BlogTemplate.Pages
 
             if (Post.Excerpt == null)
             {
-                if (Post.Body.Length > 140)
-                {
-                    Post.Excerpt = Post.Body.Substring(0, 139) + "...";
-                }
-                else
-                {
-                    Post.Excerpt = Post.Body;
-                }
+                ExcerptGenerator excerptGenerator = new ExcerptGenerator(_dataStore);
+                Post.Excerpt = excerptGenerator.CreateExcerpt(Post.Body);
             }
 
             _dataStore.SavePost(Post);
