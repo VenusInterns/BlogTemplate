@@ -1,11 +1,4 @@
-﻿/*@import "colors.css";*/
-
-/*:root {
-    --serifFont: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
-    --sansSerifFont: Futura, Oswald, "Trebuchet MS", Arial, sans-serif;
-}*/
-
-body {
+﻿body {
     margin: 0;
     padding: 0;
     font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;

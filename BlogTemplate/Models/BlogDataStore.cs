@@ -249,28 +249,6 @@ namespace BlogTemplate.Models
             }
             return allPosts;
         }
-        //private SortedSet<Post> IteratePosts(List<string> files, SortedSet<Post> allPosts)
-        //{
-        //    for (int i = 0; i < files.Count; i++)
-        //    {
-        //        IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-        //        var file = files[files.Count - i - 1];
-        //        XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
-        //        Post post = new Post();
-
-        //        post.Title = doc.Root.Element("Title").Value;
-        //        post.Body = doc.Root.Element("Body").Value;
-        //        post.PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-        //        post.LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-        //        post.Slug = doc.Root.Element("Slug").Value;
-        //        post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
-        //        post.Excerpt = doc.Root.Element("Excerpt").Value;
-        //        post.Comments = GetAllComments(post.Slug);
-        //        post.Tags = GetTags(doc);
-        //        allPosts.Add(post);
-        //    }
-        //    return allPosts;
-        //}
 
         public List<Post> GetAllPosts()
         {
@@ -280,15 +258,6 @@ namespace BlogTemplate.Models
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
         }
-
-        //public SortedSet<Post> GetAllPosts()
-        //{
-        //    string filePath = $"{StorageFolder}";
-        //    List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
-        //    SortedSet<Post> allPosts = new SortedSet<Post>();
-        //    IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-        //    return IteratePosts(files, allPosts);
-        //}
 
         public void UpdatePost(Post newPost, Post oldPost)
         {

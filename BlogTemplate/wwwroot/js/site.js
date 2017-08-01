@@ -8,7 +8,7 @@
         var newtitle = titleElm.value;
 
         if (oldtitle !== newtitle) {
-            if (confirm("Changing the post title will update the poist slug and break external links. \r\rDo you wish to update the slug?")) {
+            if (confirm("Changing the post title will update the post slug and break external links. \r\rDo you wish to update the slug?")) {
 
                 this.querySelector("#updateslug").value = true;
             }
