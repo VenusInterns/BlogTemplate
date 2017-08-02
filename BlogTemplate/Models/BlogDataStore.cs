@@ -245,7 +245,6 @@ namespace BlogTemplate.Models
                 post.Comments = GetAllComments(post.Slug);
                 post.Tags = GetTags(doc);
                 allPosts.Add(post);
-                allPosts = allPosts.OrderByDescending(p => p.PubDate).ToList();
             }
             return allPosts;
         }
@@ -262,10 +261,7 @@ namespace BlogTemplate.Models
         public void UpdatePost(Post newPost, Post oldPost)
         {
             SavePost(newPost);
-            if (newPost.Slug != oldPost.Slug)
-            {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
-            }
+            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
         }
 
         public bool CheckSlugExists(string slug)
