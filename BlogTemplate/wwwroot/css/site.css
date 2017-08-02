@@ -1,4 +1,4 @@
-﻿body {
+body {
     margin: 0;
     padding: 0;
     font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
@@ -59,7 +59,7 @@ h4 {
 }
 
 article {
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     padding: 25px;
     margin: 25px 0;
 }
@@ -84,7 +84,7 @@ article {
 
 footer {
     margin-top: 80px !important;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid #ccc;
     margin-bottom: 60px !important;
 }
 
@@ -176,12 +176,12 @@ footer {
 }
 
 .subtleLink:hover {
-    color: #cccccc;
+    color: #ccc;
 }
 
 input[type=text] {
     width: 150px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 1em;
     font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
@@ -194,7 +194,7 @@ input[name=Tags] {
 textarea {
     width: 100%;
     height: 200px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 1em;
     font-family: Garamond, 'Baskerville Old Face', Georgia, 'Times New Roman', serif;
@@ -203,7 +203,7 @@ textarea {
 input[type=submit] {
     margin-top: 10px;
     background-color: var(--button-outline-color);
-    border: 1.5px solid palegoldenrod;
+    border: 1.5px solid #ccc;
     border-radius: 3px;
     color: #141414;
     padding: 6px 10px;
@@ -215,7 +215,7 @@ input[type=submit] {
 }
 
     input[type=submit]:hover {
-        background-color: palegoldenrod;
+        background-color: #ccc;
     }
 
 .invalid {
