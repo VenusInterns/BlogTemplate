@@ -7,9 +7,11 @@ using BlogTemplate.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogTemplate.Pages
 {
+
     public class PostModel : PageModel
     {
         private Blog _blog;
@@ -26,6 +28,7 @@ namespace BlogTemplate.Pages
 
         public Post Post { get; set; }
 
+        [AllowAnonymous]
         public void OnGet()
         {
             InitializePost();
@@ -43,6 +46,7 @@ namespace BlogTemplate.Pages
             }
         }
 
+        [AllowAnonymous]
         public IActionResult OnPostPublishComment()
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -63,6 +67,7 @@ namespace BlogTemplate.Pages
             return Page();
         }
 
+        [Authorize]
         public IActionResult OnPostDeleteComment(Guid commentId)
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -75,6 +80,7 @@ namespace BlogTemplate.Pages
             return Page();
         }
 
+        [Authorize]
         public IActionResult OnPostUndeleteComment(Guid commentId)
         {
             string slug = RouteData.Values["slug"].ToString();

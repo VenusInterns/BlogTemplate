@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogTemplate.Pages
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private Blog _blog;
@@ -23,6 +25,7 @@ namespace BlogTemplate.Pages
         public Post newPost { get; set; }
 
         public Post oldPost { get; set; }
+
         public void OnGet()
         {
             InitializePost();
