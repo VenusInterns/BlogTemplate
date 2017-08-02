@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
 
     var editpostform = document.querySelector("#editpost");
 
