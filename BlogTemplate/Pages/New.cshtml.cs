@@ -54,7 +54,7 @@ namespace BlogTemplate.Pages
 
             if (Post.Excerpt == null)
             {
-                ExcerptGenerator excerptGenerator = new ExcerptGenerator(_dataStore);
+                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
                 Post.Excerpt = excerptGenerator.CreateExcerpt(Post.Body);
             }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +8,6 @@ namespace BlogTemplate.Models
     public class ExcerptGenerator
     {
         private BlogDataStore _dataStore;
-
-        public ExcerptGenerator(BlogDataStore dataStore)
-        {
-            _dataStore = dataStore;
-        }
 
         public string CreateExcerpt(string body)
         {
