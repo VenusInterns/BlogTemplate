@@ -28,13 +28,17 @@
                 <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
                 <p name="Comment-Body" class="commentBody">@comment.Body</p>
                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-                @if (comment.IsPublic)
+                <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment" />
-                }
-                else
-                {
+                    if (comment.IsPublic)
+                    {
+                    <input type="submit" name="delete" value="Delete Comment" formaction="/ManageComment/@Model.Post.Slug?handler=DeleteComment" />
+                    }
+                    else
+                    {
                     <input type="submit" name="delete" value="Republish Comment" asp-page-handler="UndeleteComment" />
+                    }
                 }
             </div>
         </form>
