@@ -31,11 +31,11 @@
                     <input type="hidden" name="slug" value="@Model.Post.Slug" />
                     @if (comment.IsPublic)
                     {
-                        <input type="submit" name="delete" value="Delete Comment" formaction="/ManageComment/@Model.Post.Slug?handler=DeleteComment" />
+                        <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" /> 
                     }
                     else
                     {
-                        <input type="submit" name="delete" value="Republish Comment" @*asp-page-handler="UndeleteComment" *@ formaction="/ManageComment/@Model.Post.Slug?handler=UndeleteComment" />
+                        <input type="submit" name="delete" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
                     }
                 </div>
             </form>

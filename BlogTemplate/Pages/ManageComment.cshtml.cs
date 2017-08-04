@@ -20,9 +20,8 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeleteComment(Guid commentId)
+        public IActionResult OnPostDeleteComment(Guid commentId, string slug)
         {
-            string slug = RouteData.Values["slug"].ToString();
             Post post = _dataStore.GetPost(slug);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
@@ -33,9 +32,8 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostUndeleteComment(Guid commentId)
+        public IActionResult OnPostUndeleteComment(Guid commentId, string slug)
         {
-            string slug = RouteData.Values["slug"].ToString();
             Post post = _dataStore.GetPost(slug);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
