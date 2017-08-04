@@ -221,6 +221,32 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
+        public void SavePost_CreateExcerpt()
+        {
+            IFileSystem fakeFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
+
+            Post newPost = new Post
+            {
+                Slug = "Title",
+                Title = "Title",
+                Body = "Body",
+                IsPublic = true,
+                Excerpt = SavePost_CreateExcerpt()
+            };
+
+            testDataStore.SavePost(newPost);
+
+            Assert.True(fakeFileSystem.FileExists($"BlogFiles\\Title.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Title.xml");
+            Assert.Equal(result.Slug, "Title");
+            Assert.Equal(result.Title, "Title");
+            Assert.Equal(result.Body, "New body");
+            Assert.True(result.IsPublic);
+            Assert.Equal(result.Excerpt, "New excerpt");
+        }
+
+        [Fact]
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();
