@@ -60,23 +60,23 @@
         }
     }
 
-                        <hr />
-                        <h3>Add Comment</h3>
-                        <form id="form1" method="post">
-                            <div asp-validation-summary="All"></div>
-                            <label for="AuthorName" class="primaryField">Name</></label>
-                            <br />
-                            <input type="text" name="AuthorName" placeholder="" asp-for="Comment.AuthorName" />
-                            <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
-                            <br />
-                            <label for="AuthorEmail" class="primaryField">Email</label>
-                            <br />
-                            <input type="text" name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail" />
-                            <span asp-validation-for="Comment.AuthorEmail" class="invalid"></span>
-                            <br />
-                            <label for="Body" class="primaryField">Comment</label>
-                            <br />
-                            <textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea>
-                            <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
-                        </form>
-            </article>
+    <hr />
+    <h3>Add Comment</h3>
+    <form id="form1" method="post">
+        <div asp-validation-summary="All"></div>
+        <label for="AuthorName" class="primaryField">Name</></label>
+        <br />
+        <input type="text" name="AuthorName" placeholder="" asp-for="Comment.AuthorName" />
+        <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
+        <br />
+        <label for="AuthorEmail" class="primaryField">Email</label>
+        <br />
+        <input type="text" name="AuthorEmail" placeholder="" asp-for="Comment.AuthorEmail" />
+        <span asp-validation-for="Comment.AuthorEmail" class="invalid"></span>
+        <br />
+        <label for="Body" class="primaryField">Comment</label>
+        <br />
+        <textarea name="Body" placeholder="" asp-for="Comment.Body"></textarea>
+        <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
+    </form>
+</article>
