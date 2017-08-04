@@ -103,59 +103,6 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
-        public void CreateSlug_ReturnValidSlug()
-        {
-            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
-            SlugGenerator testSlug = new SlugGenerator(testDataStore);
-            Post test = new Post
-            {
-                Title = "Test Title",
-                Slug = testSlug.CreateSlug("Test Title"),
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt",
-            };
-            testDataStore.SavePost(test);
-
-
-            Post test1 = new Post
-            {
-                Title = "Test Title",
-                Slug = testSlug.CreateSlug("Test Title"),
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt",
-            };
-            testDataStore.SavePost(test1);
-
-            Post test2 = new Post
-            {
-                Title = "Test Title",
-                Slug = testSlug.CreateSlug("Test Title"),
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt",
-            };
-            testDataStore.SavePost(test2);
-
-            Post result = testDataStore.GetPost("Test-Title");
-            Assert.Equal("Test-Title", result.Slug);
-
-            Post result1 = testDataStore.GetPost("Test-Title-1");
-            Assert.Equal("Test-Title-1", result1.Slug);
-
-            Post result2 = testDataStore.GetPost("Test-Title-2");
-            Assert.Equal("Test-Title-2", result2.Slug);
-        }
-
-
-        [Fact]
         public void GetPost_PostDNE_ReturnsNull()
         {
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
