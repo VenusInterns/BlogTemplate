@@ -32,6 +32,7 @@ namespace BlogTemplate.Pages
             return Redirect($"/Post/{slug}");
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostUndeleteComment(Guid commentId)
         {
             string slug = RouteData.Values["slug"].ToString();
