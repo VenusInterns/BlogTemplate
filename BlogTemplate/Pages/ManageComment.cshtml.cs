@@ -29,7 +29,7 @@ namespace BlogTemplate.Pages
             foundComment.IsPublic = false;
 
             _dataStore.SavePost(post);
-            return RedirectToPage($"Post/{slug}");
+            return Redirect($"/Post/{slug}");
         }
 
         public IActionResult OnPostUndeleteComment(Guid commentId)
@@ -41,7 +41,7 @@ namespace BlogTemplate.Pages
             foundComment.IsPublic = true;
 
             _dataStore.SavePost(post);
-            return RedirectToPage($"Post/{slug}");
+            return Redirect($"/Post/{slug}");
         }
     }
 }
