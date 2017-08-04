@@ -230,10 +230,12 @@ namespace BlogTemplate.Tests.Model
             {
                 Slug = "Title",
                 Title = "Title",
-                Body = "Body",
+                Body = "This is the body of my post",
                 IsPublic = true,
-                Excerpt = SavePost_CreateExcerpt()
             };
+
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+            newPost.Excerpt = excerptGenerator.CreateExcerpt(newPost.Body, 5);
 
             testDataStore.SavePost(newPost);
 
@@ -243,7 +245,8 @@ namespace BlogTemplate.Tests.Model
             Assert.Equal(result.Title, "Title");
             Assert.Equal(result.Body, "New body");
             Assert.True(result.IsPublic);
-            Assert.Equal(result.Excerpt, "New excerpt");
+            Assert.True(result.Excerpt.Length == 5);
+            Assert.Equal(result.Excerpt, "This ");
         }
 
         [Fact]
