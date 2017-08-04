@@ -37,7 +37,7 @@
                     }
                     else
                     {
-                    <input type="submit" name="delete" value="Republish Comment" asp-page-handler="UndeleteComment" />
+                    <input type="submit" name="delete" value="Republish Comment" @*asp-page-handler="UndeleteComment"*@ formaction="/ManageComment/@Model.Post.Slug?handler=UndeleteComment"  /> 
                     }
                 }
             </div>
