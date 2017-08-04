@@ -47,7 +47,7 @@ nav {
             margin: 0;
         }
 
-        nav li:nth-child(5){
+        nav li:last-child{
             margin-left:500px;
         }
 
