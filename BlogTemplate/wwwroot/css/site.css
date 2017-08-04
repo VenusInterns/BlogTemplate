@@ -48,7 +48,7 @@ nav {
         }
 
         nav li:last-child{
-            margin-left:500px;
+            float: right;
         }
 
     nav a {
