@@ -28,7 +28,6 @@ namespace BlogTemplate.Pages
 
         public Post Post { get; set; }
 
-        [AllowAnonymous]
         public void OnGet()
         {
             InitializePost();
@@ -46,7 +45,6 @@ namespace BlogTemplate.Pages
             }
         }
 
-        [AllowAnonymous]
         public IActionResult OnPostPublishComment()
         {
             string slug = RouteData.Values["slug"].ToString();
