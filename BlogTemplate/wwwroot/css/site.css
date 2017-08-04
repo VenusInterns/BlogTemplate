@@ -59,9 +59,8 @@ h4 {
 }
 
 article {
-    border: 1px solid #ccc;
     padding: 25px;
-    margin: 25px 0;
+    margin: 5px 0;
 }
 
     article h1, h2 {
