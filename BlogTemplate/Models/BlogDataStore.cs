@@ -71,6 +71,7 @@ namespace BlogTemplate.Models
 
         public void IterateComments(IEnumerable<XElement> comments, List<Comment> listAllComments)
         {
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             foreach (XElement comment in comments)
             {
                 Comment newComment = new Comment
@@ -79,7 +80,7 @@ namespace BlogTemplate.Models
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
 
-                    PubDate = DateTime.Parse(comment.Element("PubDate").Value),
+                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
 
@@ -166,8 +167,8 @@ namespace BlogTemplate.Models
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
-            rootNode.Add(new XElement("PubDate", post.PubDate.ToString("o")));
-            rootNode.Add(new XElement("LastModified", post.LastModified.ToString("o")));
+            rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
+            rootNode.Add(new XElement("LastModified", post.LastModified.ToString()));
             rootNode.Add(new XElement("IsPublic", post.IsPublic.ToString()));
             rootNode.Add(new XElement("Excerpt", post.Excerpt));
         }
@@ -198,14 +199,15 @@ namespace BlogTemplate.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
-                PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value),
-                LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value),
+                PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
@@ -228,14 +230,15 @@ namespace BlogTemplate.Models
         {
             for (int i = 0; i < files.Count; i++)
             {
+                IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
                 var file = files[files.Count - i - 1];
                 XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
                 Post post = new Post();
 
                 post.Title = doc.Root.Element("Title").Value;
                 post.Body = doc.Root.Element("Body").Value;
-                post.PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value);
-                post.LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value);
+                post.PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                post.LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
                 post.Slug = doc.Root.Element("Slug").Value;
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
@@ -251,13 +254,17 @@ namespace BlogTemplate.Models
             string filePath = $"{StorageFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
             List<Post> allPosts = new List<Post>();
-           return IteratePosts(files, allPosts);
+            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
+            return IteratePosts(files, allPosts);
         }
 
         public void UpdatePost(Post newPost, Post oldPost)
         {
             SavePost(newPost);
-            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+            if (newPost.Slug != oldPost.Slug)
+            {
+                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+            }
         }
 
         public bool CheckSlugExists(string slug)

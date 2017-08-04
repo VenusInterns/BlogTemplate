@@ -1,4 +1,4 @@
-﻿@page "{slug}"
+@page "{slug}"
 @using BlogTemplate
 @using BlogTemplate.Models
 @inject Blog Blog
@@ -12,17 +12,33 @@
 
 <article>
     <h2>Edit Post</h2>
-    <form method="post">
-        <h3><label for="Title">Title</label></h3>
-        <input type="text" name="Title" asp-for="newPost.Title" />
-        <h4><label for="Body">Body</label></h4>
-        <textarea name="Body" asp-for="newPost.Body"></textarea>
-        <p><label for="Excerpt">Excerpt (Optional)</label></p>
-        <textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea>
-        <p><label for="Tags">Tags (separated by comma)</label></p>
+    <form method="post" id="editpost">
+        <div asp-validation-summary="All"></div>
+        @if (TempData["notice"] != null)
+        {
+            <h3>@TempData["notice"]</h3>
+        }
+        <label for="Title" class="primaryField">Title</></label>
+        <br />
+        <input type="text" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
+        <span asp-validation-for="newPost.Title" class="invalid"></span>
+        <input type="hidden" name="updateslug" id="updateslug" value="false" />
+        <br />
+        <label for="Body" class="primaryField">Body</label>
+        <textarea placeholder="" asp-for="newPost.Body"></textarea>
+        <span asp-validation-for="newPost.Body" class="invalid"></span>
+        <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+        <textarea placeholder="" asp-for="newPost.Excerpt"></textarea>
+        <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
+        <br />
         <input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" />
+        <br />
         <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
         <p><a href="/Index">Cancel</a></p>
     </form>
 </article>
+
+@section Scripts {
+    <script src="~/js/slugUpdateWarning.js" ></script>
+}

@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
-
 using Microsoft.AspNetCore.Authorization;
-
 using BlogTemplate.Services;
 
 
@@ -40,7 +38,7 @@ namespace BlogTemplate.Pages
             string slug = RouteData.Values["slug"].ToString();
             newPost = oldPost = _dataStore.GetPost(slug);
 
-            if(oldPost == null)
+            if (oldPost == null)
             {
                 RedirectToPage("/Index");
             }
@@ -65,10 +63,23 @@ namespace BlogTemplate.Pages
         public void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
+            newPost.PubDate = oldPost.PubDate;
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-            
-            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
-            newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+            if (newPost.Excerpt == null)
+            {
+                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+                newPost.Excerpt = excerptGenerator.CreateExcerpt(newPost.Body, 140);
+            }
+
+            if (Request.Form["updateslug"] == "true")
+            {
+                SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
+                newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+            }
+            else
+            {
+                newPost.Slug = oldPost.Slug;
+            }
             newPost.Comments = oldPost.Comments;
 
             _dataStore.UpdatePost(newPost, oldPost);
