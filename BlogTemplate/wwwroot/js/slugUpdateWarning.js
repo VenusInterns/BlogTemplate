@@ -12,6 +12,10 @@
 
                 this.querySelector("#updateslug").value = true;
             }
+            else
+            {
+                this.querySelector("#updateslug").value = false;
+            }
         }
     }, false);
 

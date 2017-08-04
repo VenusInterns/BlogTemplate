@@ -28,7 +28,7 @@
         <textarea placeholder="" asp-for="newPost.Body"></textarea>
         <span asp-validation-for="newPost.Body" class="invalid"></span>
         <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-        <textarea name="Excerpt" asp-for="newPost.Excerpt"></textarea>
+        <textarea placeholder="" asp-for="newPost.Excerpt"></textarea>
         <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
         <br />
         <input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" />
