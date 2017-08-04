@@ -10,7 +10,6 @@
 
 <article>
     <h1>@Model.Post.Title</h1>
-    <a href="/edit/@Model.Post.Slug">Edit Post</a>
     <p name="date" class="date">@Model.Post.PubDate.ToLocalTime().ToShortDateString()</p>
     <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
@@ -22,27 +21,50 @@
         <p>No comments to show.</p>
     }
 
+    @if (User.Identity.IsAuthenticated)
+    {
+    <a href="/edit/@Model.Post.Slug">Edit Post</a>
+    <h2>Comments</h2>
     @foreach (var comment in Model.Post.Comments)
     {
-        string cssClass = comment.IsPublic ? "" : "deletedContent";
-        <form id="form1" method="post">
-            <div class="@cssClass">
-                <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-                <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
-                <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
-                <p name="Comment-Body" class="commentBody">@comment.Body</p>
-                <br />
-                <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-                @if (comment.IsPublic)
-                {
-                    <input type="submit" name="delete" value="Delete Comment" asp-page-handler="DeleteComment" />
-                }
-                else
-                {
-                    <input type="submit" name="delete" value="Republish Comment" asp-page-handler="UndeleteComment" />
-                }
-            </div>
-        </form>
+    string cssClass = comment.IsPublic ? "" : "deletedContent";
+    <form id="form1" method="post">
+        <div class="@cssClass">
+            <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
+            <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
+            <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+            <p name="Comment-Body" class="commentBody">@comment.Body</p>
+            <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+            <input type="hidden" name="slug" value="@Model.Post.Slug" />
+            @if (comment.IsPublic)
+            {
+            <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
+            }
+            else
+            {
+            <input type="submit" name="delete" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
+            }
+        </div>
+    </form>
+    }
+    }
+    else
+    {
+    <h2>Comments</h2>
+    @foreach (var comment in Model.Post.Comments)
+    {
+    @if (comment.IsPublic)
+    {
+    <form id="form1" method="post">
+        <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
+        <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
+        <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+        <p name="Comment-Body" class="commentBody">@comment.Body</p>
+        <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+        <input type="hidden" name="slug" value="@Model.Post.Slug" />
+    </form>
+    }
+    }
     }
 
     <hr class="commentsDivider" />

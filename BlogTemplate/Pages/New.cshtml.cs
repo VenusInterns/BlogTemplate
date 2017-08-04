@@ -6,8 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
+using BlogTemplate.Services;
+
+
 namespace BlogTemplate.Pages
 {
+    [Authorize]
     public class NewModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
