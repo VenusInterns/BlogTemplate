@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
-
 using Microsoft.AspNetCore.Authorization;
-
 using BlogTemplate.Services;
 
 
@@ -82,7 +80,6 @@ namespace BlogTemplate.Pages
             {
                 newPost.Slug = oldPost.Slug;
             }
-
             newPost.Comments = oldPost.Comments;
 
             _dataStore.UpdatePost(newPost, oldPost);
