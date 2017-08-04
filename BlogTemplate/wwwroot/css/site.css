@@ -47,6 +47,10 @@ nav {
             margin: 0;
         }
 
+        nav li:last-child{
+            float: right;
+        }
+
     nav a {
         color: var(--content-color);
         text-decoration: none;
