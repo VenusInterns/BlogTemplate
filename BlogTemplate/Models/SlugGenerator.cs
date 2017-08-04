@@ -18,8 +18,6 @@ namespace BlogTemplate.Models
         public string CreateSlug(string title)
         {
             string tempTitle = title;
-            char[] inv = Path.GetInvalidPathChars();
-            char[] real = inv;
             foreach (char c in Path.GetInvalidPathChars())
             {
                 if (tempTitle.Contains(c))
