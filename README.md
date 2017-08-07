@@ -20,6 +20,6 @@ Using the Template
 ------
 Please install the following:
 * [Visual Studio](https://www.visualstudio.com/vs/)
-..* Make sure to install the following workloads:
-....* ASP.NET and web development
-....* .NET Core cross-platform development
+  * Make sure to install the following workloads:
+    * ASP.NET and web development
+    * .NET Core cross-platform development
