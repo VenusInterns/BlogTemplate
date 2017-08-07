@@ -47,6 +47,7 @@ namespace BlogTemplate.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        [ValidateAntiForgeryToken]
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
@@ -62,6 +63,7 @@ namespace BlogTemplate.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;

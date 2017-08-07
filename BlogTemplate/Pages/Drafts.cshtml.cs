@@ -22,6 +22,7 @@ namespace BlogTemplate.Pages
 
         public IEnumerable<Post> Posts { get; set; }
 
+        [ValidateAntiForgeryToken]
         public void OnGet()
         {
             Posts = _dataStore.GetAllPosts();
