@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace BlogTemplate.Models
 {
     public class Post
     {
+        public long Id { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         [Required(ErrorMessage = "Title required")]
         public string Title { get; set; }

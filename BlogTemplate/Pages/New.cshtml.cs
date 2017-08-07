@@ -48,13 +48,19 @@ namespace BlogTemplate.Pages
         [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
-            Post.IsPublic = false;
-            SavePost(Post);
-            return Redirect("/Index");
+            if (ModelState.IsValid)
+            {
+                Post.IsPublic = false;
+                SavePost(Post);
+                return Redirect("/Index");
+            }
+
+            return Page();
         }
 
         private void SavePost(Post post)
         {
+            Post.Id = Post.PubDate.ToFileTimeUtc();
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
