@@ -60,7 +60,7 @@ namespace BlogTemplate.Pages
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
             Post.Slug = slugGenerator.CreateSlug(Post.Title);
 
-            if (Post.Excerpt == "")
+            if (Post.Excerpt == null)
             {
                 ExcerptGenerator excerptGenerator = new ExcerptGenerator();
                 Post.Excerpt = excerptGenerator.CreateExcerpt(Post.Body, 140);
