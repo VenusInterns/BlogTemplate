@@ -28,7 +28,6 @@ namespace BlogTemplate.Pages
 
         public Post Post { get; set; }
 
-        [ValidateAntiForgeryToken]
         public void OnGet()
         {
             InitializePost();

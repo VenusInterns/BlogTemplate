@@ -53,8 +53,7 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        [ValidateAntiForgeryToken]
-        public void SavePost(Post post)
+        private void SavePost(Post post)
         {
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 

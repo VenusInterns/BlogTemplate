@@ -28,7 +28,6 @@ namespace BlogTemplate.Pages
 
         public Post oldPost { get; set; }
 
-        [ValidateAntiForgeryToken]
         public void OnGet()
         {
             InitializePost();
@@ -63,8 +62,7 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        [ValidateAntiForgeryToken]
-        public void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;
