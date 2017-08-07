@@ -243,7 +243,7 @@ namespace BlogTemplate.Tests.Model
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\Title.xml");
             Assert.Equal(result.Slug, "Title");
             Assert.Equal(result.Title, "Title");
-            Assert.Equal(result.Body, "New body");
+            Assert.Equal(result.Body, "This is the body of my post");
             Assert.True(result.IsPublic);
             Assert.True(result.Excerpt.Length == 5);
             Assert.Equal(result.Excerpt, "This ");
