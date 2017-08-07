@@ -18,13 +18,12 @@
 
     @if (Model.Post.Comments.Count == 0)
     {
-        <p>No comments to show.</p>
+        <p>No comments yet. Be the first to comment!</p>
     }
 
     @if (User.Identity.IsAuthenticated)
     {
     <a href="/edit/@Model.Post.Slug">Edit Post</a>
-    <h2>Comments</h2>
     @foreach (var comment in Model.Post.Comments)
     {
     string cssClass = comment.IsPublic ? "" : "deletedContent";
@@ -50,7 +49,6 @@
     }
     else
     {
-    <h2>Comments</h2>
     @foreach (var comment in Model.Post.Comments)
     {
     @if (comment.IsPublic)
