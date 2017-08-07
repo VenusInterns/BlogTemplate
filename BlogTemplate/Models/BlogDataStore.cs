@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,21 +11,24 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
-        public BlogDataStore()
+        private IFileSystem _fileSystem;
+
+        public BlogDataStore(IFileSystem fileSystem)
         {
+            _fileSystem = fileSystem;
             InitStorageFolder();
         }
-
         public void InitStorageFolder()
         {
-            Directory.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(StorageFolder);
         }
+
         private static XElement GetCommentsRootNode(XDocument doc)
         {
             XElement commentsNode;
             if (doc.Root.Elements("Comments").Any())
             {
-                commentsNode = doc.Root.Element("Comments");                
+                commentsNode = doc.Root.Element("Comments");
             }
             else
             {
@@ -35,6 +38,22 @@ namespace BlogTemplate.Models
             return commentsNode;
         }
 
+        private XDocument LoadPostXml(string filePath)
+        {
+            string text = _fileSystem.ReadFileText(filePath);
+            StringReader reader = new StringReader(text);
+
+            return XDocument.Load(reader);
+        }
+
+        public IEnumerable<XElement> GetCommentRoot(string slug)
+        {
+            string filePath = $"{StorageFolder}\\{slug}.xml";
+            XDocument xDoc = LoadPostXml(filePath);
+            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            return commentRoot;
+        }
+
         public void AppendCommentInfo(Comment comment, Post Post, XDocument doc)
         {
             XElement commentsNode = GetCommentsRootNode(doc);
@@ -42,18 +61,11 @@ namespace BlogTemplate.Models
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
-            commentNode.Add(new XElement("CommentBody", comment.Body));           
-            commentsNode.Add(commentNode);
-        }
+            commentNode.Add(new XElement("CommentBody", comment.Body));
 
-        public void SaveComment(Comment comment, Post Post)
-        {
-            string postFilePath = $"{StorageFolder}\\{Post.Slug}.xml";
-            XDocument doc = XDocument.Load(postFilePath);
-            AppendCommentInfo(comment, Post, doc);
-            doc.Save(postFilePath);
+            commentNode.Add(new XElement("IsPublic", true));
+            commentNode.Add(new XElement("UniqueId", comment.UniqueId));
         }
-
 
         public IEnumerable<XElement> GetCommentRoot (Post post)
         {
@@ -73,7 +85,11 @@ namespace BlogTemplate.Models
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
-                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal)
+
+                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                    IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
+                    UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
+
                 };
                 listAllComments.Add(newComment);
             }
@@ -84,6 +100,7 @@ namespace BlogTemplate.Models
             IEnumerable<XElement> commentRoot = GetCommentRoot(post);
             IEnumerable<XElement> comments;
             List<Comment> listAllComments = new List<Comment>();            
+
             if (commentRoot.Any())
             {
                 comments = commentRoot.Elements("Comment");
@@ -92,15 +109,65 @@ namespace BlogTemplate.Models
             return listAllComments;
         }
 
+        public Comment FindComment(Guid UniqueId, Post post)
+        {
+            List<Comment> commentsList = post.Comments;
+            foreach (Comment comment in commentsList)
+            {
+                if (comment.UniqueId.Equals(UniqueId))
+                {
+                    return comment;
+                }
+            }
+            return null;
+        }
+
         public XElement AddTags(Post post, XElement rootNode)
         {
             XElement tagsNode = new XElement("Tags");
             foreach (string tag in post.Tags)
             {
                 tagsNode.Add(new XElement("Tag", tag));
-            }            rootNode.Add(tagsNode);
+            }
+            rootNode.Add(tagsNode);
+
             return rootNode;
         }
+
+        public XElement AddComments(Post post, XElement rootNode)
+        {
+            XElement commentsNode = new XElement("Comments");
+
+            foreach (Comment comment in post.Comments)
+            {
+                XElement commentNode = new XElement("Comment");
+                commentNode.Add(new XElement("AuthorName", comment.AuthorName));
+                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
+                commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
+                commentNode.Add(new XElement("CommentBody", comment.Body));
+                commentNode.Add(new XElement("IsPublic", comment.IsPublic));
+                commentNode.Add(new XElement("UniqueId", comment.UniqueId));
+                commentsNode.Add(commentNode);
+            }
+            rootNode.Add(commentsNode);
+
+            return rootNode;
+        }
+        public List<string> GetTags(XDocument doc)
+        {
+            List<string> tags = new List<string>();
+            IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
+            if (tagElements.Any())
+            {
+                foreach (string tag in tagElements)
+                {
+                    tags.Add(tag);
+                }
+            }
+
+            return tags;
+        }
+
 
         public void AppendPostInfo(XElement rootNode, Post post)
         {
@@ -118,18 +185,29 @@ namespace BlogTemplate.Models
             string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
-            AppendPostInfo(rootNode, post);
 
-            doc.Add(AddTags(post, rootNode));
-            doc.Save(outputFilePath);
+            AppendPostInfo(rootNode, post);
+            AddComments(post, rootNode);
+            AddTags(post, rootNode);
+            doc.Add(rootNode);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                doc.Save(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                using (StreamReader reader = new StreamReader(ms))
+                {
+                    string text = reader.ReadToEnd();
+                    _fileSystem.WriteFileText(outputFilePath, text);
+                }
+            }
         }
 
 
-        public Post CollectPostInfo(string expectedFilePath, string slug)
+        public Post CollectPostInfo(string expectedFilePath)
         {
-            if (slug == null) return null;
             IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-            XDocument doc = XDocument.Load(expectedFilePath);
+            XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
                 Slug = doc.Root.Element("Slug").Value,
@@ -138,31 +216,31 @@ namespace BlogTemplate.Models
                 PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value
+                Excerpt = doc.Root.Element("Excerpt").Value,
             };
-            post.Comments = GetAllComments(post);
+            post.Comments = GetAllComments(post.Slug);
+            post.Tags = GetTags(doc);
+
             return post;
         }
-
 
         public Post GetPost(string slug)
         {
             string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
-            if (File.Exists(expectedFilePath))
+            if (_fileSystem.FileExists(expectedFilePath))
             {
-                return CollectPostInfo(expectedFilePath, slug);
+                return CollectPostInfo(expectedFilePath);
             }
             return null;
         }
 
-        public List<Post> IteratePosts(List<FileInfo> files, List<Post> allPosts)
+        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
         {
             for (int i = 0; i < files.Count; i++)
             {
                 IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
                 var file = files[files.Count - i - 1];
-                //var file = files[i];
-                XDocument doc = XDocument.Load($"{StorageFolder}\\{file.Name}");
+                XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
                 Post post = new Post();
 
                 post.Title = doc.Root.Element("Title").Value;
@@ -172,12 +250,12 @@ namespace BlogTemplate.Models
                 post.Slug = doc.Root.Element("Slug").Value;
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
-                post.Comments = GetAllComments(post);
+                post.Comments = GetAllComments(post.Slug);
+                post.Tags = GetTags(doc);
                 allPosts.Add(post);
             }
             return allPosts;
         }
-
 
         public List<Post> GetAllPosts()
         {
@@ -188,9 +266,18 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allPosts);
         }
 
+        public void UpdatePost(Post newPost, Post oldPost)
+        {
+            SavePost(newPost);
+            if (newPost.Slug != oldPost.Slug)
+            {
+                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+            }
+        }
+
         public bool CheckSlugExists(string slug)
         {
-            return File.Exists($"{StorageFolder}\\{slug}.xml");
+            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
         }
     }
 }

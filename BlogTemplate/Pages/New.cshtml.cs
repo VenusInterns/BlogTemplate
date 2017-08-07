@@ -6,15 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
+using BlogTemplate.Services;
+
+
 namespace BlogTemplate.Pages
 {
+    [Authorize]
     public class NewModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
         private Blog _blog;
-        public NewModel(Blog blog)
+        private BlogDataStore _dataStore;
+
+        public NewModel(Blog blog, BlogDataStore dataStore)
         {
             _blog = blog;
+            _dataStore = dataStore;
         }
         public void OnGet()
         {
@@ -23,13 +32,20 @@ namespace BlogTemplate.Pages
         [BindProperty]
         public Post Post { get; set; }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
-            Post.IsPublic = true;
-            SavePost(Post);
-            return Redirect("/Index");
+            if (ModelState.IsValid)
+            {
+                Post.IsPublic = true;
+                SavePost(Post);
+                return Redirect("/Index");
+            }
+
+            return Page();
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
             Post.IsPublic = false;
@@ -37,15 +53,20 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        public void SavePost(Post post)
+        private void SavePost(Post post)
         {
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
-            BlogDataStore dataStore = new BlogDataStore();
-            SlugGenerator slugGenerator = new SlugGenerator();
-            Post.Slug = slugGenerator.CreateSlug(Post);
+            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
+            Post.Slug = slugGenerator.CreateSlug(Post.Title);
 
-            dataStore.SavePost(Post);
+            if (Post.Excerpt == "")
+            {
+                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+                Post.Excerpt = excerptGenerator.CreateExcerpt(Post.Body, 140);
+            }
+
+            _dataStore.SavePost(Post);
             _blog.Posts.Add(Post);
         }
     }

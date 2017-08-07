@@ -14,10 +14,12 @@ namespace BlogTemplate.Pages
         const string StorageFolder = "BlogFiles";
 
         private Blog _blog;
+        private BlogDataStore _dataStore;
 
-        public IndexModel(Blog blog)
+        public IndexModel(Blog blog, BlogDataStore dataStore)
         {
             _blog = blog;
+            _dataStore = dataStore;
         }
 
         public Blog Blog { get; set; }
@@ -25,8 +27,7 @@ namespace BlogTemplate.Pages
         public void OnGet()
         {
             Blog = _blog;
-            BlogDataStore dataStore = new BlogDataStore();
-            _blog.Posts = dataStore.GetAllPosts();
+            _blog.Posts = _dataStore.GetAllPosts();
         }
     }
 }
