@@ -44,6 +44,7 @@ namespace BlogTemplate.Pages
             }
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -52,6 +53,7 @@ namespace BlogTemplate.Pages
             return Redirect($"/Post/{newPost.Slug}");
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -60,7 +62,7 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        public void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;

@@ -32,6 +32,7 @@ namespace BlogTemplate.Pages
         [BindProperty]
         public Post Post { get; set; }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
             if (ModelState.IsValid)
@@ -44,6 +45,7 @@ namespace BlogTemplate.Pages
             return Page();
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
             Post.IsPublic = false;
@@ -51,7 +53,7 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        public void SavePost(Post post)
+        private void SavePost(Post post)
         {
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
