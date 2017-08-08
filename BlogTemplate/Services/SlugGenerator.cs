@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,17 +15,19 @@ namespace BlogTemplate.Services
             _dataStore = dataStore;
         }
 
-        public string CreateSlug(string title)
+        public string CreateSlug(String title)
         {
+            //BlogDataStore dataStore = new BlogDataStore();
             string slug = title.Replace(" ", "-");
-            int count = 0;
-            string tempSlug = slug;
-            while (_dataStore.CheckSlugExists(tempSlug))
-            {
-                count++;
-                tempSlug = $"{slug}-{count}";
-            }
-            return tempSlug;
+            //int count = 0;
+            //string tempSlug = slug = $"{post.PubDate.ToFileTimeUtc()}_{slug}";
+            //while (dataStore.CheckSlugExists(tempSlug))
+            //{
+            //    count++;
+            //    tempSlug = $"{slug}-{count}";
+            //}
+            //return tempSlug;
+            return slug;
         }
     }
 }
