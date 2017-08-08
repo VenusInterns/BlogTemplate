@@ -308,13 +308,11 @@ namespace BlogTemplate.Tests.Model
             Post oldPost = new Post
             {
                 Slug = "Old-Title",
-                Title = "Old Title",
             };
 
             Post newPost = new Post
             {
                 Slug = "New-Title",
-                Title = "New Title",
             };
 
             testDataStore.SavePost(oldPost);
@@ -322,8 +320,6 @@ namespace BlogTemplate.Tests.Model
 
             Assert.True(testFileSystem.FileExists($"BlogFiles\\New-Title.xml"));
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\New-Title.xml");
-            Assert.Equal(result.Slug, "New-Title");
-            Assert.Equal(result.Title, "New Title");
             Assert.False(testFileSystem.FileExists($"BlogFiles\\Old-Title.xml"));
         }
 
@@ -337,18 +333,12 @@ namespace BlogTemplate.Tests.Model
             {
                 Slug = "Old-Title",
                 Title = "Old Title",
-                Body = "Old body",
-                IsPublic = true,
-                Excerpt = "Old excerpt"
             };
 
             Post newPost = new Post
             {
                 Slug = "Old-Title",
                 Title = "New Title",
-                Body = "Old body",
-                IsPublic = true,
-                Excerpt = "Old excerpt"
             };
 
             testDataStore.SavePost(oldPost);
@@ -356,11 +346,7 @@ namespace BlogTemplate.Tests.Model
 
             Assert.True(testFileSystem.FileExists($"BlogFiles\\Old-Title.xml"));
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\Old-Title.xml");
-            Assert.Equal(result.Slug, "Old-Title");
             Assert.Equal(result.Title, "New Title");
-            Assert.Equal(result.Body, "Old body");
-            Assert.True(result.IsPublic);
-            Assert.Equal(result.Excerpt, "Old excerpt");
         }
     }
 }
