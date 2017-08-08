@@ -1,4 +1,4 @@
-﻿@page
+@page
 @using BlogTemplate
 @using BlogTemplate.Models
 @inject Blog Blog
@@ -36,6 +36,6 @@
     <br />
     <input type="text" name="Tags" asp-for="@tagsString"/>
     <br />
-    <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
-    <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
+    <input type="submit" name="save" class="btn btn-primary" value="Save Draft" asp-page-handler="SaveDraft" />
+    <input type="submit" name="publish" class="btn btn-primary" value="Publish" asp-page-handler="Publish" />
 </form>
