@@ -36,7 +36,8 @@ namespace BlogTemplate.Pages
         private void InitializePost()
         {
             string slug = RouteData.Values["slug"].ToString();
-            newPost = oldPost = _dataStore.GetPost(slug);
+            long id = Convert.ToInt64(RouteData.Values["id"]);
+            newPost = oldPost = _dataStore.GetPost(id);
 
             if (oldPost == null)
             {
@@ -48,8 +49,9 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostPublish()
         {
             string slug = RouteData.Values["slug"].ToString();
+            long id = Convert.ToInt64(RouteData.Values["id"]);
             newPost.IsPublic = true;
-            UpdatePost(newPost, slug);
+            UpdatePost(newPost, id);
             return Redirect($"/Post/{newPost.Slug}");
         }
 
@@ -57,14 +59,16 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostSaveDraft()
         {
             string slug = RouteData.Values["slug"].ToString();
+            long id = Convert.ToInt64(RouteData.Values["id"]);
             newPost.IsPublic = false;
-            UpdatePost(newPost, slug);
+            UpdatePost(newPost, id);
             return Redirect("/Index");
         }
 
-        private void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(Post newPost, long id)
         {
-            oldPost = _dataStore.GetPost(slug);
+            oldPost = _dataStore.GetPost(id);
+            newPost.Id = oldPost.Id;
             newPost.PubDate = oldPost.PubDate;
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             if (newPost.Excerpt == null)

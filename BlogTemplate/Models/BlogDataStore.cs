@@ -269,20 +269,10 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allPosts);
         }
 
-        // TODO: update this based on new file naming procedure
         public void UpdatePost(Post newPost, Post oldPost)
         {
+            _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Id}.xml");
             SavePost(newPost);
-            if (newPost.Slug != oldPost.Slug)
-            {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
-            }
-        }
-
-        // TODO: check if this is necessary anymore
-        public bool CheckSlugExists(string slug)
-        {
-            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
         }
     }
 }
