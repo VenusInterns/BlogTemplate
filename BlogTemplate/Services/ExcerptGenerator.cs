@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate.Services
 {
     public class ExcerptGenerator
     {
