@@ -23,23 +23,33 @@
 <form method="POST">
     <div asp-validation-summary="All"></div>
     <div class="form-group">
-        <label for="Title">Title</></label>
-        <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
-        <span asp-validation-for="Post.Title" class="invalid"></span>
+        <div class="col-md-6">
+            <label for="Title">Title</></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
+            <span asp-validation-for="Post.Title" class="invalid"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Body" class="primaryField">Body</label>
-        <textarea class="form-control" placeholder="" asp-for="Post.Body"></textarea>
-        <span asp-validation-for="Post.Body" class="invalid"></span>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="Body" class="primaryField">Body</label>
+            <textarea class="form-control" placeholder="" asp-for="Post.Body"></textarea>
+            <span asp-validation-for="Post.Body" class="invalid"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-        <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+            <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
-        <input type="text" class="form-control" placeholder="" asp-for="@tagsString" />
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
+            <input type="text" class="form-control" placeholder="" asp-for="@tagsString" />
+        </div>
     </div>
+    <div class="col-md-12">
         <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+    </div>
 </form>
