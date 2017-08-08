@@ -34,7 +34,7 @@
             <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
             <p name="Comment-Body" class="commentBody">@comment.Body</p>
             <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-            <input type="hidden" name="slug" value="@Model.Post.Slug" />
+            <input type="hidden" name="postId" value="@Model.Post.Id" />
             @if (comment.IsPublic)
             {
             <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />

@@ -20,27 +20,31 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeleteComment(Guid commentId, string slug)
+        public IActionResult OnPostDeleteComment(Guid commentId)
         {
-            Post post = _dataStore.GetPost(slug);
+            long id = Convert.ToInt64(RouteData.Values["id"]);
+            string slug = RouteData.Values["slug"].ToString();
+            Post post = _dataStore.GetPost(id);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
             foundComment.IsPublic = false;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{slug}");
+            return Redirect($"/Post/{id}/{slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostUndeleteComment(Guid commentId, string slug)
+        public IActionResult OnPostUndeleteComment(Guid commentId)
         {
-            Post post = _dataStore.GetPost(slug);
+            long id = Convert.ToInt64(RouteData.Values["id"]);
+            string slug = RouteData.Values["slug"].ToString();
+            Post post = _dataStore.GetPost(id);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
             foundComment.IsPublic = true;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{slug}");
+            return Redirect($"/Post/{id}/{slug}");
         }
     }
 }

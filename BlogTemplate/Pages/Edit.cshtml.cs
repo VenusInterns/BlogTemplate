@@ -52,7 +52,7 @@ namespace BlogTemplate.Pages
             long id = Convert.ToInt64(RouteData.Values["id"]);
             newPost.IsPublic = true;
             UpdatePost(newPost, id);
-            return Redirect($"/Post/{newPost.Slug}");
+            return Redirect($"/Post/{newPost.Id}/{newPost.Slug}");
         }
 
         [ValidateAntiForgeryToken]
@@ -62,7 +62,7 @@ namespace BlogTemplate.Pages
             long id = Convert.ToInt64(RouteData.Values["id"]);
             newPost.IsPublic = false;
             UpdatePost(newPost, id);
-            return Redirect("/Index");
+            return Redirect("/Drafts");
         }
 
         private void UpdatePost(Post newPost, long id)

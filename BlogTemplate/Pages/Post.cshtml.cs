@@ -36,8 +36,9 @@ namespace BlogTemplate.Pages
         private void InitializePost()
         {
             string slug = RouteData.Values["slug"].ToString();
+            long id = Convert.ToInt64(RouteData.Values["id"]);
 
-            Post = _dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {
