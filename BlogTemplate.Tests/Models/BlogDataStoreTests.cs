@@ -12,25 +12,27 @@ namespace BlogTemplate.Tests.Model
 {
     public class BlogDataStoreTests
     {
-        //[Fact]
-        //public void SavePost_SaveSimplePost()
-        //{
-        //    IFileSystem testFileSystem = new FakeFileSystem();
-        //    BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
-        //    Post testPost = new Post {
-        //        Slug = "Test-Post-Slug",
-        //        Title = "Test Title",
-        //        Body = "Test contents",
-        //    };
+        [Fact]
+        public void SavePost_SaveSimplePost()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+            Post testPost = new Post
+            {
+                Slug = "Test-Post-Slug",
+                Title = "Test Title",
+                Body = "Test contents",
+            };
+            testPost.Id = testPost.PubDate.ToFileTimeUtc();
 
-        //    testDataStore.SavePost(testPost);
+            testDataStore.SavePost(testPost);
 
-        //    Assert.True(testFileSystem.FileExists("BlogFiles\\Test-Post-Slug.xml"));
-        //    Post result = testDataStore.GetPost("Test-Post-Slug");
-        //    Assert.Equal("Test-Post-Slug", result.Slug);
-        //    Assert.Equal("Test Title", result.Title);
-        //    Assert.Equal("Test contents", result.Body);
-        //}
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\{testPost.Id}.xml"));
+            Post result = testDataStore.GetPost(testPost.Id);
+            Assert.Equal("Test-Post-Slug", result.Slug);
+            Assert.Equal("Test Title", result.Title);
+            Assert.Equal("Test contents", result.Body);
+        }
 
         //[Fact]
         //public void SaveComment_SaveSimpleComment()
