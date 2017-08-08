@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using BlogTemplate.Models;
@@ -221,35 +221,6 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
-        public void SavePost_CreateExcerpt()
-        {
-            IFileSystem fakeFileSystem = new FakeFileSystem();
-            BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
-
-            Post newPost = new Post
-            {
-                Slug = "Title",
-                Title = "Title",
-                Body = "This is the body of my post",
-                IsPublic = true,
-            };
-
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
-            newPost.Excerpt = excerptGenerator.CreateExcerpt(newPost.Body, 5);
-
-            testDataStore.SavePost(newPost);
-
-            Assert.True(fakeFileSystem.FileExists($"BlogFiles\\Title.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Title.xml");
-            Assert.Equal(result.Slug, "Title");
-            Assert.Equal(result.Title, "Title");
-            Assert.Equal(result.Body, "This is the body of my post");
-            Assert.True(result.IsPublic);
-            Assert.True(result.Excerpt.Length == 5);
-            Assert.Equal(result.Excerpt, "This ");
-        }
-
-        [Fact]
         public void UpdatePost_ChangePost_UpdatesXMLFile()
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();
@@ -329,7 +300,7 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
-        public void UpdatePost_UpdateTitle_UpdateSlug()
+        public void UpdatePost_TitleIsUpdated_UpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
@@ -338,18 +309,12 @@ namespace BlogTemplate.Tests.Model
             {
                 Slug = "Old-Title",
                 Title = "Old Title",
-                Body = "Old body",
-                IsPublic = true,
-                Excerpt = "Old excerpt"
             };
 
             Post newPost = new Post
             {
                 Slug = "New-Title",
                 Title = "New Title",
-                Body = "Old body",
-                IsPublic = true,
-                Excerpt = "Old excerpt"
             };
 
             testDataStore.SavePost(oldPost);
@@ -359,13 +324,11 @@ namespace BlogTemplate.Tests.Model
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\New-Title.xml");
             Assert.Equal(result.Slug, "New-Title");
             Assert.Equal(result.Title, "New Title");
-            Assert.Equal(result.Body, "Old body");
-            Assert.True(result.IsPublic);
-            Assert.Equal(result.Excerpt, "Old excerpt");
+            Assert.False(testFileSystem.FileExists($"BlogFiles\\Old-Title.xml"));
         }
 
         [Fact]
-        public void UpdatePost_UpdateTitle_KeepSlug()
+        public void UpdatePost_TitleIsUpdated_KeepSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
