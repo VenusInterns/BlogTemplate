@@ -10,14 +10,20 @@
 </head>
 <body>
     <header class="container">
-        <ul id="menu" class="navbar navbar-default">
-            <li><h2><a asp-page="/Index">BlogTemplate</a></h2></li>
-            <li><a asp-page="/Index">Blog</a></li>
-            <li><a asp-page="/About">About</a></li>
-            <li><a asp-page="/New">New Post</a></li>
-            <li><a asp-page="/Drafts">Drafts</a></li>
-            <li>@await Html.PartialAsync("_LoginPartial")</li>
-        </ul>
+        <div id="menu" class="navbar navbar-default">
+            <div class="navbar-header">
+                <h2><a asp-page="/Index">BlogTemplate</a></h2>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav"><a asp-page="/Index">Blog</a></li>
+                    <li class="nav"><a asp-page="/About">About</a></li>
+                    <li class="nav"><a asp-page="/New">New Post</a></li>
+                    <li class="nav"><a asp-page="/Drafts">Drafts</a></li>
+                    <li class="nav">@await Html.PartialAsync("_LoginPartial")</li>
+                </ul>
+            </div>
+        </div>
     </header>
 
     <main class="container">

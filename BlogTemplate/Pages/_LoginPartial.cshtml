@@ -8,10 +8,10 @@
     <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
 
         <a asp-page="/Account/Manage/Index">Owner Settings</a>
-        <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+        <button type="submit" class="btn btn-link navbar-btn navbar-link"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
     </form>
 }
 else
 {
-    <a asp-page="/Account/Login">Log in</a>
+    <span class="glyphicon glyphicon-log-in"></span><a asp-page="/Account/Login">Log in</a>
 }
