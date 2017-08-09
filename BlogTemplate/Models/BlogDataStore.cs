@@ -70,7 +70,7 @@ namespace BlogTemplate.Models
         public IEnumerable<XElement> GetCommentRoot (Post post)
         {
             string filePath = $"{StorageFolder}\\{post.Id}.xml";
-            XDocument xDoc = XDocument.Load(filePath);
+            XDocument xDoc = LoadPostXml(filePath);
             IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
             return commentRoot;
         }
@@ -236,13 +236,12 @@ namespace BlogTemplate.Models
             return null;
         }
 
-        private List<Post> IteratePosts(List<FileInfo> files, List<Post> allPosts)
+        private List<Post> IteratePosts(IEnumerable<string> filenames, List<Post> allPosts)
         {
-            for (int i = 0; i < files.Count; i++)
+            foreach (var file in filenames)
             {
                 IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-                var file = files[files.Count - i - 1];
-                XDocument doc = LoadPostXml($"{StorageFolder}\\{file.Name}");
+                XDocument doc = LoadPostXml(file);
                 Post post = new Post();
 
                 post.Id = Convert.ToInt64(doc.Root.Element("Id").Value);
@@ -263,10 +262,9 @@ namespace BlogTemplate.Models
         public List<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
-            List<FileInfo> files = new DirectoryInfo(filePath).GetFiles().OrderBy(f => f.Name).ToList();
+            IEnumerable<string> filenames = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();// new DirectoryInfo(filePath).GetFiles().OrderBy(f => f.Name).ToList();
             List<Post> allPosts = new List<Post>();
-            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-            return IteratePosts(files, allPosts);
+            return IteratePosts(filenames, allPosts);
         }
 
         public void UpdatePost(Post newPost, Post oldPost)
