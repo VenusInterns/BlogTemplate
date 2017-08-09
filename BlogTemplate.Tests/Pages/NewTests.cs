@@ -13,7 +13,7 @@ namespace BlogTemplate.Tests.Pages
     class NewTests
     {
         [Fact]
-        public void SavePost_NoExcerptIsEntered_CreateExcerpt()
+        public void SavePost_NoExcerptIsEntered_AutoGenerateExcerpt()
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
