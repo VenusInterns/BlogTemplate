@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BlogTemplate.Models
@@ -21,3 +21,4 @@ namespace BlogTemplate.Models
         IEnumerable<string> EnumerateFiles(string directoryPath);
     }
 }
+
