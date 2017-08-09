@@ -93,3 +93,4 @@ namespace BlogTemplate.Pages.Account
         }  
     }
 }
+
