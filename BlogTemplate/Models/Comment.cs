@@ -21,4 +21,3 @@ namespace BlogTemplate.Models
         public Guid UniqueId { get; set; }
     }
 }
-

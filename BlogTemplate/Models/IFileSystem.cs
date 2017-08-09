@@ -21,4 +21,3 @@ namespace BlogTemplate.Models
         IEnumerable<string> EnumerateFiles(string directoryPath);
     }
 }
-
