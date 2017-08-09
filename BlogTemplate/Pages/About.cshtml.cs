@@ -16,4 +16,3 @@ namespace BlogTemplate.Pages
         }
     }
 }
-

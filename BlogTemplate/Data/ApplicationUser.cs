@@ -11,4 +11,3 @@ namespace BlogTemplate.Data
     {
     }
 }
-

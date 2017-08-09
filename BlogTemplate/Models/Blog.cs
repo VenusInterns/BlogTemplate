@@ -13,4 +13,3 @@ namespace BlogTemplate.Models
         public object Comment { get; private set; }
     }
 }
-

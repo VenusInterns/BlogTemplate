@@ -217,4 +217,3 @@ namespace BlogTemplate.Data.Migrations
         }
     }
 }
-

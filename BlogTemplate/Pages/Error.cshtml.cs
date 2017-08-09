@@ -19,4 +19,3 @@ namespace BlogTemplate.Pages
         }
     }
 }
-

@@ -131,4 +131,3 @@ namespace BlogTemplate.Pages.Account
         }
     }
 }
-
