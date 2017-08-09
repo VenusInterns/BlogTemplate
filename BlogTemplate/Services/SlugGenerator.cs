@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,14 +18,7 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string slug = title.Replace(" ", "-");
-            int count = 0;
-            string tempSlug = slug;
-            while (_dataStore.CheckSlugExists(tempSlug))
-            {
-                count++;
-                tempSlug = $"{slug}-{count}";
-            }
-            return tempSlug;
+            return slug;
         }
     }
 }

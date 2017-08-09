@@ -10,6 +10,7 @@ namespace BlogTemplate.Models
     public class BlogDataStore
     {
         const string StorageFolder = "BlogFiles";
+        const string DraftsFolder = "Drafts";
 
         private IFileSystem _fileSystem;
 
@@ -162,8 +163,9 @@ namespace BlogTemplate.Models
         }
 
 
-        public void AppendPostInfo(XElement rootNode, Post post)
+        public void AppendPostInfo(Post post, XElement rootNode)
         {
+            rootNode.Add(new XElement("Id", post.Id.ToString()));
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
@@ -175,11 +177,19 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
+            string outputFilePath;
+            if (post.IsPublic == true)
+            {
+                outputFilePath = $"{StorageFolder}\\{post.PubDate}_{post.Id}.xml";
+            }
+            else
+            {
+                outputFilePath = $"{DraftsFolder}\\{post.Id}.xml";
+            }
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
 
-            AppendPostInfo(rootNode, post);
+            AppendPostInfo(post, rootNode);
             AddComments(post, rootNode);
             AddTags(post, rootNode);
             doc.Add(rootNode);
