@@ -20,7 +20,7 @@
                     <li class="nav"><a asp-page="/About">About</a></li>
                     <li class="nav"><a asp-page="/New">New Post</a></li>
                     <li class="nav"><a asp-page="/Drafts">Drafts</a></li>
-                    <li class="nav">@await Html.PartialAsync("_LoginPartial")</li>
+                    @await Html.PartialAsync("_LoginPartial")
                 </ul>
             </div>
         </div>
