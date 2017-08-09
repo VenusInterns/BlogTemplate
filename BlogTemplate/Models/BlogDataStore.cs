@@ -47,11 +47,9 @@ namespace BlogTemplate.Models
             return XDocument.Load(reader);
         }
 
-        public IEnumerable<XElement> GetCommentRoot(string slug)
+        public IEnumerable<XElement> GetCommentRoot(XDocument doc)
         {
-            string filePath = $"{StorageFolder}\\{slug}.xml";
-            XDocument xDoc = LoadPostXml(filePath);
-            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            IEnumerable<XElement> commentRoot = doc.Root.Elements("Comments");
             return commentRoot;
         }
 
@@ -90,9 +88,9 @@ namespace BlogTemplate.Models
             }
         }
 
-        public List<Comment> GetAllComments(string slug)
+        public List<Comment> GetAllComments(XDocument doc)
         {
-            IEnumerable<XElement> commentRoot = GetCommentRoot(slug);
+            IEnumerable<XElement> commentRoot = GetCommentRoot(doc);
             IEnumerable<XElement> comments;
             List<Comment> listAllComments = new List<Comment>();
             if (commentRoot.Any())
@@ -180,7 +178,7 @@ namespace BlogTemplate.Models
             string outputFilePath;
             if (post.IsPublic == true)
             {
-                outputFilePath = $"{StorageFolder}\\{post.PubDate}_{post.Id}.xml";
+                outputFilePath = $"{StorageFolder}\\{post.PubDate.ToFileTimeUtc()}_{post.Id}.xml";
             }
             else
             {
@@ -213,6 +211,7 @@ namespace BlogTemplate.Models
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
+                Id = Convert.ToInt32(doc.Root.Element("Id").Value),
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
@@ -221,7 +220,7 @@ namespace BlogTemplate.Models
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
-            post.Comments = GetAllComments(post.Slug);
+            post.Comments = GetAllComments(doc);
             post.Tags = GetTags(doc);
             return post;
         }
@@ -238,22 +237,9 @@ namespace BlogTemplate.Models
 
         private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
         {
-            for (int i = 0; i < files.Count; i++)
+            foreach (var file in files)
             {
-                IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
-                var file = files[files.Count - i - 1];
-                XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
-                Post post = new Post();
-
-                post.Title = doc.Root.Element("Title").Value;
-                post.Body = doc.Root.Element("Body").Value;
-                post.PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-                post.LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-                post.Slug = doc.Root.Element("Slug").Value;
-                post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
-                post.Excerpt = doc.Root.Element("Excerpt").Value;
-                post.Comments = GetAllComments(post.Slug);
-                post.Tags = GetTags(doc);
+                Post post = CollectPostInfo(file);
                 allPosts.Add(post);
             }
             return allPosts;
@@ -262,10 +248,17 @@ namespace BlogTemplate.Models
         public List<Post> GetAllPosts()
         {
             string filePath = $"{StorageFolder}";
-            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
             List<Post> allPosts = new List<Post>();
-            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             return IteratePosts(files, allPosts);
+        }
+
+        public List<Post> GetAllDrafts()
+        {
+            string filePath = $"{DraftsFolder}";
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
+            List<Post> allDrafts = new List<Post>();
+            return IteratePosts(files, allDrafts);
         }
 
         public void UpdatePost(Post newPost, Post oldPost)
