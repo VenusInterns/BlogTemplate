@@ -300,4 +300,3 @@ namespace BlogTemplate.Tests.Model
         }
     }
 }
-
