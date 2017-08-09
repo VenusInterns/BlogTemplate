@@ -23,4 +23,3 @@ namespace BlogTemplate.Data
         }
     }
 }
-
