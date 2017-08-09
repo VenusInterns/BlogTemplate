@@ -20,7 +20,7 @@ namespace BlogTemplate.Tests.Pages
 
             Post newPost = new Post
             {
-                Slug = "Title",
+                Title = "Title",
                 Body = "This is the body of my post",
             };
 
