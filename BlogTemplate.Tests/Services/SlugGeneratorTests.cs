@@ -1,4 +1,4 @@
-﻿using BlogTemplate.Models;
+using BlogTemplate.Models;
 using BlogTemplate.Services;
 using BlogTemplate.Tests.Fakes;
 using Xunit;
@@ -45,3 +45,4 @@ namespace BlogTemplate.Tests.Services
 
     }
 }
+

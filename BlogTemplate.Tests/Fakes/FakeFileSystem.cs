@@ -1,4 +1,4 @@
-﻿using BlogTemplate.Models;
+using BlogTemplate.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -189,3 +189,4 @@ namespace BlogTemplate.Tests.Fakes
 
     }
 }
+
