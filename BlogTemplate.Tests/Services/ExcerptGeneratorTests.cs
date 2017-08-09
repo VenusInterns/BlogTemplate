@@ -5,7 +5,7 @@ using Xunit;
 
 namespace BlogTemplate.Tests.Services
 {
-    class ExcerptGeneratorTests
+    public class ExcerptGeneratorTests
     {
         [Fact]
         public void CreateExcerpt_BodyLengthExceedsMaxLength_ExcerptIsTruncated()
