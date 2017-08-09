@@ -8,10 +8,10 @@
         if (post.IsPublic)
         {
             <article>
-                <h2><a href="/post/@post.Slug">@post.Title</a></h2>
+                <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
                 <p class="date">@post.PubDate.ToLocalTime().ToShortDateString()</p>
                 <p>@post.Excerpt</p>
-                <p class="commentCount"><a href="/post/@post.Slug">@post.Comments.Count</a></p>
+                <p class="commentCount"><a href="/post/@post.Id/@post.Slug">@post.Comments.Count</a></p>
             </article>
         }
     }
