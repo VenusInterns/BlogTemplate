@@ -14,3 +14,4 @@ namespace BlogTemplate.Pages.Account
         }
     }
 }
+

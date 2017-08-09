@@ -85,3 +85,4 @@ namespace BlogTemplate.Pages.Account
         }
     }
 }
+
