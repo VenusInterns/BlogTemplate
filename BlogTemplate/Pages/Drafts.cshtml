@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model DraftsModel
 @{
     ViewData["Title"] = "Drafts";
@@ -10,12 +10,9 @@
 @{
     foreach (var post in Model.Posts)
     {
-        if (!post.IsPublic)
-        {
-            <article>
-                <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
-                <p>@post.Excerpt</p>
-            </article>
-        }
+        <article>
+            <h2><a href="/edit/@post.Id/@post.Slug">@post.Title</a></h2>
+            <p>@post.Excerpt</p>
+        </article>
     }
 }

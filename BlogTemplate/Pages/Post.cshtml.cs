@@ -35,9 +35,9 @@ namespace BlogTemplate.Pages
 
         private void InitializePost()
         {
-            string slug = RouteData.Values["slug"].ToString();
+            int id = Convert.ToInt32(RouteData.Values["id"]);
 
-            Post = _dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {
@@ -48,9 +48,9 @@ namespace BlogTemplate.Pages
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublishComment()
         {
-            string slug = RouteData.Values["slug"].ToString();
+            int id = Convert.ToInt32(RouteData.Values["id"]);
 
-            Post = _dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {

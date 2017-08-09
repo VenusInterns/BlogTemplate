@@ -22,6 +22,7 @@ namespace BlogTemplate.Models
         public void InitStorageFolder()
         {
             _fileSystem.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(DraftsFolder);
         }
 
         private static XElement GetCommentsRootNode(XDocument doc)
@@ -225,12 +226,26 @@ namespace BlogTemplate.Models
             return post;
         }
 
-        public Post GetPost(string slug)
+        public Post GetPost(int id)
         {
-            string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
+            string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
             if (_fileSystem.FileExists(expectedFilePath))
             {
                 return CollectPostInfo(expectedFilePath);
+            }
+            else
+            {
+                List<string> files = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
+                foreach(var file in files)
+                {
+                    int start = file.IndexOf("_");
+                    int end = file.IndexOf(".");
+                    string element = file.Substring(start + 1, end - start - 1);
+                    if(element == id.ToString())
+                    {
+                        return CollectPostInfo(file);
+                    }
+                }
             }
             return null;
         }
