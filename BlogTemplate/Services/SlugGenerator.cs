@@ -19,20 +19,13 @@ namespace BlogTemplate.Services
 
         public string CreateSlug(string title)
         {
-            Encoding utf8 = new UTF8Encoding(true);
             string tempTitle = title;
-            char[] invalidChars = Path.GetInvalidPathChars();
+            char[] invalidChars = Path.GetInvalidFileNameChars();
             foreach (char c in invalidChars)
             {
-                string s = c.ToString();
-                string decodedS = utf8.GetString(c);
-                if (tempTitle.Contains(s))
-                {
-                    int removeIdx = tempTitle.IndexOf(s);
-                    tempTitle = tempTitle.Remove(removeIdx);
-                }
+                tempTitle = tempTitle.Replace(c.ToString(), "");
             }
-            string slug = title.Replace(" ", "-");
+            string slug = tempTitle.Replace(" ", "-");
             int count = 0;
             string tempSlug = slug;
             while (_dataStore.CheckSlugExists(tempSlug))
