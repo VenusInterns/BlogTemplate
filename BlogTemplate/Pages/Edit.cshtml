@@ -18,7 +18,7 @@
         {
             <h3>@TempData["notice"]</h3>
         }
-        <label for="Title" class="primaryField">Title</></label>
+        <label for="Title" class="primaryField">Title</label>
         <br />
         <input type="text" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
         <span asp-validation-for="newPost.Title" class="invalid"></span>
