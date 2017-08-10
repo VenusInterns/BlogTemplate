@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
 
-    foreach (var post in Model.Blog.PublicPosts)
+    foreach (var post in Model.Blog.Posts)
     {
             <article>
                 <h2><a href="/post/@post.Slug">@post.Title</a></h2>

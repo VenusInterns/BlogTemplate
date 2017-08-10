@@ -7,7 +7,7 @@
 
 <p>This is where you go to edit drafts.</p>
 @{
-    foreach (var post in Model.PrivatePosts)
+    foreach (var post in Model.Posts)
     {
         <article>
             <h2><a href="/edit/@post.Slug">@post.Title</a></h2>

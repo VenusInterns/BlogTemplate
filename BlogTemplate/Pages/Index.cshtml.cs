@@ -23,11 +23,10 @@ namespace BlogTemplate.Pages
         }
 
         public Blog Blog { get; set; }
-
+        public IEnumerable<Post> Posts { get; set; }
         public void OnGet()
         {
-            Blog = _blog;
-            _blog.PublicPosts = _dataStore.GetAllPosts().Where(post=> post.IsPublic);
+            Posts = _dataStore.GetAllPosts().Where(post=> post.IsPublic);
         }
     }
 }
