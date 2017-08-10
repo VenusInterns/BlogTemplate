@@ -33,8 +33,7 @@ namespace BlogTemplate.Tests.Model
             testDataStore.SetId(testPost1);
             testDataStore.SetId(testPost2);
 
-            Assert.Equal(testPost1.Id, 1);
-            Assert.Equal(testPost2.Id, 2);
+            Assert.Equal(testPost2.Id, testPost1.Id + 1);
         }
 
         [Fact]
