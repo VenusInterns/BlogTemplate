@@ -21,10 +21,11 @@ namespace BlogTemplate.Pages
         }
 
         public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<Post> PrivatePosts { get; set; }
 
         public void OnGet()
         {
-            Posts = _dataStore.GetAllPosts();
+            PrivatePosts = _dataStore.GetAllPosts().Where(post => !post.IsPublic);
         }
     }
 }

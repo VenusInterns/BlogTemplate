@@ -11,5 +11,6 @@ namespace BlogTemplate.Models
         public List<Post> Posts { get; set; } = new List<Post>();
         public List<Comment> Comments { get; } = new List<Comment>();
         public object Comment { get; private set; }
+        public IEnumerable<Post> PublicPosts { get; set; }
     }
 }

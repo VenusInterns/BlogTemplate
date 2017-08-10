@@ -27,7 +27,7 @@ namespace BlogTemplate.Pages
         public void OnGet()
         {
             Blog = _blog;
-            _blog.Posts = _dataStore.GetAllPosts();
+            _blog.PublicPosts = _dataStore.GetAllPosts().Where(post=> post.IsPublic);
         }
     }
 }

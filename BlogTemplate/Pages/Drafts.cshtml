@@ -6,16 +6,12 @@
 <h2>@ViewData["Title"]</h2>
 
 <p>This is where you go to edit drafts.</p>
-
 @{
-    foreach (var post in Model.Posts)
+    foreach (var post in Model.PrivatePosts)
     {
-        if (!post.IsPublic)
-        {
-            <article>
-                <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
-                <p>@post.Excerpt</p>
-            </article>
-        }
+        <article>
+            <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
+            <p>@post.Excerpt</p>
+        </article>
     }
 }
