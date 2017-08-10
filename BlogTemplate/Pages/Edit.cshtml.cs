@@ -99,8 +99,7 @@ namespace BlogTemplate.Pages
             }
             newPost.Comments = oldPost.Comments;
 
-            _dataStore.DeletePost(oldPost.Id);
-            _dataStore.SavePost(newPost);
+            _dataStore.UpdatePost(newPost, oldPost);
         }
     }
 }

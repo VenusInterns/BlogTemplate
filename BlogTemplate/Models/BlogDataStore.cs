@@ -286,27 +286,17 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allDrafts);
         }
 
-        public void DeletePost(int id)
+        public void UpdatePost(Post newPost, Post oldPost)
         {
-            string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
-            if (_fileSystem.FileExists(expectedFilePath))
+            if(oldPost.IsPublic)
             {
-                _fileSystem.DeleteFile(expectedFilePath);
+                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.PubDate.ToFileTimeUtc()}_{oldPost.Id}.xml");
             }
             else
             {
-                List<string> files = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
-                foreach (var file in files)
-                {
-                    int start = file.IndexOf("_");
-                    int end = file.IndexOf(".");
-                    string element = file.Substring(start + 1, end - start - 1);
-                    if (element == id.ToString())
-                    {
-                        _fileSystem.DeleteFile(file);
-                    }
-                }
+                _fileSystem.DeleteFile($"{DraftsFolder}\\{oldPost.Id}.xml");
             }
+            SavePost(newPost);
         }
 
         public bool CheckSlugExists(string slug)
