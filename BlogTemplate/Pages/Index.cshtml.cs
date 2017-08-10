@@ -26,6 +26,7 @@ namespace BlogTemplate.Pages
         public IEnumerable<Post> Posts { get; set; }
         public void OnGet()
         {
+            Blog = _blog;
             Posts = _dataStore.GetAllPosts().Where(post=> post.IsPublic);
         }
     }
