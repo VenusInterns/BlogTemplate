@@ -11,7 +11,7 @@ namespace BlogTemplate.Models
 {
     public class Post
     {
-        public int Id;
+        public int Id { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         [Required(ErrorMessage = "Title required")]
         public string Title { get; set; }

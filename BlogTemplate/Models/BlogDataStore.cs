@@ -11,6 +11,8 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
         const string DraftsFolder = "Drafts";
+        private static Object thisLock = new object();
+        private static int CurrentId = 0;
 
         private IFileSystem _fileSystem;
 
@@ -23,6 +25,14 @@ namespace BlogTemplate.Models
         {
             _fileSystem.CreateDirectory(StorageFolder);
             _fileSystem.CreateDirectory(DraftsFolder);
+        }
+
+        public void SetId(Post post)
+        {
+            lock(thisLock)
+            {
+                post.Id = ++CurrentId;
+            }
         }
 
         private static XElement GetCommentsRootNode(XDocument doc)
@@ -60,7 +70,7 @@ namespace BlogTemplate.Models
             XElement commentNode = new XElement("Comment");
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
             commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
-            commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
+            commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
             commentNode.Add(new XElement("CommentBody", comment.Body));
 
             commentNode.Add(new XElement("IsPublic", true));
@@ -80,7 +90,7 @@ namespace BlogTemplate.Models
                     Body = comment.Element("CommentBody").Value,
                     AuthorEmail = comment.Element("AuthorEmail").Value,
 
-                    PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                    PubDate = DateTime.Parse(comment.Element("PubDate").Value),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
 
@@ -136,7 +146,7 @@ namespace BlogTemplate.Models
                 XElement commentNode = new XElement("Comment");
                 commentNode.Add(new XElement("AuthorName", comment.AuthorName));
                 commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
-                commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
+                commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
                 commentNode.Add(new XElement("CommentBody", comment.Body));
                 commentNode.Add(new XElement("IsPublic", comment.IsPublic));
                 commentNode.Add(new XElement("UniqueId", comment.UniqueId));
@@ -168,8 +178,8 @@ namespace BlogTemplate.Models
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
-            rootNode.Add(new XElement("PubDate", post.PubDate.ToString()));
-            rootNode.Add(new XElement("LastModified", post.LastModified.ToString()));
+            rootNode.Add(new XElement("PubDate", post.PubDate.ToString("o")));
+            rootNode.Add(new XElement("LastModified", post.LastModified.ToString("o")));
             rootNode.Add(new XElement("IsPublic", post.IsPublic.ToString()));
             rootNode.Add(new XElement("Excerpt", post.Excerpt));
         }
@@ -216,8 +226,8 @@ namespace BlogTemplate.Models
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
-                PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
-                LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value, culture, System.Globalization.DateTimeStyles.AssumeLocal),
+                PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value),
+                LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
@@ -276,12 +286,26 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allDrafts);
         }
 
-        public void UpdatePost(Post newPost, Post oldPost)
+        public void DeletePost(int id)
         {
-            SavePost(newPost);
-            if (newPost.Slug != oldPost.Slug)
+            string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
+            if (_fileSystem.FileExists(expectedFilePath))
             {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+                _fileSystem.DeleteFile(expectedFilePath);
+            }
+            else
+            {
+                List<string> files = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
+                foreach (var file in files)
+                {
+                    int start = file.IndexOf("_");
+                    int end = file.IndexOf(".");
+                    string element = file.Substring(start + 1, end - start - 1);
+                    if (element == id.ToString())
+                    {
+                        _fileSystem.DeleteFile(file);
+                    }
+                }
             }
         }
 

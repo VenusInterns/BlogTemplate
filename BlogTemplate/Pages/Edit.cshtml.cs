@@ -48,8 +48,9 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostPublish()
         {
             int id = Convert.ToInt32(RouteData.Values["id"]);
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = true;
-            UpdatePost(newPost, id);
+            UpdatePost(id);
             return Redirect($"/Post/{id}/{newPost.Slug}");
         }
 
@@ -57,15 +58,29 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostSaveDraft()
         {
             int id = Convert.ToInt32(RouteData.Values["id"]);
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = false;
-            UpdatePost(newPost, id);
+            UpdatePost(id);
             return Redirect("/Index");
         }
 
-        private void UpdatePost(Post newPost, int id)
+        private void UpdatePost(int id)
         {
+            newPost.Id = id;
             oldPost = _dataStore.GetPost(id);
-            newPost.PubDate = oldPost.PubDate;
+
+            if(oldPost.PubDate.Equals(DateTime.MinValue))
+            {
+                if(newPost.IsPublic == true)
+                {
+                    newPost.PubDate = DateTime.UtcNow;
+                }
+            }
+            else
+            {
+                newPost.PubDate = oldPost.PubDate;
+            }
+
             newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             if (newPost.Excerpt == null)
             {
@@ -84,7 +99,8 @@ namespace BlogTemplate.Pages
             }
             newPost.Comments = oldPost.Comments;
 
-            _dataStore.UpdatePost(newPost, oldPost);
+            _dataStore.DeletePost(oldPost.Id);
+            _dataStore.SavePost(newPost);
         }
     }
 }

@@ -36,8 +36,8 @@ namespace BlogTemplate.Pages
         {
             if (ModelState.IsValid)
             {
-                Post.PubDate = DateTime.Now;
-                Post.LastModified = DateTime.Now;
+                Post.PubDate = DateTime.UtcNow;
+                Post.LastModified = DateTime.UtcNow;
                 Post.IsPublic = true;
                 SavePost(Post);
                 return Redirect("/Index");
@@ -61,7 +61,7 @@ namespace BlogTemplate.Pages
 
         private void SavePost(Post post)
         {
-            Post.Id = ++_blog.CurrentId;
+            _dataStore.SetId(post);
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);

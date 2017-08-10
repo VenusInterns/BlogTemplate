@@ -8,7 +8,6 @@ namespace BlogTemplate.Models
 {
     public class Blog
     {
-        public int CurrentId { get; set; } = 0;
         public List<Post> Posts { get; set; } = new List<Post>();
         public List<Comment> Comments { get; } = new List<Comment>();
         public object Comment { get; private set; }
