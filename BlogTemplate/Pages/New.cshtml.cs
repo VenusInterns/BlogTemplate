@@ -17,12 +17,10 @@ namespace BlogTemplate.Pages
     public class NewModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public NewModel(Blog blog, BlogDataStore dataStore)
+        public NewModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
         public void OnGet()
@@ -67,7 +65,6 @@ namespace BlogTemplate.Pages
             }
 
             _dataStore.SavePost(Post);
-            _blog.Posts.Add(Post);
         }
     }
 }
