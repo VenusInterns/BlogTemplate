@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +14,10 @@ namespace BlogTemplate.Pages
 
     public class PostModel : PageModel
     {
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public PostModel(Blog blog, BlogDataStore dataStore)
+        public PostModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 
@@ -45,6 +43,7 @@ namespace BlogTemplate.Pages
             }
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostPublishComment()
         {
             string slug = RouteData.Values["slug"].ToString();

@@ -14,12 +14,10 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public EditModel(Blog blog, BlogDataStore dataStore)
+        public EditModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 
@@ -44,6 +42,7 @@ namespace BlogTemplate.Pages
             }
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -52,6 +51,7 @@ namespace BlogTemplate.Pages
             return Redirect($"/Post/{newPost.Slug}");
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
             string slug = RouteData.Values["slug"].ToString();
@@ -60,7 +60,7 @@ namespace BlogTemplate.Pages
             return Redirect("/Index");
         }
 
-        public void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(Post newPost, string slug)
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;
