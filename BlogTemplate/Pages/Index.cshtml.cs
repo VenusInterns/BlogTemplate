@@ -48,6 +48,7 @@ namespace BlogTemplate.Pages
             public DateTime PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
-        }
+
+       }
     }
 }
