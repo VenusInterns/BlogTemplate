@@ -34,7 +34,7 @@ namespace BlogTemplate.Models
             List<string> postfiles = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
             foreach (var file in postfiles)
             {
-                int start = file.LastIndexOf("\\");
+                int start = file.IndexOf("_");
                 int end = file.IndexOf(".");
                 int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
                 if(currId > max)
@@ -46,7 +46,7 @@ namespace BlogTemplate.Models
             List<string> draftfiles = _fileSystem.EnumerateFiles($"{DraftsFolder}").ToList();
             foreach(var file in draftfiles)
             {
-                int start = file.IndexOf("_");
+                int start = file.LastIndexOf("\\");               
                 int end = file.IndexOf(".");
                 int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
                 if (currId > max)
@@ -217,7 +217,10 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            SetId(post);
+            if (post.Id == 0)
+            {
+                SetId(post);
+            }
             string outputFilePath;
             if (post.IsPublic == true)
             {
