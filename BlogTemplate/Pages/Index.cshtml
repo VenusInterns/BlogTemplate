@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Home Page";
 
+    @if (Model.IsEmpty)
+    {
+        <h3>Welcome!</h3>
+        <p>Get started and write your first blog post <a href="/New">here.</a></p>
+        <p>Happy blogging!</p>
+    }
+
     foreach (var post in Model.PostSummaries)
     {
         <article>
