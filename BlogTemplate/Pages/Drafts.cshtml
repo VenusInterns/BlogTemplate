@@ -6,7 +6,11 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<p>This is where you go to edit drafts.</p>
+@if (Model.IsEmpty)
+{
+    <p>View and edit your saved drafts here.</p>
+}
+
 @{
     foreach (var post in Model.Posts)
     {
