@@ -49,7 +49,7 @@ namespace BlogTemplate
             services.AddScoped<BlogDataStore>();
 
             services.AddScoped<SlugGenerator>();
-            services.AddScoped<ExcerptGenerator>();
+            services.AddSingleton<ExcerptGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
