@@ -58,7 +58,7 @@ namespace BlogTemplate.Models
             CurrentId = max;
         }
 
-        public void SetId(Post post)
+        private void SetId(Post post)
         {
             lock(thisLock)
             {
