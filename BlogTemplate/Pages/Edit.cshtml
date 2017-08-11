@@ -18,13 +18,15 @@
         {
             <h3>@TempData["notice"]</h3>
         }
+
         <div class="form-group">
             <div class="col-md-6">
-                <label for="Title">Title</></label>
+                <label for="Title">Title</label>
                 <input type="text" class="form-control" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
                 <span asp-validation-for="newPost.Title" class="invalid"></span>
             </div>
         </div>
+
         <input type="hidden" name="updateslug" id="updateslug" value="false" />
         <div class="col-md-12">
             <div class="form-group">
