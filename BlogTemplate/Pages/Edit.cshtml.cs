@@ -15,10 +15,14 @@ namespace BlogTemplate.Pages
     public class EditModel : PageModel
     {
         private BlogDataStore _dataStore;
+        private SlugGenerator _slugGenerator;
+        private ExcerptGenerator _excerptGenerator;
 
-        public EditModel(BlogDataStore dataStore)
+        public EditModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
+            _slugGenerator = slugGenerator;
+            _excerptGenerator = excerptGenerator;
         }
 
         [BindProperty]
@@ -64,17 +68,15 @@ namespace BlogTemplate.Pages
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;
-            newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
+            //newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             if (newPost.Excerpt == null)
             {
-                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
-                newPost.Excerpt = excerptGenerator.CreateExcerpt(newPost.Body, 140);
+                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
             }
 
             if (Request.Form["updateslug"] == "true")
             {
-                SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
-                newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+                newPost.Slug = _slugGenerator.CreateSlug(newPost.Title);
             }
             else
             {

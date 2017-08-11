@@ -11,7 +11,7 @@
 <article>
     <h1>@Model.Post.Title</h1>
     <p name="date" class="date">@Model.Post.PubDate.ToLocalTime().ToShortDateString()</p>
-    <span>@string.Join(", ", Model.Post.Tags)</span>
+    @*<span>@string.Join(", ", Model.Post.Tags)</span>*@
     <p>@Model.Post.Body</p>
 
     <h2>Comments</h2>
