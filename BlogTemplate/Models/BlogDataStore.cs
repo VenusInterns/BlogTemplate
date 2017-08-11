@@ -9,7 +9,7 @@ namespace BlogTemplate.Models
 {
     public class BlogDataStore
     {
-        const string StorageFolder = "BlogFiles\\Posts";
+        const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
         private static int CurrentId = 0;
@@ -24,14 +24,14 @@ namespace BlogTemplate.Models
         }
         public void InitStorageFolder()
         {
-            _fileSystem.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(PostsFolder);
             _fileSystem.CreateDirectory(DraftsFolder);
         }
 
         public void InitCurrentId()
         {
             int max = 0;
-            List<string> postfiles = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
+            List<string> postfiles = _fileSystem.EnumerateFiles($"{PostsFolder}").ToList();
             foreach (var file in postfiles)
             {
                 int start = file.IndexOf("_");
@@ -224,7 +224,7 @@ namespace BlogTemplate.Models
             string outputFilePath;
             if (post.IsPublic == true)
             {
-                outputFilePath = $"{StorageFolder}\\{post.PubDate.ToFileTimeUtc()}_{post.Id}.xml";
+                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTimeUtc()}_{post.Id}.xml";
             }
             else
             {
@@ -280,7 +280,7 @@ namespace BlogTemplate.Models
             }
             else
             {
-                List<string> files = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
+                List<string> files = _fileSystem.EnumerateFiles($"{PostsFolder}").ToList();
                 foreach(var file in files)
                 {
                     int start = file.IndexOf("_");
@@ -307,7 +307,7 @@ namespace BlogTemplate.Models
 
         public List<Post> GetAllPosts()
         {
-            string filePath = $"{StorageFolder}";
+            string filePath = $"{PostsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
             List<Post> allPosts = new List<Post>();
             return IteratePosts(files, allPosts);
@@ -325,7 +325,7 @@ namespace BlogTemplate.Models
         {
             if(oldPost.IsPublic)
             {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.PubDate.ToFileTimeUtc()}_{oldPost.Id}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{oldPost.PubDate.ToFileTimeUtc()}_{oldPost.Id}.xml");
             }
             else
             {
@@ -336,7 +336,7 @@ namespace BlogTemplate.Models
 
         public bool CheckSlugExists(string slug)
         {
-            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
+            return _fileSystem.FileExists($"{PostsFolder}\\{slug}.xml");
         }
     }
 }
