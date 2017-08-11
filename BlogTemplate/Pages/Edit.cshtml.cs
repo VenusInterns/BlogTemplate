@@ -69,7 +69,7 @@ namespace BlogTemplate.Pages
             newPost.Id = id;
             oldPost = _dataStore.GetPost(id);
 
-            if(oldPost.PubDate.Equals(DateTime.MinValue))
+            if(oldPost.PubDate.Equals(default(DateTime)))
             {
                 if(newPost.IsPublic == true)
                 {
