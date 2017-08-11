@@ -1,3 +1,4 @@
+
 @page
 @model DraftsModel
 @{
@@ -5,20 +6,13 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-@if (true)
-{
-    <p>View and edit your saved drafts here.</p>
-}
-
+<p>This is where you go to edit drafts.</p>
 @{
     foreach (var post in Model.Posts)
     {
-        if (!post.IsPublic)
-        {
-            <article>
-                <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
-                <p>@post.Excerpt</p>
-            </article>
-        }
+        <article>
+            <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
+            <p>@post.Excerpt</p>
+        </article>
     }
 }
