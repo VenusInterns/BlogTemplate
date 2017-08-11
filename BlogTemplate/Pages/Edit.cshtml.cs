@@ -14,12 +14,10 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public EditModel(Blog blog, BlogDataStore dataStore)
+        public EditModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 

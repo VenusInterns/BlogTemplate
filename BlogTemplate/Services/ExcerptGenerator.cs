@@ -12,7 +12,7 @@ namespace BlogTemplate.Services
             string excerpt;
             if (body.Length > maxLength)
             {
-                excerpt = body.Substring(0, maxLength-1) + "...";
+                excerpt = body.Substring(0, maxLength) + "...";
             }
             else
             {
