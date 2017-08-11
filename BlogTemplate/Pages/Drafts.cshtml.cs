@@ -21,17 +21,10 @@ namespace BlogTemplate.Pages
         }
 
         public IEnumerable<Post> Posts { get; set; }
-        public bool IsEmpty { get; set; }
 
         public void OnGet()
         {
             Posts = _dataStore.GetAllPosts().Where(post => !post.IsPublic);
-            IsEmpty = true;
-            foreach(var p in Posts)
-            {
-                IsEmpty = false;
-                break;
-            }
         }
     }
 }

@@ -115,17 +115,17 @@ namespace BlogTemplate.Models
             return null;
         }
 
-        public XElement AddTags(Post post, XElement rootNode)
-        {
-            XElement tagsNode = new XElement("Tags");
-            foreach (string tag in post.Tags)
-            {
-                tagsNode.Add(new XElement("Tag", tag));
-            }
-            rootNode.Add(tagsNode);
+        //public XElement AddTags(Post post, XElement rootNode)
+        //{
+        //    XElement tagsNode = new XElement("Tags");
+        //    foreach (string tag in post.Tags)
+        //    {
+        //        tagsNode.Add(new XElement("Tag", tag));
+        //    }
+        //    rootNode.Add(tagsNode);
 
-            return rootNode;
-        }
+        //    return rootNode;
+        //}
 
         public XElement AddComments(Post post, XElement rootNode)
         {
@@ -146,20 +146,20 @@ namespace BlogTemplate.Models
 
             return rootNode;
         }
-        public List<string> GetTags(XDocument doc)
-        {
-            List<string> tags = new List<string>();
-            IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
-            if (tagElements.Any())
-            {
-                foreach (string tag in tagElements)
-                {
-                    tags.Add(tag);
-                }
-            }
+        //public List<string> GetTags(XDocument doc)
+        //{
+        //    List<string> tags = new List<string>();
+        //    IEnumerable<XElement> tagElements = doc.Root.Element("Tags").Elements("Tag");
+        //    if (tagElements.Any())
+        //    {
+        //        foreach (string tag in tagElements)
+        //        {
+        //            tags.Add(tag);
+        //        }
+        //    }
 
-            return tags;
-        }
+        //    return tags;
+        //}
 
 
         public void AppendPostInfo(XElement rootNode, Post post)
@@ -181,7 +181,7 @@ namespace BlogTemplate.Models
 
             AppendPostInfo(rootNode, post);
             AddComments(post, rootNode);
-            AddTags(post, rootNode);
+            //AddTags(post, rootNode);
             doc.Add(rootNode);
 
             using (MemoryStream ms = new MemoryStream())
@@ -212,7 +212,7 @@ namespace BlogTemplate.Models
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(post.Slug);
-            post.Tags = GetTags(doc);
+            //post.Tags = GetTags(doc);
             return post;
         }
 
@@ -243,7 +243,7 @@ namespace BlogTemplate.Models
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
                 post.Comments = GetAllComments(post.Slug);
-                post.Tags = GetTags(doc);
+                //post.Tags = GetTags(doc);
                 allPosts.Add(post);
             }
             return allPosts;

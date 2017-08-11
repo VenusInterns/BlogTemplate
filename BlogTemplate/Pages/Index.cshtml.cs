@@ -15,7 +15,6 @@ namespace BlogTemplate.Pages
 
         private BlogDataStore _dataStore;
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
-        public bool IsEmpty { get; set; }
 
         public IndexModel(BlogDataStore dataStore)
         {
@@ -32,12 +31,6 @@ namespace BlogTemplate.Pages
             }
 
             IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
-            IsEmpty = true;
-            foreach (var p in postModels)
-            {
-                IsEmpty = false;
-                break;
-            }
 
             PostSummaries = postModels.Select(p => new PostSummaryModel {
                 Slug = p.Slug,

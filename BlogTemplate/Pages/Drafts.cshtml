@@ -6,7 +6,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-@if (Model.IsEmpty)
+@if (!Model.Posts.Any())
 {
     <p>View and edit your saved drafts here.</p>
 }

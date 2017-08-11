@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
 
-    @if (Model.IsEmpty)
+    @if (!Model.PostSummaries.Any())
     {
         <h3>Welcome!</h3>
         <p>Get started and write your first blog post <a href="/New">here.</a></p>
