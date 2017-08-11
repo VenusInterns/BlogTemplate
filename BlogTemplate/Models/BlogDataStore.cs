@@ -69,9 +69,13 @@ namespace BlogTemplate.Models
 
         private void SetId(Post post)
         {
-            lock(thisLock)
+            if(post.Id == 0)
             {
-                post.Id = ++CurrentId;
+                lock (thisLock)
+                {
+                    post.Id = ++CurrentId;
+                }
+
             }
         }
 
@@ -226,10 +230,7 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            if (post.Id == 0)
-            {
-                SetId(post);
-            }
+            SetId(post);
             string outputFilePath;
             if (post.IsPublic == true)
             {
