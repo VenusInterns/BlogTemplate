@@ -13,7 +13,7 @@ namespace BlogTemplate.Tests.Model
     public class BlogDataStoreTests
     {
         [Fact]
-        public void SetId_SetIdTwoPosts_IncrementsId()
+        public void SavePost_SetIdTwoPosts_IncrementsId()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
@@ -22,16 +22,20 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-Post-Slug",
                 Title = "Test Title",
                 Body = "Test contents",
+                IsPublic = true,
+                PubDate = DateTime.UtcNow
             };
             Post testPost2 = new Post
             {
                 Slug = "Test-Post-Slug",
                 Title = "Test Title",
                 Body = "Test contents",
+                IsPublic = true,
+                PubDate = DateTime.UtcNow
             };
 
-            testDataStore.SetId(testPost1);
-            testDataStore.SetId(testPost2);
+            testDataStore.SavePost(testPost1);
+            testDataStore.SavePost(testPost2);
 
             Assert.Equal(testPost2.Id, testPost1.Id + 1);
         }
@@ -48,11 +52,10 @@ namespace BlogTemplate.Tests.Model
                 Body = "Test contents",
                 IsPublic = true
             };
-            testDataStore.SetId(testPost);
             testPost.PubDate = DateTime.UtcNow;
             testDataStore.SavePost(testPost);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
             Post result = testDataStore.GetPost(testPost.Id);
             Assert.Equal("Test-Post-Slug", result.Slug);
             Assert.Equal("Test Title", result.Title);
@@ -82,12 +85,11 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true
 
             };
-            testDataStore.SetId(testPost);
             testPost.PubDate = DateTime.UtcNow;
             testDataStore.SavePost(testPost);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
-            StringReader xmlFileContents = new StringReader(testFileSystem.ReadFileText($"BlogFiles\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
+            StringReader xmlFileContents = new StringReader(testFileSystem.ReadFileText($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml"));
             XDocument doc = XDocument.Load(xmlFileContents);
             Assert.True(doc.Root.Elements("Comments").Any());
         }
@@ -114,7 +116,6 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true,
                 Excerpt = "Test excerpt",
             };
-            testDataStore.SetId(test);
             test.Comments.Add(comment);
             testDataStore.SavePost(test);
             Post result = testDataStore.GetPost(test.Id);
@@ -172,7 +173,7 @@ namespace BlogTemplate.Tests.Model
             testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
 
-            string text = testFileSystem.ReadFileText($"BlogFiles\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml");
+            string text = testFileSystem.ReadFileText($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTimeUtc()}_{testPost.Id}.xml");
             StringReader reader = new StringReader(text);
 
             XDocument doc = XDocument.Load(reader);
@@ -250,6 +251,50 @@ namespace BlogTemplate.Tests.Model
 
             Assert.Equal(testPost.Comments.Count, 2);
             Assert.Equal(newcom.UniqueId, comment1.UniqueId);
+        }
+
+        [Fact]
+        public void Constructor_InitCurrentId_UsesNextAvailableId()
+        {
+            IFileSystem fileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore1 = new BlogDataStore(fileSystem);
+            Post testPost1 = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            Post testPost2 = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            testDataStore1.SavePost(testPost1);
+            testDataStore1.SavePost(testPost2);
+
+            BlogDataStore testDataStore2 = new BlogDataStore(fileSystem);
+            Post testPost3 = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            testDataStore2.SavePost(testPost3);
+
+            Assert.Equal(testPost3.Id, testPost2.Id + 1);
         }
     }
 }
