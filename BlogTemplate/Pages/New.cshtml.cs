@@ -61,7 +61,6 @@ namespace BlogTemplate.Pages
 
         private void SavePost(Post post)
         {
-            _dataStore.SetId(post);
             Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
 
             SlugGenerator slugGenerator = new SlugGenerator(_dataStore);

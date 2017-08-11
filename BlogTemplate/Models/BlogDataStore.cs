@@ -9,8 +9,8 @@ namespace BlogTemplate.Models
 {
     public class BlogDataStore
     {
-        const string StorageFolder = "BlogFiles";
-        const string DraftsFolder = "Drafts";
+        const string StorageFolder = "BlogFiles\\Posts";
+        const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
         private static int CurrentId = 0;
 
@@ -20,11 +20,42 @@ namespace BlogTemplate.Models
         {
             _fileSystem = fileSystem;
             InitStorageFolder();
+            InitCurrentId();
         }
         public void InitStorageFolder()
         {
             _fileSystem.CreateDirectory(StorageFolder);
             _fileSystem.CreateDirectory(DraftsFolder);
+        }
+
+        public void InitCurrentId()
+        {
+            int max = 0;
+            List<string> postfiles = _fileSystem.EnumerateFiles($"{StorageFolder}").ToList();
+            foreach (var file in postfiles)
+            {
+                int start = file.LastIndexOf("\\");
+                int end = file.IndexOf(".");
+                int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
+                if(currId > max)
+                {
+                    max = currId;
+                }
+            }
+
+            List<string> draftfiles = _fileSystem.EnumerateFiles($"{DraftsFolder}").ToList();
+            foreach(var file in draftfiles)
+            {
+                int start = file.IndexOf("_");
+                int end = file.IndexOf(".");
+                int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
+                if (currId > max)
+                {
+                    max = currId;
+                }
+            }
+
+            CurrentId = max;
         }
 
         public void SetId(Post post)
@@ -186,6 +217,7 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
+            SetId(post);
             string outputFilePath;
             if (post.IsPublic == true)
             {
