@@ -25,11 +25,6 @@ namespace BlogTemplate.Pages
         public void OnGet()
         {
             Func<Post, bool> postFilter = p => p.IsPublic;
-            if(User.Identity.IsAuthenticated)
-            {
-                postFilter = p => true;
-            }
-
             IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
 
             PostSummaries = postModels.Select(p => new PostSummaryModel {
