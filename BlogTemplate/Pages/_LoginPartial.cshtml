@@ -5,6 +5,8 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <li class="nav"><a asp-page="/New">New Post</a></li>
+    <li class="nav"><a asp-page="/Drafts">Drafts</a></li>
     <li class="nav"><a asp-page="/Account/Manage/Index">Owner Settings</a></li>
     <li class="nav">
         <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
