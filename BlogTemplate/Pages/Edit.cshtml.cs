@@ -28,14 +28,8 @@ namespace BlogTemplate.Pages
 
         public Post oldPost { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            int id = Convert.ToInt32(RouteData.Values["id"]);
             newPost = oldPost = _dataStore.GetPost(id);
 
             if (oldPost == null)
@@ -44,10 +38,10 @@ namespace BlogTemplate.Pages
             }
         }
 
+
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublish([FromRoute] int id)
         {
-            int id = Convert.ToInt32(RouteData.Values["id"]);
             oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = true;
             UpdatePost(id);
@@ -55,9 +49,8 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft()
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
-            int id = Convert.ToInt32(RouteData.Values["id"]);
             oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = false;
             UpdatePost(id);

@@ -28,15 +28,8 @@ namespace BlogTemplate.Pages
 
         public Post Post { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            int id = Convert.ToInt32(RouteData.Values["id"]);
-
             Post = _dataStore.GetPost(id);
 
             if (Post == null)
@@ -46,10 +39,8 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment()
+        public IActionResult OnPostPublishComment([FromRoute] int id)
         {
-            int id = Convert.ToInt32(RouteData.Values["id"]);
-
             Post = _dataStore.GetPost(id);
 
             if (Post == null)
