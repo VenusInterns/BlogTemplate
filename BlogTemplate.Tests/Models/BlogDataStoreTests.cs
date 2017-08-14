@@ -254,11 +254,15 @@ namespace BlogTemplate.Tests.Model
         }
 
         [Fact]
-        public void Constructor_InitCurrentId_UsesNextAvailableId()
+        public void Constructor_FileExistsInPostsFolder_UsesNextAvailableId()
         {
             IFileSystem fileSystem = new FakeFileSystem();
-            BlogDataStore testDataStore1 = new BlogDataStore(fileSystem);
-            Post testPost1 = new Post
+            int count = fileSystem.EnumerateFiles("BlogFiles\\Posts").Count();
+            ((FakeFileSystem)fileSystem).AddFile($"BlogFiles\\Posts\\date_{count + 1}.xml", "");
+            
+            BlogDataStore testDataStore = new BlogDataStore(fileSystem);
+            
+            Post testPost = new Post
             {
                 Slug = "Test-slug",
                 Title = "Test title",
@@ -268,33 +272,9 @@ namespace BlogTemplate.Tests.Model
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
-            Post testPost2 = new Post
-            {
-                Slug = "Test-slug",
-                Title = "Test title",
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt"
-            };
-            testDataStore1.SavePost(testPost1);
-            testDataStore1.SavePost(testPost2);
+            testDataStore.SavePost(testPost);
 
-            BlogDataStore testDataStore2 = new BlogDataStore(fileSystem);
-            Post testPost3 = new Post
-            {
-                Slug = "Test-slug",
-                Title = "Test title",
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt"
-            };
-            testDataStore2.SavePost(testPost3);
-
-            Assert.Equal(testPost3.Id, testPost2.Id + 1);
+            Assert.Equal(count + 2, testPost.Id);
         }
     }
 }
