@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
 using Xunit;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using BlogTemplate.Tests.Fakes;
+using BlogTemplate._1.Tests.Fakes;
 
-namespace BlogTemplate.Tests.Model
+namespace BlogTemplate._1.Tests.Model
 {
     public class BlogDataStoreTests
     {

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogTemplate.Services
+namespace BlogTemplate._1.Services
 {
     public interface IEmailSender
     {

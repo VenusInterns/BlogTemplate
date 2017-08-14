@@ -1,0 +1,18 @@
+{
+  "author": "Me",
+  "classifications": [],
+  "name": "Blog Template",
+  "groupIdentity": "Microsoft.DotNet.Web.BlogTemplate",
+  "identity": "Microsoft.DotNet.Web.BlogTemplate.CSharp",
+  "shortName": "blog",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "BlogTemplate.1",
+  "guids": [],
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    { "path": "BlogTemplate.1.csproj" }
+  ]
+}

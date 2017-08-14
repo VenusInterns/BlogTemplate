@@ -1,9 +1,9 @@
-﻿using BlogTemplate.Models;
-using BlogTemplate.Services;
-using BlogTemplate.Tests.Fakes;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using BlogTemplate._1.Tests.Fakes;
 using Xunit;
 
-namespace BlogTemplate.Tests.Services
+namespace BlogTemplate._1.Tests.Services
 {
     public class SlugGeneratorTests
     {

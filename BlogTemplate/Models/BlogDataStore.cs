@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class BlogDataStore
     {

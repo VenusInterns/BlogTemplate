@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
 
 using Microsoft.AspNetCore.Authorization;
 
-using BlogTemplate.Services;
+using BlogTemplate._1.Services;
 
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class NewModel : PageModel
