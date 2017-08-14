@@ -3,20 +3,21 @@
 @model DraftsModel
 @{
     ViewData["Title"] = "Drafts";
-}
-<h2>@ViewData["Title"]</h2>
+    <h2>@ViewData["Title"]</h2>
 
-@if (!Model.Posts.Any())
-{
-    <p>View and edit your saved drafts here.</p>
-}
-
-@{
-    foreach (var post in Model.Posts)
+    if (!Model.Posts.Any())
     {
-        <article>
-            <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
-            <p>@post.Excerpt</p>
-        </article>
+        <p>View and edit your saved drafts here.</p>
+    }
+
+    else
+    {
+        foreach (var post in Model.Posts)
+        {
+            <article>
+                <h2><a href="/edit/@post.Slug">@post.Title</a></h2>
+                <p>@post.Excerpt</p>
+            </article>
+        }
     }
 }
