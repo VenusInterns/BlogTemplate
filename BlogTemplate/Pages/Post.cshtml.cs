@@ -14,7 +14,7 @@ namespace BlogTemplate.Pages
 
     public class PostModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public PostModel(BlogDataStore dataStore)
         {

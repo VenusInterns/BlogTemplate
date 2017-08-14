@@ -12,7 +12,7 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class ManageCommentModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public ManageCommentModel(BlogDataStore dataStore)
         {

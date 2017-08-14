@@ -14,7 +14,7 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public EditModel(BlogDataStore dataStore)
         {

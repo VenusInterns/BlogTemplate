@@ -17,7 +17,8 @@ namespace BlogTemplate.Pages
     public class NewModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
-        private BlogDataStore _dataStore;
+
+        private readonly BlogDataStore _dataStore;
 
         public NewModel(BlogDataStore dataStore)
         {

@@ -11,7 +11,7 @@ namespace BlogTemplate.Models
     {
         const string StorageFolder = "BlogFiles";
 
-        private IFileSystem _fileSystem;
+        private readonly IFileSystem _fileSystem;
 
         public BlogDataStore(IFileSystem fileSystem)
         {
