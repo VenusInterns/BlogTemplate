@@ -18,7 +18,6 @@ namespace BlogTemplate._1.Models
         public string Body { get; set; }
         public DateTime PubDate { get; set; } = DateTime.UtcNow;
         public DateTime LastModified { get; set; } = DateTime.UtcNow;
-        public List<string> Tags { get; set; } = new List<string>();
         public string Slug{ get; set; }
         public bool IsPublic { get; set; }
         public string Excerpt { get; set; }

@@ -14,12 +14,10 @@ namespace BlogTemplate._1.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public EditModel(Blog blog, BlogDataStore dataStore)
+        public EditModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 
@@ -66,7 +64,6 @@ namespace BlogTemplate._1.Pages
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;
-            newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             if (newPost.Excerpt == null)
             {
                 ExcerptGenerator excerptGenerator = new ExcerptGenerator();

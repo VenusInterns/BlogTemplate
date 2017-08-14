@@ -298,5 +298,55 @@ namespace BlogTemplate._1.Tests.Model
             Assert.False(testFileSystem.FileExists(@"BlogFiles\Old-Title.xml"));
             Assert.NotEmpty(comments);
         }
+
+        [Fact]
+        public void UpdatePost_TitleIsUpdated_UpdateSlug()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            Post oldPost = new Post
+            {
+                Slug = "Old-Title",
+            };
+
+            Post newPost = new Post
+            {
+                Slug = "New-Title",
+            };
+
+            testDataStore.SavePost(oldPost);
+            testDataStore.UpdatePost(newPost, oldPost);
+
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\New-Title.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\New-Title.xml");
+            Assert.False(testFileSystem.FileExists($"BlogFiles\\Old-Title.xml"));
+        }
+
+        [Fact]
+        public void UpdatePost_TitleIsUpdated_KeepSlug()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            Post oldPost = new Post
+            {
+                Slug = "Old-Title",
+                Title = "Old Title",
+            };
+
+            Post newPost = new Post
+            {
+                Slug = "Old-Title",
+                Title = "New Title",
+            };
+
+            testDataStore.SavePost(oldPost);
+            testDataStore.UpdatePost(newPost, oldPost);
+
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\Old-Title.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Old-Title.xml");
+            Assert.Equal(result.Title, "New Title");
+        }
     }
 }

@@ -14,12 +14,10 @@ namespace BlogTemplate._1.Pages
 
     public class PostModel : PageModel
     {
-        private Blog _blog;
         private BlogDataStore _dataStore;
 
-        public PostModel(Blog blog, BlogDataStore dataStore)
+        public PostModel(BlogDataStore dataStore)
         {
-            _blog = blog;
             _dataStore = dataStore;
         }
 

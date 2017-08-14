@@ -1,41 +1,39 @@
 @page
-@using BlogTemplate._1
-@using BlogTemplate._1.Models
-@inject Blog Blog
+@using BlogTemplate
+@using BlogTemplate.Models
 @model NewModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
 @{
     ViewData["Title"] = "New Blog Post";
-    string tagsString;
-    if (Model.Post != null)
-    {
-        tagsString = string.Join(", ", Model.Post.Tags);
-    }
-    else
-    {
-        tagsString = string.Empty;
-    }
 }
 
 <h2>Write a New Post</h2>
 <form method="POST">
     <div asp-validation-summary="All"></div>
-    <label for="Title" class="primaryField">Title</></label>
-    <br />
-    <input type="text" placeholder="" asp-for="Post.Title" />
-    <span asp-validation-for="Post.Title" class="invalid"></span>
-    <br />
-    <label for="Body" class="primaryField">Body</label>
-    <textarea placeholder="" asp-for="Post.Body"></textarea>
-    <span asp-validation-for="Post.Body" class="invalid"></span>
-    <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-    <textarea placeholder="" asp-for="Post.Excerpt"></textarea>
-    <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
-    <br />
-    <input type="text" name="Tags" asp-for="@tagsString"/>
-    <br />
-    <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
-    <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
+    <div class="form-group">
+        <div class="col-md-6">
+            <label for="Title">Title</></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
+            <span asp-validation-for="Post.Title" class="invalid"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="Body" class="primaryField">Body</label>
+            <textarea class="form-control" placeholder="" asp-for="Post.Body"></textarea>
+            <span asp-validation-for="Post.Body" class="invalid"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+            <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
+        <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+    </div>
 </form>

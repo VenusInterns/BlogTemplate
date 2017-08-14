@@ -45,7 +45,6 @@ namespace BlogTemplate._1
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
 
-            services.AddSingleton<Blog>();
             services.AddSingleton<IFileSystem, PhysicalFileSystem>();
             services.AddScoped<BlogDataStore>();
         }

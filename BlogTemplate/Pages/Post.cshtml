@@ -11,7 +11,6 @@
 <article>
     <h1>@Model.Post.Title</h1>
     <p name="date" class="date">@Model.Post.PubDate.ToLocalTime().ToShortDateString()</p>
-    <span>@string.Join(", ", Model.Post.Tags)</span>
     <p>@Model.Post.Body</p>
 
     <h2>Comments</h2>
@@ -23,70 +22,65 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-    <a href="/edit/@Model.Post.Slug">Edit Post</a>
-    @foreach (var comment in Model.Post.Comments)
-    {
-    string cssClass = comment.IsPublic ? "" : "deletedContent";
-    <form id="form1" method="post">
-        <div class="@cssClass">
-            <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-            <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
-            <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
-            <p name="Comment-Body" class="commentBody">@comment.Body</p>
-            <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-            <input type="hidden" name="slug" value="@Model.Post.Slug" />
-            @if (comment.IsPublic)
-            {
-            <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
-            }
-            else
-            {
-            <input type="submit" name="delete" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
-            }
-        </div>
-    </form>
-    }
+        <a href="/edit/@Model.Post.Slug">Edit Post</a>
+        @foreach (var comment in Model.Post.Comments)
+        {
+            string cssClass = comment.IsPublic ? "" : "deletedContent";
+            <form id="form1" method="post">
+                <div class="@cssClass">
+                    <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
+                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+                    <p name="Comment-Body" class="commentBody">@comment.Body</p>
+                    <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                    <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                    @if (comment.IsPublic)
+                    {
+                        <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
+                    }
+                    else
+                    {
+                        <input type="submit" name="delete" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
+                    }
+                </div>
+            </form>
+        }
     }
     else
     {
-    @foreach (var comment in Model.Post.Comments)
-    {
-    @if (comment.IsPublic)
-    {
-    <form id="form1" method="post">
-        <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-        <p name="Comment-Body" class="commentBody">@comment.AuthorEmail</p>
-        <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
-        <p name="Comment-Body" class="commentBody">@comment.Body</p>
-        <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-        <input type="hidden" name="slug" value="@Model.Post.Slug" />
-    </form>
-    }
-    }
+        @foreach (var comment in Model.Post.Comments)
+        {
+            @if (comment.IsPublic)
+            {
+                <form id="form1" method="post">
+                    <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
+                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+                    <p name="Comment-Body" class="commentBody">@comment.Body</p>
+                    <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                    <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                </form>
+            }
+        }
     }
 
     <hr class="commentsDivider" />
     @if (Model.Post.IsPublic)
     {
         <h3>Add Comment</h3>
-        <form id="form1" method="post">
-            <div asp-validation-summary="All"></div>
-            <label for="AuthorName" class="primaryField">Name</label>
-            <br />
-            <input type="text" placeholder="" asp-for="Comment.AuthorName" />
-            <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
-            <br />
-            <label for="AuthorEmail" class="primaryField">Email</label>
-            <br />
-            <input type="text" placeholder="" asp-for="Comment.AuthorEmail" />
-            <span asp-validation-for="Comment.AuthorEmail" class="invalid"></span>
-            <br />
-            <label for="Body" class="primaryField">Comment</label>
-            <br />
-            <textarea placeholder="" asp-for="Comment.Body"></textarea>
-            <span asp-validation-for="Comment.Body" class="invalid"></span>
-            <br />
-            <input type="submit" name="publish" value="Publish" asp-page-handler="PublishComment" />
-        </form>
+        <div class="col-md-6">
+            <form id="comment-form" method="post">
+                <div asp-validation-summary="All"></div>
+                <div class="form-group">
+                    <label for="AuthorName">Name</label>
+                    <input type="text" class="form-control" placeholder="" asp-for="Comment.AuthorName" />
+                    <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Body">Comment</label>
+                    <textarea placeholder="" class="form-control" asp-for="Comment.Body"></textarea>
+                    <span asp-validation-for="Comment.Body" class="invalid"></span>
+                </div>
+                <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
+            </form>
+        </div>
     }
 </article>

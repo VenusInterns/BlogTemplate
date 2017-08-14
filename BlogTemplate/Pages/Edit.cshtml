@@ -1,7 +1,6 @@
 @page "{slug}"
-@using BlogTemplate._1
-@using BlogTemplate._1.Models
-@inject Blog Blog
+@using BlogTemplate
+@using BlogTemplate.Models
 @model EditModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
@@ -18,27 +17,37 @@
         {
             <h3>@TempData["notice"]</h3>
         }
-        <label for="Title" class="primaryField">Title</></label>
-        <br />
-        <input type="text" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
-        <span asp-validation-for="newPost.Title" class="invalid"></span>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="Title">Title</></label>
+                <input type="text" class="form-control" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
+                <span asp-validation-for="newPost.Title" class="invalid"></span>
+            </div>
+        </div>
         <input type="hidden" name="updateslug" id="updateslug" value="false" />
-        <br />
-        <label for="Body" class="primaryField">Body</label>
-        <textarea placeholder="" asp-for="newPost.Body"></textarea>
-        <span asp-validation-for="newPost.Body" class="invalid"></span>
-        <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-        <textarea placeholder="" asp-for="newPost.Excerpt"></textarea>
-        <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
-        <br />
-        <input type="text" name="Tags" value="@string.Join(", ", Model.newPost.Tags)" />
-        <br />
-        <input type="submit" name="save" value="Save Draft" asp-page-handler="SaveDraft" />
-        <input type="submit" name="publish" value="Publish" asp-page-handler="Publish" />
-        <p><a href="/Index">Cancel</a></p>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Body" class="primaryField">Body</label>
+                <textarea class="form-control" placeholder="" asp-for="newPost.Body"></textarea>
+                <span asp-validation-for="newPost.Body" class="invalid"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+                <textarea class="form-control" placeholder="" asp-for="newPost.Excerpt"></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
+            <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+        </div>
+        <div class="col-md-12">
+            <p><a href="/Index">Cancel</a></p>
+        </div>
     </form>
 </article>
 
 @section Scripts {
-    <script src="~/js/slugUpdateWarning.js" ></script>
+    <script src="~/js/slugUpdateWarning.js"></script>
 }

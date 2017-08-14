@@ -1,16 +1,18 @@
-﻿@page
+
+@page
 @model DraftsModel
 @{
     ViewData["Title"] = "Drafts";
-}
-<h2>@ViewData["Title"]</h2>
+    <h2>@ViewData["Title"]</h2>
 
-<p>This is where you go to edit drafts.</p>
-
-@{
-    foreach (var post in Model.Posts)
+    if (!Model.Posts.Any())
     {
-        if (!post.IsPublic)
+        <p>View and edit your saved drafts here.</p>
+    }
+
+    else
+    {
+        foreach (var post in Model.Posts)
         {
             <article>
                 <h2><a href="/edit/@post.Slug">@post.Title</a></h2>

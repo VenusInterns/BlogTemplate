@@ -59,7 +59,6 @@ namespace BlogTemplate._1.Models
             XElement commentsNode = GetCommentsRootNode(doc);
             XElement commentNode = new XElement("Comment");
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-            commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
             commentNode.Add(new XElement("CommentBody", comment.Body));
 
@@ -78,7 +77,6 @@ namespace BlogTemplate._1.Models
                 {
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
-                    AuthorEmail = comment.Element("AuthorEmail").Value,
 
                     PubDate = DateTime.Parse((comment.Element("PubDate").Value), culture, System.Globalization.DateTimeStyles.AssumeLocal),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
@@ -115,18 +113,6 @@ namespace BlogTemplate._1.Models
             return null;
         }
 
-        public XElement AddTags(Post post, XElement rootNode)
-        {
-            XElement tagsNode = new XElement("Tags");
-            foreach (string tag in post.Tags)
-            {
-                tagsNode.Add(new XElement("Tag", tag));
-            }
-            rootNode.Add(tagsNode);
-
-            return rootNode;
-        }
-
         public XElement AddComments(Post post, XElement rootNode)
         {
             XElement commentsNode = new XElement("Comments");
@@ -135,7 +121,6 @@ namespace BlogTemplate._1.Models
             {
                 XElement commentNode = new XElement("Comment");
                 commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
                 commentNode.Add(new XElement("PubDate", comment.PubDate.ToString()));
                 commentNode.Add(new XElement("CommentBody", comment.Body));
                 commentNode.Add(new XElement("IsPublic", comment.IsPublic));
@@ -181,7 +166,6 @@ namespace BlogTemplate._1.Models
 
             AppendPostInfo(rootNode, post);
             AddComments(post, rootNode);
-            AddTags(post, rootNode);
             doc.Add(rootNode);
 
             using (MemoryStream ms = new MemoryStream())
@@ -212,7 +196,6 @@ namespace BlogTemplate._1.Models
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(post.Slug);
-            post.Tags = GetTags(doc);
             return post;
         }
 
@@ -243,7 +226,6 @@ namespace BlogTemplate._1.Models
                 post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
                 post.Excerpt = doc.Root.Element("Excerpt").Value;
                 post.Comments = GetAllComments(post.Slug);
-                post.Tags = GetTags(doc);
                 allPosts.Add(post);
             }
             return allPosts;
