@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Authorization;
-using BlogTemplate.Services;
+using BlogTemplate._1.Services;
 
 
 namespace BlogTemplate._1.Pages
