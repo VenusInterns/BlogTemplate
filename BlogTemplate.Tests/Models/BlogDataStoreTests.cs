@@ -42,8 +42,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-slug",
                 Title = "Test title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
@@ -53,7 +53,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "Test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
 
             };
@@ -75,7 +75,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             Post test = new Post
@@ -83,8 +83,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-Title",
                 Title = "Test Title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt",
             };
@@ -119,8 +119,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-slug",
                 Title = "Test title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
@@ -129,7 +129,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             var comment2 = new Comment
@@ -137,7 +137,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             testPost.Comments.Add(comment1);
@@ -157,8 +157,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-slug",
                 Title = "Test title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
@@ -167,8 +167,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-slug",
                 Title = "Test title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
@@ -189,8 +189,8 @@ namespace BlogTemplate.Tests.Model
                 Slug = "Test-slug",
                 Title = "Test title",
                 Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
+                LastModified = DateTimeOffset.UtcNow,
                 IsPublic = true,
                 Excerpt = "Test excerpt"
             };
@@ -199,7 +199,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             var comment2 = new Comment
@@ -207,7 +207,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             testPost.Comments.Add(comment1);
@@ -275,7 +275,7 @@ namespace BlogTemplate.Tests.Model
                 AuthorName = "Test name",
                 AuthorEmail = "Test email",
                 Body = "test body",
-                PubDate = DateTime.Now,
+                PubDate = DateTimeOffset.UtcNow,
                 IsPublic = true
             };
             Post newPost = new Post
