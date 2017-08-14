@@ -14,6 +14,7 @@ namespace BlogTemplate.Pages
         const string StorageFolder = "BlogFiles";
 
         private BlogDataStore _dataStore;
+
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 
         public IndexModel(BlogDataStore dataStore)
