@@ -7,15 +7,6 @@
 
 @{
     ViewData["Title"] = "New Blog Post";
-    string tagsString;
-    if (Model.Post != null)
-    {
-        tagsString = string.Join(", ", Model.Post.Tags);
-    }
-    else
-    {
-        tagsString = string.Empty;
-    }
 }
 
 <h2>Write a New Post</h2>
@@ -39,12 +30,6 @@
         <div class="form-group">
             <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
             <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
-            <input type="text" class="form-control" placeholder="" asp-for="@tagsString" />
         </div>
     </div>
     <div class="col-md-12">
