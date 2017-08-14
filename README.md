@@ -25,6 +25,6 @@ We hope the above features make this a tool that developers can use to speed up 
 ### Using the Template
 * [Visual Studio](https://www.visualstudio.com/vs/)
 * Make sure to install the following workloads to get started:
-** ASP.NET and web development
-** [Latest .NET Core cross-platform development](https://www.microsoft.com/net/)
-** [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)
+    * ASP.NET and web development
+    * [Latest .NET Core cross-platform development](https://www.microsoft.com/net/)
+    * [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)
