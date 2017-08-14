@@ -16,7 +16,7 @@ namespace BlogTemplate.Models
         public string AuthorEmail { get; set; }
         [Required(ErrorMessage = "Comment text required")]
         public string Body { get; set; }
-        public DateTime PubDate { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset PubDate { get; set; } = DateTimeOffset.UtcNow;
         public bool IsPublic { get; set; }
         public Guid UniqueId { get; set; }
     }
