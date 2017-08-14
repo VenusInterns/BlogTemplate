@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BlogTemplate.Models;
 
@@ -20,10 +21,13 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string tempTitle = title;
-            char[] invalidChars = Path.GetInvalidFileNameChars();
-            foreach (char c in invalidChars)
+            Regex allowList = new Regex("[a-zA-Z0-9,.;:_'\\s-]*");
+            foreach (char c in tempTitle)
             {
-                tempTitle = tempTitle.Replace(c.ToString(), "");
+                if (!allowList.IsMatch(c.ToString()))
+                {
+                    tempTitle = tempTitle.Replace(c.ToString(), "");
+                }
             }
             string slug = tempTitle.Replace(" ", "-");
             int count = 0;
