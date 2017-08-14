@@ -45,7 +45,7 @@ namespace BlogTemplate.Pages.Account
         {
             if (code == null)
             {
-                throw new ApplicationException("A code must be supplied for password reset.");
+                throw new FieldAccessException("A code must be supplied for password reset.");
             }
             else
             {
