@@ -17,15 +17,13 @@
         {
             <h3>@TempData["notice"]</h3>
         }
-
         <div class="form-group">
             <div class="col-md-6">
-                <label for="Title">Title</label>
+                <label for="Title">Title</></label>
                 <input type="text" class="form-control" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
                 <span asp-validation-for="newPost.Title" class="invalid"></span>
             </div>
         </div>
-
         <input type="hidden" name="updateslug" id="updateslug" value="false" />
         <div class="col-md-12">
             <div class="form-group">
@@ -38,12 +36,6 @@
             <div class="form-group">
                 <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
                 <textarea class="form-control" placeholder="" asp-for="newPost.Excerpt"></textarea>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="Tags" class="secondaryField">Tags (separated by comma)</label>
-                <input type="text" class="form-control" value="@string.Join(", ", Model.newPost.Tags)" />
             </div>
         </div>
         <div class="col-md-12">
