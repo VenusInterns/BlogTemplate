@@ -16,8 +16,8 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
         private BlogDataStore _dataStore;
-        private SlugGenerator _slugGenerator;
-        private ExcerptGenerator _excerptGenerator;
+        private readonly SlugGenerator _slugGenerator;
+        private readonly ExcerptGenerator _excerptGenerator;
 
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -55,8 +55,6 @@ namespace BlogTemplate.Pages
 
         private void SavePost(Post post)
         {
-            //Post.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
-
             Post.Slug = _slugGenerator.CreateSlug(Post.Title);
 
             if (string.IsNullOrEmpty(Post.Excerpt))

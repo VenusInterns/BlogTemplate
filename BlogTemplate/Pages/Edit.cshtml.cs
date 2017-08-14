@@ -68,7 +68,6 @@ namespace BlogTemplate.Pages
         {
             oldPost = _dataStore.GetPost(slug);
             newPost.PubDate = oldPost.PubDate;
-            //newPost.Tags = Request.Form["Tags"][0].Replace(" ", "").Split(",").ToList();
             if (newPost.Excerpt == null)
             {
                 newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
