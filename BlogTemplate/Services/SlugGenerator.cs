@@ -21,6 +21,7 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string tempTitle = title;
+            // Figure out how to use Regex
             Regex allowList = new Regex("[a-zA-Z0-9,.;:_'\\s-]*");
             foreach (char c in tempTitle)
             {
