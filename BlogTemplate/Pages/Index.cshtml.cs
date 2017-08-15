@@ -13,7 +13,8 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
 
-        private BlogDataStore _dataStore;
+
+        private readonly BlogDataStore _dataStore;
 
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 

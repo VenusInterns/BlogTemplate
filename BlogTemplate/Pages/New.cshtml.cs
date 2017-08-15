@@ -14,9 +14,14 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class NewModel : PageModel
     {
-        private BlogDataStore _dataStore;
+
+        const string StorageFolder = "BlogFiles";
+
+        private readonly BlogDataStore _dataStore;
+
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
+
 
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {

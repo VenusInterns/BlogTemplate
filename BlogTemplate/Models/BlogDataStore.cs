@@ -14,7 +14,7 @@ namespace BlogTemplate.Models
         private static Object thisLock = new object();
         protected static int CurrentId = 0;
 
-        private IFileSystem _fileSystem;
+        private readonly IFileSystem _fileSystem;
 
         public BlogDataStore(IFileSystem fileSystem)
         {
