@@ -31,8 +31,6 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Post Post { get; set; }
-        [BindProperty]
-        public List<IFormFile> files { get; set; }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
@@ -64,7 +62,7 @@ namespace BlogTemplate.Pages
                 Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
             }
 
-            _dataStore.SaveFiles(files);
+            _dataStore.SaveFiles(Request.Form.Files.ToList());
             _dataStore.SavePost(Post);
         }
     }

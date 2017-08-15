@@ -252,11 +252,12 @@ namespace BlogTemplate.Models
 
         public void SaveFiles(List<IFormFile> files)
         {
+            var filePath = Path.GetTempFileName();
             foreach(var file in files)
             {
                 if(file.Length > 0)
                 {
-                    using (var stream = new FileStream($"{UploadsFolder}\\{file.Name}", FileMode.Create))
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
