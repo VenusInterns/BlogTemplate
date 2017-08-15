@@ -253,28 +253,5 @@ namespace BlogTemplate.Tests.Model
             Assert.Equal(newcom.UniqueId, comment1.UniqueId);
         }
 
-        [Fact]
-        public void Constructor_FileExistsInPostsFolder_UsesNextAvailableId()
-        {
-            IFileSystem fileSystem = new FakeFileSystem();
-            int count = fileSystem.EnumerateFiles("BlogFiles\\Posts").Count();
-            ((FakeFileSystem)fileSystem).AddFile($"BlogFiles\\Posts\\date_{count + 1}.xml", "");
-            
-            BlogDataStore testDataStore = new BlogDataStore(fileSystem);
-            
-            Post testPost = new Post
-            {
-                Slug = "Test-slug",
-                Title = "Test title",
-                Body = "Test body",
-                PubDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                IsPublic = true,
-                Excerpt = "Test excerpt"
-            };
-            testDataStore.SavePost(testPost);
-
-            Assert.Equal(count + 2, testPost.Id);
-        }
     }
 }
