@@ -11,12 +11,9 @@ namespace BlogTemplate.Models
     {
         [Required(ErrorMessage = "Name required")]
         public string AuthorName { get; set; }
-        [Required(ErrorMessage = "Email required")]
-        [EmailAddress(ErrorMessage = "Not a valid email")]
-        public string AuthorEmail { get; set; }
         [Required(ErrorMessage = "Comment text required")]
         public string Body { get; set; }
-        public DateTime PubDate { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset PubDate { get; set; } = DateTimeOffset.Now;
         public bool IsPublic { get; set; }
         public Guid UniqueId { get; set; }
     }

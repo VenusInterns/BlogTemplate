@@ -11,13 +11,14 @@ namespace BlogTemplate.Models
 {
     public class Post
     {
+        public int Id { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         [Required(ErrorMessage = "Title required")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Post text required")]
         public string Body { get; set; }
-        public DateTime PubDate { get; set; } = DateTime.UtcNow;
-        public DateTime LastModified { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset PubDate { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset LastModified { get; set; } = DateTimeOffset.Now;
         public string Slug{ get; set; }
         public bool IsPublic { get; set; }
         public string Excerpt { get; set; }

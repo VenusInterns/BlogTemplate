@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BlogFiles\" />
+    <Folder Include="BlogFiles\Posts\" />
   </ItemGroup>
 </Project>

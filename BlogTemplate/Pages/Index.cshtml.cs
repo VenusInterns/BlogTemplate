@@ -13,7 +13,9 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
 
+
         private readonly BlogDataStore _dataStore;
+
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 
         public IndexModel(BlogDataStore dataStore)
@@ -28,6 +30,7 @@ namespace BlogTemplate.Pages
             IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
 
             PostSummaries = postModels.Select(p => new PostSummaryModel {
+                Id = p.Id,
                 Slug = p.Slug,
                 Title = p.Title,
                 Excerpt = p.Excerpt,
@@ -38,9 +41,10 @@ namespace BlogTemplate.Pages
 
         public class PostSummaryModel
         {
+            public int Id { get; set; }
             public string Slug { get; set; }
             public string Title { get; set; }
-            public DateTime PublishTime { get; set; }
+            public DateTimeOffset PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
 
