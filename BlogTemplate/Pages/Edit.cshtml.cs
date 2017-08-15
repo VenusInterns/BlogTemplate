@@ -15,10 +15,14 @@ namespace BlogTemplate.Pages
     public class EditModel : PageModel
     {
         private BlogDataStore _dataStore;
+        private readonly SlugGenerator _slugGenerator;
+        private readonly ExcerptGenerator _excerptGenerator;
 
-        public EditModel(BlogDataStore dataStore)
+        public EditModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
+            _slugGenerator = slugGenerator;
+            _excerptGenerator = excerptGenerator;
         }
 
         [BindProperty]
@@ -68,14 +72,13 @@ namespace BlogTemplate.Pages
 
             if (updateSlug)
             {
-                editedPost.NewSlug = slugGenerator.CreateSlug(editedPost.Title);
-                post.Slug = editedPost.NewSlug;
+                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
             }
 
             _dataStore.SavePost(post);
             if (editedPost.NewSlug != editedPost.OldSlug)
             {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+                newPost.Slug = _slugGenerator.CreateSlug(newPost.Title);
             }
         }
 

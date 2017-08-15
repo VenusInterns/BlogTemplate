@@ -14,6 +14,7 @@ namespace BlogTemplate.Pages
         const string StorageFolder = "BlogFiles";
 
         private BlogDataStore _dataStore;
+
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 
         public IndexModel(BlogDataStore dataStore)
@@ -40,7 +41,7 @@ namespace BlogTemplate.Pages
         {
             public string Slug { get; set; }
             public string Title { get; set; }
-            public DateTime PublishTime { get; set; }
+            public DateTimeOffset PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
 
