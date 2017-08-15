@@ -22,9 +22,8 @@ namespace BlogTemplate.Pages
         }
 
         [BindProperty]
-        public Post newPost { get; set; }
-
-        public Post oldPost { get; set; }
+        public EditedPostModel editedPost { get; set; }
+        public Post post { get; set; }
 
         public void OnGet()
         {
@@ -34,9 +33,9 @@ namespace BlogTemplate.Pages
         private void InitializePost()
         {
             string slug = RouteData.Values["slug"].ToString();
-            newPost = oldPost = _dataStore.GetPost(slug);
+            post = _dataStore.GetPost(slug);
 
-            if (oldPost == null)
+            if (post == null)
             {
                 RedirectToPage("/Index");
             }
@@ -46,42 +45,47 @@ namespace BlogTemplate.Pages
         public IActionResult OnPostPublish()
         {
             string slug = RouteData.Values["slug"].ToString();
-            newPost.IsPublic = true;
-            UpdatePost(newPost, slug);
-            return Redirect($"/Post/{newPost.Slug}");
+            post.IsPublic = true;
+            UpdatePost(post, slug, updateSlug);
+            return Redirect($"/Post/{post.Slug}");
         }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
             string slug = RouteData.Values["slug"].ToString();
-            newPost.IsPublic = false;
-            UpdatePost(newPost, slug);
+            post.IsPublic = false;
+            UpdatePost(post, slug, updateSlug);
             return Redirect("/Index");
         }
 
-        private void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(EditedPostModel editedPost, string slug, [FromForm] bool updateSlug)
         {
-            oldPost = _dataStore.GetPost(slug);
-            newPost.PubDate = oldPost.PubDate;
-            if (newPost.Excerpt == null)
+            post = _dataStore.GetPost(slug);
+            post.Title = editedPost.Title;
+            post.Body = editedPost.Body;
+            post.Excerpt = editedPost.Excerpt;
+
+            if (updateSlug)
             {
-                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
-                newPost.Excerpt = excerptGenerator.CreateExcerpt(newPost.Body, 140);
+                editedPost.NewSlug = slugGenerator.CreateSlug(editedPost.Title);
+                post.Slug = editedPost.NewSlug;
             }
 
-            if (Request.Form["updateslug"] == "true")
+            _dataStore.SavePost(post);
+            if (editedPost.NewSlug != editedPost.OldSlug)
             {
-                SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
-                newPost.Slug = slugGenerator.CreateSlug(newPost.Title);
+                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
             }
-            else
-            {
-                newPost.Slug = oldPost.Slug;
-            }
-            newPost.Comments = oldPost.Comments;
+        }
 
-            _dataStore.UpdatePost(newPost, oldPost);
+        public class EditedPostModel
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Excerpt { get; set; }
+            public string OldSlug { get; }
+            public string NewSlug { get; set; }
         }
     }
 }
