@@ -1,25 +1,30 @@
-# ASP.NET Core Blog template
-
+# ASP.NET Core Blog Template
 We created this blog template for Visual Studio to help users create a new, personal web application quickly and effortlessly.
 
+### Introduction to the Blog Template
+This blog template is meant to help developers building a blog or a different web app that includes any features from this template. In using our blog, developers will save time because they can use this template to work from and build off of. This blog template also provides a fresh look at building web apps from [ASP.NET](https://docs.microsoft.com/en-us/aspnet/core/) Core using the new [Razor Pages](https://docs.microsoft.com/en-us/aspnet/core/mvc/razor-pages/) architecture. If you're not aware of Razor Pages yet, you should take a look as it effectively streamlines building a web application by associating HTML pages with their code so rather than compartmentalizing a project by the model-view-controller pattern, the separation is made by each additional page. We have found this very easy to work with because it allows us to think of the project by the components that make it up rather than the type of each component.
+
+We believe that a blog template can appeal to the broadest audience of developers while also providing an opportunity for us to show off a variety of unique and handy features. If we are already using the newest tools provided by the Visual Studio team at Microsoft, it felt appropriate to use the newest architecture (Razor Pages) for the project. With a blog, we could also appeal to those developers interested in building ecommerce, photo gallery, or a personal web site because all three alternatives are simply variations of a blog with authentication. This makes the basic structure of the template useful for a wider variety of developers than only those interested in building a blog. 
+
+### Background
+This template was designed to help Visual Studio users create new web applications fast and effortlessly. We decided on building a Blog Template because such a template would give developers (with varying levels of experience) the ability to create a simple project, and add as much complexity to it as they wanted. The additional features to the blog are what make it a useful tool for developers:
+* [Entity Framework](https://docs.microsoft.com/en-us/aspnet/entity-framework) provides an environment that makes it easy to work with relational data. In our scenario, that data comes in the form of blog posts and comments for each post.
+* The usage of [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/linq/) (Language Integrated Query) enables the developer to store (query) items from the blog into a variety of targets like databases, xml documents (currently in use), and in-memory objects without having to redesign how things are queried, but rather where they are stored. 
+* The blog is built on Razor Pages from ASP.NET Core. Because of this, developers with some knowledge of ASP.NET Core can learn about the pros and cons of building with Razor Pages as opposed to the previously established MVC schema.
+* The template includes a user authentication feature, done by implementing the new ASP.NET [Identity Library](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity) for Razor Pages. This was a simple tool to add that consisted of installing the NuGet package and creating a new project with the package and then transferring the previous project files into this new project with Identity. Although a hassle, moving the files from one project to the other was quite simple because both projects were built with Razor Pages.
+* The template uses bootstrap, which makes it simple for developers to customize their project in ways that they are already familiar with. 
+* The ASP.NET Identity library for Razor Pages is not available yet. To access it (as opposed to the MVC version) click here.
+
 ### Goals
-* Grow ASP.NET Core usage
-* Educate users about Razor Pages
-* Grow Visual Studio usage
-* Increase Azure usage
-* Build a community around the template
+We hope the above features make this a tool that developers can use to speed up the development process of their project while also serving an educational purpose for those who want to learn how to implement/work with those new items. In making this an educational tool, we hope that our blog provides effective examples of said features. The following are a set of goals that we attempted to achieve and we challenge you to accomplish on your way to building the best web applications:
+	* Grow ASP.NET Core usage
+	* Educate users about Razor Pages
+	* Grow Visual Studio usage
+	* Build a community around the template 
 
-### Technologies Used
-* ASP.NET Core
-* Razor Pages
-* LINQ
-* Entity Framework
-* Identity library
-
-Using the Template
-------
-Please install the following:
+### Using the Template
 * [Visual Studio](https://www.visualstudio.com/vs/)
-  * Make sure to install the following workloads:
+* Make sure to install the following workloads to get started:
     * ASP.NET and web development
-    * .NET Core cross-platform development
+    * [Latest .NET Core cross-platform development](https://www.microsoft.com/net/)
+    * [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)

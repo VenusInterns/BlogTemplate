@@ -59,7 +59,6 @@ namespace BlogTemplate.Models
             XElement commentsNode = GetCommentsRootNode(doc);
             XElement commentNode = new XElement("Comment");
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-            commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
             commentNode.Add(new XElement("CommentBody", comment.Body));
             commentNode.Add(new XElement("IsPublic", true));
@@ -76,7 +75,6 @@ namespace BlogTemplate.Models
                 {
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
-                    AuthorEmail = comment.Element("AuthorEmail").Value,
                     PubDate = DateTimeOffset.Parse(comment.Element("PubDate").Value),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
@@ -120,7 +118,6 @@ namespace BlogTemplate.Models
             {
                 XElement commentNode = new XElement("Comment");
                 commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
                 commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
                 commentNode.Add(new XElement("CommentBody", comment.Body));
                 commentNode.Add(new XElement("IsPublic", comment.IsPublic));

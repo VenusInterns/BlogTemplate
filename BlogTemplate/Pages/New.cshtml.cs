@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
-
 using Microsoft.AspNetCore.Authorization;
-
 using BlogTemplate.Services;
 
 
@@ -18,10 +16,14 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
         private BlogDataStore _dataStore;
+        private readonly SlugGenerator _slugGenerator;
+        private readonly ExcerptGenerator _excerptGenerator;
 
-        public NewModel(BlogDataStore dataStore)
+        public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
+            _slugGenerator = slugGenerator;
+            _excerptGenerator = excerptGenerator;
         }
         public void OnGet()
         {
@@ -53,13 +55,11 @@ namespace BlogTemplate.Pages
 
         private void SavePost(Post post)
         {
-            SlugGenerator slugGenerator = new SlugGenerator(_dataStore);
-            Post.Slug = slugGenerator.CreateSlug(Post.Title);
+            Post.Slug = _slugGenerator.CreateSlug(Post.Title);
 
             if (string.IsNullOrEmpty(Post.Excerpt))
             {
-                ExcerptGenerator excerptGenerator = new ExcerptGenerator();
-                Post.Excerpt = excerptGenerator.CreateExcerpt(Post.Body, 140);
+                Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
             }
 
             _dataStore.SavePost(Post);
