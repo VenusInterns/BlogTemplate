@@ -11,6 +11,7 @@ namespace BlogTemplate.Models
     public class BlogDataStore
     {
         const string StorageFolder = "BlogFiles";
+        const string UploadsFolder = "BlogFiles\\Uploads";
 
         private IFileSystem _fileSystem;
 
@@ -251,7 +252,17 @@ namespace BlogTemplate.Models
 
         public void SaveFiles(List<IFormFile> files)
         {
-
+            foreach(var file in files)
+            {
+                if(file.Length > 0)
+                {
+                    using (var stream = new FileStream($"{UploadsFolder}\\{file.Name}", FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+            }
         }
+
     }
 }
