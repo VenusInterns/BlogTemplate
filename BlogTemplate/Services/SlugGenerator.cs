@@ -21,12 +21,8 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string tempTitle = title;
-            Regex allowList = new Regex([^A-Za-z0-9-]);
-            char[] invalidChars = Path.GetInvalidFileNameChars();
-            foreach (char c in invalidChars)
-            {
-                tempTitle = tempTitle.Replace(c.ToString(), "");
-            }
+            Regex allowList = new Regex("([^A-Za-z0-9-])");
+            tempTitle = allowList.Replace(tempTitle, "");
             string slug = tempTitle.Replace(" ", "-");
             int count = 0;
             string tempSlug = slug;
