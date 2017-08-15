@@ -10,7 +10,7 @@
 
 <article>
     <h1>@Model.Post.Title</h1>
-    <p name="date" class="date">@Model.Post.PubDate.ToLocalTime().ToShortDateString()</p>
+    <p name="date" class="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</p>
     <p>@Model.Post.Body</p>
 
     <h2>Comments</h2>
@@ -29,7 +29,7 @@
             <form id="form1" method="post">
                 <div class="@cssClass">
                     <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
                     <p name="Comment-Body" class="commentBody">@comment.Body</p>
                     <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                     <input type="hidden" name="slug" value="@Model.Post.Slug" />
@@ -53,7 +53,7 @@
             {
                 <form id="form1" method="post">
                     <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToLocalTime().ToShortDateString()</p>
+                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
                     <p name="Comment-Body" class="commentBody">@comment.Body</p>
                     <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                     <input type="hidden" name="slug" value="@Model.Post.Slug" />
