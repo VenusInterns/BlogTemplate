@@ -1,4 +1,4 @@
-@page "{slug}"
+@page "{id}/{slug}"
 @model PostModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
@@ -22,8 +22,8 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <a href="/edit/@Model.Post.Slug">Edit Post</a>
-        @foreach (var comment in Model.Post.Comments)
+    <a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a>
+    @foreach (var comment in Model.Post.Comments)
         {
             string cssClass = comment.IsPublic ? "" : "deletedContent";
             <form id="form1" method="post">

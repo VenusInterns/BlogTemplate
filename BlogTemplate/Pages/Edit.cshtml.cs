@@ -30,15 +30,9 @@ namespace BlogTemplate.Pages
 
         public Post oldPost { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            string slug = RouteData.Values["slug"].ToString();
-            newPost = oldPost = _dataStore.GetPost(slug);
+            newPost = oldPost = _dataStore.GetPost(id);
 
             if (oldPost == null)
             {
@@ -46,28 +40,42 @@ namespace BlogTemplate.Pages
             }
         }
 
+
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublish([FromRoute] int id)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = true;
-            UpdatePost(newPost, slug);
-            return Redirect($"/Post/{newPost.Slug}");
+            UpdatePost(id);
+            return Redirect($"/Post/{id}/{newPost.Slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft()
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = false;
-            UpdatePost(newPost, slug);
+            UpdatePost(id);
             return Redirect("/Index");
         }
 
-        private void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(int id)
         {
-            oldPost = _dataStore.GetPost(slug);
-            newPost.PubDate = oldPost.PubDate;
+            newPost.Id = id;
+            oldPost = _dataStore.GetPost(id);
+
+            if(oldPost.PubDate.Equals(default(DateTime)))
+            {
+                if(newPost.IsPublic == true)
+                {
+                    newPost.PubDate = DateTime.UtcNow;
+                }
+            }
+            else
+            {
+                newPost.PubDate = oldPost.PubDate;
+            }
+
             if (newPost.Excerpt == null)
             {
                 newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
