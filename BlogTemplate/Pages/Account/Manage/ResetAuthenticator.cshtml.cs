@@ -27,7 +27,7 @@ namespace BlogTemplate.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound();
             }
 
             return Page();
@@ -38,7 +38,7 @@ namespace BlogTemplate.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound();
             }
 
             await _userManager.SetTwoFactorEnabledAsync(user, false);
