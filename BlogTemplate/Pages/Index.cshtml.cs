@@ -41,7 +41,7 @@ namespace BlogTemplate.Pages
         {
             public string Slug { get; set; }
             public string Title { get; set; }
-            public DateTime PublishTime { get; set; }
+            public DateTimeOffset PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
 
