@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace BlogTemplate.Models
 {
@@ -252,6 +253,11 @@ namespace BlogTemplate.Models
         public bool CheckSlugExists(string slug)
         {
             return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
+        }
+
+        public void SaveFiles(List<IFormFile> files)
+        {
+
         }
     }
 }

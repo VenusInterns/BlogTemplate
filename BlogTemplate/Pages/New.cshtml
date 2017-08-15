@@ -33,6 +33,12 @@
         </div>
     </div>
     <div class="col-md-12">
+        <div class="form-group">
+            <label for="Files">Upload Files</label>
+            <input type="file" name="files" multiple asp-for="files"/>
+        </div>
+    </div>
+    <div class="col-md-12">
         <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
         <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
     </div>

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogTemplate.Models;
 using Microsoft.AspNetCore.Authorization;
 using BlogTemplate.Services;
-
+using Microsoft.AspNetCore.Http;
 
 namespace BlogTemplate.Pages
 {
@@ -31,6 +31,8 @@ namespace BlogTemplate.Pages
 
         [BindProperty]
         public Post Post { get; set; }
+        [BindProperty]
+        public List<IFormFile> files { get; set; }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
@@ -62,6 +64,7 @@ namespace BlogTemplate.Pages
                 Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
             }
 
+            _dataStore.SaveFiles(files);
             _dataStore.SavePost(Post);
         }
     }
