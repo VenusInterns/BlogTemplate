@@ -34,7 +34,8 @@ First, you'll need to get the [newest templating code](https://github.com/dotnet
 Switch the Branch to "rel/2.0.0-servicing." Then click the green "Clone or download" button. Copy the link in the dropdown that appears.
 Open a command prompt and change directories to where you want to install the templating repo.
 In the desired directory, enter the command:
-* git clone [link you copied earlier]
+
+    git clone [link you copied earlier]
 
 This will pull all the dotnet.templating code and put it in a directory named "templating."
 Now change to the templating directory and switch branches to "rel/2.0.0-servicing." Then run the command "setup."
@@ -43,10 +44,15 @@ Now change to the templating directory and switch branches to "rel/2.0.0-servici
 
 Once the setup runs correctly, you should be able to run the command "dotnet new3."
 Install your blog template with the command:
-* dotnet new3 -i [path to blog template source]
+
+    dotnet new3 -i [path to blog template source]
+
+This path will be the root directory of your blog template repository.
 
 Now you can create an instance of the template by running:
-* dotnet new3 blog -o [directory you want to create the instance in] -n [name for the instance]
+
+    dotnet new3 blog -o [directory you want to create the instance in] -n [name for the instance]
 
 For example:
-* dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
+
+    dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
