@@ -48,7 +48,7 @@ namespace BlogTemplate.Pages.Account
 
             if (user == null)
             {
-                throw new FieldAccessException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Unable to load two-factor authentication user.");
             }
 
             ReturnUrl = returnUrl;
@@ -67,7 +67,7 @@ namespace BlogTemplate.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new FieldAccessException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Unable to load two-factor authentication user.");
             }
 
             var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
