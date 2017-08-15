@@ -28,3 +28,25 @@ We hope the above features make this a tool that developers can use to speed up 
     * ASP.NET and web development
     * [Latest .NET Core cross-platform development](https://www.microsoft.com/net/)
     * [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)
+
+### Creating an Instance of the Template (Your Own Blog)
+First, you'll need to get the [newest templating code](https://github.com/dotnet/templating).
+Switch the Branch to "rel/2.0.0-servicing." Then click the green "Clone or download" button. Copy the link in the dropdown that appears.
+Open a command prompt and change directories to where you want to install the templating repo.
+In the desired directory, enter the command:
+* git clone [link you copied earlier]
+
+This will pull all the dotnet.templating code and put it in a directory named "templating."
+Now change to the templating directory and switch branches to "rel/2.0.0-servicing." Then run the command "setup."
+  * Note: If you get errors about not being able to run scripts, close your command window. Then open a powershell window and run the command "Set-ExecutionPolicy Unrestricted."
+  Close the powershell window, then open a new command prompt and go back to the templating directory and run setup again.
+
+Once the setup runs correctly, you should be able to run the command "dotnet new3."
+Install your blog template with the command:
+* dotnet new3 -i [path to blog template source]
+
+Now you can create an instance of the template by running:
+* dotnet new3 blog -o [directory you want to create the instance in] -n [name for the instance]
+
+For example:
+* dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
