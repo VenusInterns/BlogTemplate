@@ -12,7 +12,7 @@ namespace BlogTemplate.Models
         const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
-        private static int CurrentId = 0;
+        protected static int CurrentId = 0;
 
         private IFileSystem _fileSystem;
 

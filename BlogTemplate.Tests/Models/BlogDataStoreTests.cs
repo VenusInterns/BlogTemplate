@@ -253,5 +253,84 @@ namespace BlogTemplate.Tests.Model
             Assert.Equal(newcom.UniqueId, comment1.UniqueId);
         }
 
+
+        class TestDataStore : BlogDataStore
+        {
+            public TestDataStore(IFileSystem fileSystem) : base(fileSystem)
+            {
+            }
+
+            public static void ResetCurrentId()
+            {
+                CurrentId = 0;
+            }
+        }
+
+        [Fact]
+        public void Constructor_PostExists_IncrementsNextId()
+        {
+            FakeFileSystem fileSystem = new FakeFileSystem();
+            fileSystem.AddFile("BlogFiles\\Posts\\date_1.xml");
+            TestDataStore.ResetCurrentId();
+            TestDataStore dataStore = new TestDataStore(fileSystem);
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = true,
+                Excerpt = "Test excerpt"
+            };
+            dataStore.SavePost(testPost);
+
+            Assert.Equal(2, testPost.Id);
+        }
+
+        [Fact]
+        public void Constructor_DraftExists_IncrementsNextId()
+        {
+            FakeFileSystem fileSystem = new FakeFileSystem();
+            fileSystem.AddFile("BlogFiles\\Drafts\\1.xml");
+            TestDataStore.ResetCurrentId();
+            TestDataStore dataStore = new TestDataStore(fileSystem);
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = false,
+                Excerpt = "Test excerpt"
+            };
+            dataStore.SavePost(testPost);
+
+            Assert.Equal(2, testPost.Id);
+        }
+
+        [Fact]
+        public void Constructor_PostAndDraftExist_IncrementsNextId()
+        {
+            FakeFileSystem fileSystem = new FakeFileSystem();
+            fileSystem.AddFile("BlogFiles\\Drafts\\1.xml");
+            fileSystem.AddFile("BlogFiles\\Posts\\date_2.xml");
+            TestDataStore.ResetCurrentId();
+            TestDataStore dataStore = new TestDataStore(fileSystem);
+            Post testPost = new Post
+            {
+                Slug = "Test-slug",
+                Title = "Test title",
+                Body = "Test body",
+                PubDate = DateTime.Now,
+                LastModified = DateTime.Now,
+                IsPublic = false,
+                Excerpt = "Test excerpt"
+            };
+            dataStore.SavePost(testPost);
+
+            Assert.Equal(3, testPost.Id);
+        }
     }
 }
