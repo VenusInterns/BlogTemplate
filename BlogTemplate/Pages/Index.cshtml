@@ -3,16 +3,24 @@
 @{
     ViewData["Title"] = "Home Page";
 
-    foreach (var post in Model.Blog.Posts)
+    if (!Model.PostSummaries.Any())
     {
-        if (post.IsPublic)
+        <h3>Welcome!</h3>
+        <p>Get started and write your first blog post <a href="/New">here.</a></p>
+        <p>Happy blogging!</p>
+    }
+
+    else
+    {
+        foreach (var post in Model.PostSummaries)
         {
             <article>
                 <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
-                <p class="date">@post.PubDate.ToLocalTime().ToShortDateString()</p>
+                <p class="date">@post.PublishTime.ToString("MMM dd, yyyy")</p>
                 <p>@post.Excerpt</p>
-                <p class="commentCount"><a href="/post/@post.Id/@post.Slug">@post.Comments.Count</a></p>
+                <p class="commentCount"><span class="glyphicon glyphicon-comment"></span><a href="/post/@post.Slug">@post.CommentCount</a></p>
             </article>
+
         }
     }
 }

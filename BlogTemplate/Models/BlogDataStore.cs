@@ -113,10 +113,8 @@ namespace BlogTemplate.Models
             XElement commentsNode = GetCommentsRootNode(doc);
             XElement commentNode = new XElement("Comment");
             commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-            commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
             commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
             commentNode.Add(new XElement("CommentBody", comment.Body));
-
             commentNode.Add(new XElement("IsPublic", true));
             commentNode.Add(new XElement("UniqueId", comment.UniqueId));
 
@@ -125,16 +123,13 @@ namespace BlogTemplate.Models
 
         public void IterateComments(IEnumerable<XElement> comments, List<Comment> listAllComments)
         {
-            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             foreach (XElement comment in comments)
             {
                 Comment newComment = new Comment
                 {
                     AuthorName = comment.Element("AuthorName").Value,
                     Body = comment.Element("CommentBody").Value,
-                    AuthorEmail = comment.Element("AuthorEmail").Value,
-
-                    PubDate = DateTime.Parse(comment.Element("PubDate").Value),
+                    PubDate = DateTimeOffset.Parse(comment.Element("PubDate").Value),
                     IsPublic = Convert.ToBoolean(comment.Element("IsPublic").Value),
                     UniqueId = (Guid.Parse(comment.Element("UniqueId").Value)),
 
@@ -169,18 +164,6 @@ namespace BlogTemplate.Models
             return null;
         }
 
-        public XElement AddTags(Post post, XElement rootNode)
-        {
-            XElement tagsNode = new XElement("Tags");
-            foreach (string tag in post.Tags)
-            {
-                tagsNode.Add(new XElement("Tag", tag));
-            }
-            rootNode.Add(tagsNode);
-
-            return rootNode;
-        }
-
         public XElement AddComments(Post post, XElement rootNode)
         {
             XElement commentsNode = new XElement("Comments");
@@ -189,7 +172,6 @@ namespace BlogTemplate.Models
             {
                 XElement commentNode = new XElement("Comment");
                 commentNode.Add(new XElement("AuthorName", comment.AuthorName));
-                commentNode.Add(new XElement("AuthorEmail", comment.AuthorEmail));
                 commentNode.Add(new XElement("PubDate", comment.PubDate.ToString("o")));
                 commentNode.Add(new XElement("CommentBody", comment.Body));
                 commentNode.Add(new XElement("IsPublic", comment.IsPublic));
@@ -234,7 +216,7 @@ namespace BlogTemplate.Models
             string outputFilePath;
             if (post.IsPublic == true)
             {
-                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTimeUtc()}_{post.Id}.xml";
+                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml";
             }
             else
             {
@@ -245,7 +227,6 @@ namespace BlogTemplate.Models
 
             AppendPostInfo(post, rootNode);
             AddComments(post, rootNode);
-            AddTags(post, rootNode);
             doc.Add(rootNode);
 
             using (MemoryStream ms = new MemoryStream())
@@ -263,7 +244,6 @@ namespace BlogTemplate.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            IFormatProvider culture = new System.Globalization.CultureInfo("en-US", true);
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
@@ -271,13 +251,12 @@ namespace BlogTemplate.Models
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
-                PubDate = DateTime.Parse(doc.Root.Element("PubDate").Value),
-                LastModified = DateTime.Parse(doc.Root.Element("LastModified").Value),
+                PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value),
+                LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(doc);
-            post.Tags = GetTags(doc);
             return post;
         }
 
@@ -335,7 +314,7 @@ namespace BlogTemplate.Models
         {
             if(oldPost.IsPublic)
             {
-                _fileSystem.DeleteFile($"{PostsFolder}\\{oldPost.PubDate.ToFileTimeUtc()}_{oldPost.Id}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{oldPost.PubDate.ToFileTime()}_{oldPost.Id}.xml");
             }
             else
             {
