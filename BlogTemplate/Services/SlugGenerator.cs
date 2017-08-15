@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BlogTemplate.Models;
 
@@ -20,6 +21,7 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string tempTitle = title;
+            Regex allowList = new Regex([^A-Za-z0-9-]);
             char[] invalidChars = Path.GetInvalidFileNameChars();
             foreach (char c in invalidChars)
             {
