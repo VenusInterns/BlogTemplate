@@ -47,6 +47,9 @@ namespace BlogTemplate._1
 
             services.AddSingleton<IFileSystem, PhysicalFileSystem>();
             services.AddScoped<BlogDataStore>();
+
+            services.AddScoped<SlugGenerator>();
+            services.AddSingleton<ExcerptGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
