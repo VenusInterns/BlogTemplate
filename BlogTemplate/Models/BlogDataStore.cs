@@ -332,9 +332,11 @@ namespace BlogTemplate.Models
             {
                 if(file.Length > 0)
                 {                    
-                    using (var stream = new FileStream(UploadsFolder, FileMode.Create))
+                    using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        file.CopyTo(stream);
+                        byte[] buffer = new byte[uploadedFileStream.Length];
+                        uploadedFileStream.Read(buffer, 0, buffer.Length);
+                        _fileSystem.WriteFile($"{UploadsFolder}\\{file.FileName}", buffer);
                     }
                 }
             }
