@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Markdig;
+using Microsoft.AspNetCore.Html;
 
 namespace BlogTemplate.Pages
 {
@@ -25,6 +27,12 @@ namespace BlogTemplate.Pages
         public Comment Comment { get; set; }
 
         public Post Post { get; set; }
+
+        public HtmlString HtmlBody()
+        {
+            var html = Markdown.ToHtml(Post.Body);
+            return new HtmlString(html);
+        }
 
         public void OnGet([FromRoute] int id)
         {
