@@ -26,12 +26,18 @@ namespace BlogTemplate.Pages
         }
 
         [BindProperty]
-        public EditedPostModel editedPost { get; set; }
-        public Post post { get; set; }
+        public EditedPostModel EditedPost { get; set; }
 
         public void OnGet([FromRoute] int id)
         {
-            post = _dataStore.GetPost(id);
+            Post post = _dataStore.GetPost(id);
+
+            EditedPost = new EditedPostModel
+            {
+                Title = post.Title,
+                Body = post.Body,
+                Excerpt = post.Excerpt,
+            };
 
             if (post == null)
             {
@@ -42,26 +48,25 @@ namespace BlogTemplate.Pages
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            post = _dataStore.GetPost(id);
+            Post post = _dataStore.GetPost(id);
             post.IsPublic = true;
-            UpdatePost(id, updateSlug);
-            return Redirect($"/Post/{id}/{editedPost.NewSlug}");
+            UpdatePost(post, updateSlug);
+            return Redirect($"/Post/{id}/{post.Slug}");
         }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            post = _dataStore.GetPost(id);
+            Post post = _dataStore.GetPost(id);
             post.IsPublic = false;
-            UpdatePost(id, updateSlug);
-            return Redirect("/Index");
+            UpdatePost(post, updateSlug);
+            return Redirect("/Drafts");
         }
-        private void UpdatePost(int id, [FromForm] bool updateSlug)
+        private void UpdatePost(Post post, [FromForm] bool updateSlug)
         {
-            post = _dataStore.GetPost(id);
-            post.Title = editedPost.Title;
-            post.Body = editedPost.Body;
-            post.Excerpt = editedPost.Excerpt;
+            post.Title = EditedPost.Title;
+            post.Body = EditedPost.Body;
+            post.Excerpt = EditedPost.Excerpt;
 
             _dataStore.SavePost(post);
             if (updateSlug)
@@ -75,8 +80,6 @@ namespace BlogTemplate.Pages
             public string Title { get; set; }
             public string Body { get; set; }
             public string Excerpt { get; set; }
-            public string OldSlug { get; }
-            public string NewSlug { get; set; }
         }
     }
 }
