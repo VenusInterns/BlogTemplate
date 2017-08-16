@@ -21,13 +21,14 @@ namespace BlogTemplate.Models
         public BlogDataStore(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;
-            InitStorageFolder();
+            InitStorageFolders();
             InitCurrentId();
         }
-        public void InitStorageFolder()
+        public void InitStorageFolders()
         {
             _fileSystem.CreateDirectory(PostsFolder);
             _fileSystem.CreateDirectory(DraftsFolder);
+            _fileSystem.CreateDirectory(UploadsFolder);
         }
 
         private void InitCurrentId()
@@ -325,19 +326,13 @@ namespace BlogTemplate.Models
             SavePost(newPost);
         }
 
-        public bool CheckSlugExists(string slug)
-        {
-            return _fileSystem.FileExists($"{PostsFolder}\\{slug}.xml");
-        }
-
         public void SaveFiles(List<IFormFile> files)
-        {
-            var filePath = Path.GetTempFileName();
+        {           
             foreach(var file in files)
             {
                 if(file.Length > 0)
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                {                    
+                    using (var stream = new FileStream(UploadsFolder, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
