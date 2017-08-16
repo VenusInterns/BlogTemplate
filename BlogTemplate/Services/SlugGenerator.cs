@@ -26,14 +26,7 @@ namespace BlogTemplate._1.Services
                 tempTitle = tempTitle.Replace(c.ToString(), "");
             }
             string slug = tempTitle.Replace(" ", "-");
-            int count = 0;
-            string tempSlug = slug;
-            while (_dataStore.CheckSlugExists(tempSlug))
-            {
-                count++;
-                tempSlug = $"{slug}-{count}";
-            }
-            return tempSlug;
+            return slug;
         }
     }
 }

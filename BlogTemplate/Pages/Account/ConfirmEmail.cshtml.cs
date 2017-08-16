@@ -28,13 +28,13 @@ namespace BlogTemplate._1.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+                return NotFound();
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                throw new ApplicationException($"Error confirming email for user with ID '{userId}':");
+                return NotFound();
             }
 
             return Page();

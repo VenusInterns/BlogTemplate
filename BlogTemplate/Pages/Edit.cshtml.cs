@@ -10,9 +10,12 @@ namespace BlogTemplate._1.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private BlogDataStore _dataStore;
+
+        private readonly BlogDataStore _dataStore;
+
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
+
 
         public EditModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -26,15 +29,9 @@ namespace BlogTemplate._1.Pages
 
         public Post oldPost { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            string slug = RouteData.Values["slug"].ToString();
-            newPost = oldPost = _dataStore.GetPost(slug);
+            newPost = oldPost = _dataStore.GetPost(id);
 
             if (oldPost == null)
             {
@@ -42,28 +39,42 @@ namespace BlogTemplate._1.Pages
             }
         }
 
+
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublish([FromRoute] int id)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = true;
-            UpdatePost(newPost, slug);
-            return Redirect($"/Post/{newPost.Slug}");
+            UpdatePost(id);
+            return Redirect($"/Post/{id}/{newPost.Slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft()
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = false;
-            UpdatePost(newPost, slug);
+            UpdatePost(id);
             return Redirect("/Index");
         }
 
-        private void UpdatePost(Post newPost, string slug)
+        private void UpdatePost(int id)
         {
-            oldPost = _dataStore.GetPost(slug);
-            newPost.PubDate = oldPost.PubDate;
+            newPost.Id = id;
+            oldPost = _dataStore.GetPost(id);
+
+            if(oldPost.PubDate.Equals(default(DateTime)))
+            {
+                if(newPost.IsPublic == true)
+                {
+                    newPost.PubDate = DateTime.UtcNow;
+                }
+            }
+            else
+            {
+                newPost.PubDate = oldPost.PubDate;
+            }
+
             if (newPost.Excerpt == null)
             {
                 newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);

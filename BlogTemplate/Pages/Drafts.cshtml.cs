@@ -9,7 +9,7 @@ namespace BlogTemplate._1.Pages
     {
         const string StorageFolder = "BlogFiles";
 
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public DraftsModel(BlogDataStore dataStore)
         {
@@ -20,7 +20,7 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
-            Posts = _dataStore.GetAllPosts().Where(post => !post.IsPublic);
+            Posts = _dataStore.GetAllDrafts();
         }
     }
 }

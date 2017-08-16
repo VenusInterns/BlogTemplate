@@ -10,8 +10,9 @@ namespace BlogTemplate._1.Pages
     [Authorize]
     public class NewModel : PageModel
     {
+
         const string StorageFolder = "BlogFiles";
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
@@ -33,6 +34,8 @@ namespace BlogTemplate._1.Pages
         {
             if (ModelState.IsValid)
             {
+                Post.PubDate = DateTime.UtcNow;
+                Post.LastModified = DateTime.UtcNow;
                 Post.IsPublic = true;
                 SavePost(Post);
                 return Redirect("/Index");
@@ -44,9 +47,14 @@ namespace BlogTemplate._1.Pages
         [ValidateAntiForgeryToken]
         public IActionResult OnPostSaveDraft()
         {
-            Post.IsPublic = false;
-            SavePost(Post);
-            return Redirect("/Index");
+            if(ModelState.IsValid)
+            {
+                Post.IsPublic = false;
+                SavePost(Post);
+                return Redirect("/Index");
+            }
+
+            return Page();
         }
 
         private void SavePost(Post post)
