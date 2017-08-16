@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BlogTemplate.Data;
 using BlogTemplate.Services;
+using System.Linq;
 
 namespace BlogTemplate.Pages.Account
 {
@@ -67,6 +68,11 @@ namespace BlogTemplate.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                if(_userManager.Users.Count() != 0)
+                {
+                    return Page();
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -75,7 +81,7 @@ namespace BlogTemplate.Pages.Account
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
-
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }
