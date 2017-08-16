@@ -20,22 +20,22 @@
         <div class="form-group">
             <div class="col-md-6">
                 <label for="Title">Title</></label>
-                <input type="text" class="form-control" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
-                <span asp-validation-for="newPost.Title" class="invalid"></span>
+                <input type="text" class="form-control" placeholder="" asp-for="editedPost.Title" data-oldtitle="@Model.post.Title" />
+                <span asp-validation-for="editedPost.Title" class="invalid"></span>
             </div>
         </div>
         <input type="hidden" name="updateslug" id="updateslug" value="false" />
         <div class="col-md-12">
             <div class="form-group">
                 <label for="Body" class="primaryField">Body</label>
-                <textarea class="form-control" placeholder="" asp-for="newPost.Body"></textarea>
-                <span asp-validation-for="newPost.Body" class="invalid"></span>
+                <textarea class="form-control" placeholder="" asp-for="editedPost.Body"></textarea>
+                <span asp-validation-for="editedPost.Body" class="invalid"></span>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-                <textarea class="form-control" placeholder="" asp-for="newPost.Excerpt"></textarea>
+                <textarea class="form-control" placeholder="" asp-for="editedPost.Excerpt"></textarea>
             </div>
         </div>
         <div class="col-md-12">

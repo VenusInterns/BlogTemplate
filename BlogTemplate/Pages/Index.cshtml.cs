@@ -13,7 +13,7 @@ namespace BlogTemplate.Pages
     {
         const string StorageFolder = "BlogFiles";
 
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 
@@ -22,13 +22,14 @@ namespace BlogTemplate.Pages
             _dataStore = dataStore;
         }
 
-
         public void OnGet()
         {
             Func<Post, bool> postFilter = p => p.IsPublic;
             IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
 
-            PostSummaries = postModels.Select(p => new PostSummaryModel {
+            PostSummaries = postModels.Select(p => new PostSummaryModel
+            {
+                Id = p.Id,
                 Slug = p.Slug,
                 Title = p.Title,
                 Excerpt = p.Excerpt,
@@ -39,12 +40,13 @@ namespace BlogTemplate.Pages
 
         public class PostSummaryModel
         {
+            public int Id { get; set; }
             public string Slug { get; set; }
             public string Title { get; set; }
             public DateTimeOffset PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
 
-       }
+        }
     }
 }
