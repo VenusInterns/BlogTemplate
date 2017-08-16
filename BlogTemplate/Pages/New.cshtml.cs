@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate._1.Models;
-
-using Microsoft.AspNetCore.Authorization;
-
-using BlogTemplate._1.Services;
 
 
 namespace BlogTemplate._1.Pages
