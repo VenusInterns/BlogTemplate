@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogTemplate.Data
+namespace BlogTemplate._1.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class Post
     {
