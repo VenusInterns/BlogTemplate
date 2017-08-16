@@ -33,8 +33,10 @@ namespace BlogTemplate.Pages
         {
         }
 
-        [BindProperty]
         public Post Post { get; set; }
+
+        [BindProperty]
+        public NewViewModel NewPost { get; set; }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
@@ -44,6 +46,7 @@ namespace BlogTemplate.Pages
                 Post.PubDate = DateTime.UtcNow;
                 Post.LastModified = DateTime.UtcNow;
                 Post.IsPublic = true;
+
                 SavePost(Post);
                 return Redirect("/Index");
             }
@@ -57,6 +60,7 @@ namespace BlogTemplate.Pages
             if(ModelState.IsValid)
             {
                 Post.IsPublic = false;
+
                 SavePost(Post);
                 return Redirect("/Index");
             }
@@ -66,6 +70,9 @@ namespace BlogTemplate.Pages
 
         private void SavePost(Post post)
         {
+            Post.Title = NewPost.Title;
+            Post.Body = NewPost.Body;
+            Post.Excerpt = NewPost.Excerpt;
             Post.Slug = _slugGenerator.CreateSlug(Post.Title);
 
             if (string.IsNullOrEmpty(Post.Excerpt))
@@ -74,6 +81,13 @@ namespace BlogTemplate.Pages
             }
 
             _dataStore.SavePost(Post);
+        }
+
+        public class NewViewModel
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Excerpt { get; set; }
         }
     }
 }

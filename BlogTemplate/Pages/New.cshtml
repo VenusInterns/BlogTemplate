@@ -15,21 +15,21 @@
     <div class="form-group">
         <div class="col-md-6">
             <label for="Title">Title</></label>
-            <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
-            <span asp-validation-for="Post.Title" class="invalid"></span>
+            <input type="text" class="form-control" placeholder="" asp-for="NewPost.Title" />
+            <span asp-validation-for="NewPost.Title" class="invalid"></span>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
             <label for="Body" class="primaryField">Body</label>
-            <textarea class="form-control" placeholder="" asp-for="Post.Body"></textarea>
-            <span asp-validation-for="Post.Body" class="invalid"></span>
+            <textarea class="form-control" placeholder="" asp-for="NewPost.Body"></textarea>
+            <span asp-validation-for="NewPost.Body" class="invalid"></span>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
             <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-            <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
+            <textarea class="form-control" placeholder="" asp-for="NewPost.Excerpt"></textarea>
         </div>
     </div>
     <div class="col-md-12">
