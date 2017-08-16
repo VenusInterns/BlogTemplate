@@ -12,7 +12,7 @@ namespace BlogTemplate.Pages
     [Authorize]
     public class ManageCommentModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public ManageCommentModel(BlogDataStore dataStore)
         {
@@ -20,27 +20,27 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeleteComment(Guid commentId, string slug)
+        public IActionResult OnPostDeleteComment(Guid commentId, int id)
         {
-            Post post = _dataStore.GetPost(slug);
+            Post post = _dataStore.GetPost(id);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
             foundComment.IsPublic = false;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{slug}");
+            return Redirect($"/Post/{id}/{post.Slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostUndeleteComment(Guid commentId, string slug)
+        public IActionResult OnPostUndeleteComment(Guid commentId, int id)
         {
-            Post post = _dataStore.GetPost(slug);
+            Post post = _dataStore.GetPost(id);
 
             Comment foundComment = _dataStore.FindComment(commentId, post);
             foundComment.IsPublic = true;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{slug}");
+            return Redirect($"/Post/{id}/{post.Slug}");
         }
     }
 }
