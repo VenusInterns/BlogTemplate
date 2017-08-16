@@ -10,8 +10,15 @@ namespace BlogTemplate.Models
 {
     public class BlogDataStore
     {
+<<<<<<< HEAD
         const string StorageFolder = "BlogFiles";
         const string UploadsFolder = "BlogFiles\\Uploads";
+=======
+        const string PostsFolder = "BlogFiles\\Posts";
+        const string DraftsFolder = "BlogFiles\\Drafts";
+        private static Object thisLock = new object();
+        protected static int CurrentId = 0;
+>>>>>>> master
 
         private IFileSystem _fileSystem;
 
@@ -19,10 +26,63 @@ namespace BlogTemplate.Models
         {
             _fileSystem = fileSystem;
             InitStorageFolder();
+            InitCurrentId();
         }
         public void InitStorageFolder()
         {
-            _fileSystem.CreateDirectory(StorageFolder);
+            _fileSystem.CreateDirectory(PostsFolder);
+            _fileSystem.CreateDirectory(DraftsFolder);
+        }
+
+        private void InitCurrentId()
+        {
+            if(CurrentId == 0)
+            {
+                lock(thisLock)
+                {
+                    if(CurrentId == 0)
+                    {
+                        int max = 0;
+                        IEnumerable<string> postfiles = _fileSystem.EnumerateFiles(PostsFolder).Select(f => Path.GetFileName(f));
+                        foreach (var file in postfiles)
+                        {
+                            int start = file.IndexOf("_");
+                            int end = file.IndexOf(".");
+                            int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
+                            if (currId > max)
+                            {
+                                max = currId;
+                            }
+                        }
+
+                        IEnumerable<string> draftfiles = _fileSystem.EnumerateFiles(DraftsFolder).Select(f => Path.GetFileName(f));
+                        foreach (var file in draftfiles)
+                        {
+                            int start = 0;
+                            int end = file.IndexOf(".");
+                            int currId = Convert.ToInt32(file.Substring(start, end));
+                            if (currId > max)
+                            {
+                                max = currId;
+                            }
+                        }
+
+                        CurrentId = max;
+                    }
+                }           
+            }         
+        }
+
+        private void SetId(Post post)
+        {
+            if(post.Id == 0)
+            {
+                lock (thisLock)
+                {
+                    post.Id = ++CurrentId;
+                }
+
+            }
         }
 
         private static XElement GetCommentsRootNode(XDocument doc)
@@ -48,11 +108,9 @@ namespace BlogTemplate.Models
             return XDocument.Load(reader);
         }
 
-        public IEnumerable<XElement> GetCommentRoot(string slug)
+        public IEnumerable<XElement> GetCommentRoot(XDocument doc)
         {
-            string filePath = $"{StorageFolder}\\{slug}.xml";
-            XDocument xDoc = LoadPostXml(filePath);
-            IEnumerable<XElement> commentRoot = xDoc.Root.Elements("Comments");
+            IEnumerable<XElement> commentRoot = doc.Root.Elements("Comments");
             return commentRoot;
         }
 
@@ -86,9 +144,9 @@ namespace BlogTemplate.Models
             }
         }
 
-        public List<Comment> GetAllComments(string slug)
+        public List<Comment> GetAllComments(XDocument doc)
         {
-            IEnumerable<XElement> commentRoot = GetCommentRoot(slug);
+            IEnumerable<XElement> commentRoot = GetCommentRoot(doc);
             IEnumerable<XElement> comments;
             List<Comment> listAllComments = new List<Comment>();
             if (commentRoot.Any())
@@ -146,8 +204,9 @@ namespace BlogTemplate.Models
         }
 
 
-        public void AppendPostInfo(XElement rootNode, Post post)
+        public void AppendPostInfo(Post post, XElement rootNode)
         {
+            rootNode.Add(new XElement("Id", post.Id.ToString()));
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
@@ -159,11 +218,20 @@ namespace BlogTemplate.Models
 
         public void SavePost(Post post)
         {
-            string outputFilePath = $"{StorageFolder}\\{post.Slug}.xml";
+            SetId(post);
+            string outputFilePath;
+            if (post.IsPublic == true)
+            {
+                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml";
+            }
+            else
+            {
+                outputFilePath = $"{DraftsFolder}\\{post.Id}.xml";
+            }
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
 
-            AppendPostInfo(rootNode, post);
+            AppendPostInfo(post, rootNode);
             AddComments(post, rootNode);
             doc.Add(rootNode);
 
@@ -185,6 +253,7 @@ namespace BlogTemplate.Models
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
+                Id = Convert.ToInt32(doc.Root.Element("Id").Value),
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
@@ -193,36 +262,39 @@ namespace BlogTemplate.Models
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
-            post.Comments = GetAllComments(post.Slug);
+            post.Comments = GetAllComments(doc);
             return post;
         }
 
-        public Post GetPost(string slug)
+        public Post GetPost(int id)
         {
-            string expectedFilePath = $"{StorageFolder}\\{slug}.xml";
+            string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
             if (_fileSystem.FileExists(expectedFilePath))
             {
                 return CollectPostInfo(expectedFilePath);
+            }
+            else
+            {
+                List<string> files = _fileSystem.EnumerateFiles($"{PostsFolder}").ToList();
+                foreach(var file in files)
+                {
+                    int start = file.IndexOf("_");
+                    int end = file.IndexOf(".");
+                    string element = file.Substring(start + 1, end - start - 1);
+                    if(element == id.ToString())
+                    {
+                        return CollectPostInfo(file);
+                    }
+                }
             }
             return null;
         }
 
         private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
         {
-            for (int i = 0; i < files.Count; i++)
+            foreach (var file in files)
             {
-                var file = files[files.Count - i - 1];
-                XDocument doc = LoadPostXml($"{StorageFolder}\\{Path.GetFileName(file)}");
-                Post post = new Post();
-
-                post.Title = doc.Root.Element("Title").Value;
-                post.Body = doc.Root.Element("Body").Value;
-                post.PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value);
-                post.LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value);
-                post.Slug = doc.Root.Element("Slug").Value;
-                post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
-                post.Excerpt = doc.Root.Element("Excerpt").Value;
-                post.Comments = GetAllComments(post.Slug);
+                Post post = CollectPostInfo(file);
                 allPosts.Add(post);
             }
             return allPosts;
@@ -230,24 +302,36 @@ namespace BlogTemplate.Models
 
         public List<Post> GetAllPosts()
         {
-            string filePath = $"{StorageFolder}";
-            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderBy(f => _fileSystem.GetFileLastWriteTime(f)).ToList();
+            string filePath = $"{PostsFolder}";
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
             List<Post> allPosts = new List<Post>();
             return IteratePosts(files, allPosts);
         }
 
+        public List<Post> GetAllDrafts()
+        {
+            string filePath = $"{DraftsFolder}";
+            List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
+            List<Post> allDrafts = new List<Post>();
+            return IteratePosts(files, allDrafts);
+        }
+
         public void UpdatePost(Post newPost, Post oldPost)
         {
-            SavePost(newPost);
-            if (newPost.Slug != oldPost.Slug)
+            if(oldPost.IsPublic)
             {
-                _fileSystem.DeleteFile($"{StorageFolder}\\{oldPost.Slug}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{oldPost.PubDate.ToFileTime()}_{oldPost.Id}.xml");
             }
+            else
+            {
+                _fileSystem.DeleteFile($"{DraftsFolder}\\{oldPost.Id}.xml");
+            }
+            SavePost(newPost);
         }
 
         public bool CheckSlugExists(string slug)
         {
-            return _fileSystem.FileExists($"{StorageFolder}\\{slug}.xml");
+            return _fileSystem.FileExists($"{PostsFolder}\\{slug}.xml");
         }
 
         public void SaveFiles(List<IFormFile> files)
