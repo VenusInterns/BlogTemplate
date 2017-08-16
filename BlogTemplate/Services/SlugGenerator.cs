@@ -21,9 +21,9 @@ namespace BlogTemplate.Services
         public string CreateSlug(string title)
         {
             string tempTitle = title;
+            tempTitle = tempTitle.Replace(" ", "-");
             Regex allowList = new Regex("([^A-Za-z0-9-])");
-            tempTitle = allowList.Replace(tempTitle, "");
-            string slug = tempTitle.Replace(" ", "-");
+            string slug = allowList.Replace(tempTitle, "");
             return slug;
         }
     }
