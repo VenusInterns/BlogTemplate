@@ -20,7 +20,7 @@
         <div class="form-group">
             <div class="col-md-6">
                 <label for="Title">Title</></label>
-                <input type="text" class="form-control" placeholder="" asp-for="EditedPost.Title" data-oldtitle="@Model.Post.Title" />
+                <input type="text" class="form-control" placeholder="" asp-for="EditedPost.Title" data-oldtitle="@Model.EditedPost.Title" />
                 <span asp-validation-for="EditedPost.Title" class="invalid"></span>
             </div>
         </div>
