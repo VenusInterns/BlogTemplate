@@ -10,15 +10,11 @@ namespace BlogTemplate.Models
 {
     public class BlogDataStore
     {
-<<<<<<< HEAD
-        const string StorageFolder = "BlogFiles";
         const string UploadsFolder = "BlogFiles\\Uploads";
-=======
         const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
         protected static int CurrentId = 0;
->>>>>>> master
 
         private IFileSystem _fileSystem;
 
