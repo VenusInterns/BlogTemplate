@@ -1,3 +1,4 @@
+using System;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -63,9 +64,9 @@ namespace BlogTemplate._1.Pages
             newPost.Id = id;
             oldPost = _dataStore.GetPost(id);
 
-            if(oldPost.PubDate.Equals(default(DateTime)))
+            if (oldPost.PubDate.Equals(default(DateTime)))
             {
-                if(newPost.IsPublic == true)
+                if (newPost.IsPublic == true)
                 {
                     newPost.PubDate = DateTime.UtcNow;
                 }

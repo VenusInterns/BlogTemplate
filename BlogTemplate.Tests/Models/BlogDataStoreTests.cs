@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using BlogTemplate._1.Models;
+using BlogTemplate._1.Tests.Fakes;
 using Xunit;
 
 namespace BlogTemplate._1.Tests.Model
