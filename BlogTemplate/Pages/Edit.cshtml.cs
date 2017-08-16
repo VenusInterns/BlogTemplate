@@ -29,15 +29,9 @@ namespace BlogTemplate.Pages
         public EditedPostModel editedPost { get; set; }
         public Post post { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            string slug = RouteData.Values["slug"].ToString();
-            post = _dataStore.GetPost(slug);
+            post = _dataStore.GetPost(id);
 
             if (post == null)
             {
@@ -46,26 +40,25 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish()
+        public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            post = _dataStore.GetPost(id);
             post.IsPublic = true;
-            UpdatePost(post, slug, updateSlug);
-            return Redirect($"/Post/{post.Slug}");
+            UpdatePost(id, updateSlug);
+            return Redirect($"/Post/{id}/{editedPost.NewSlug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft()
+        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            string slug = RouteData.Values["slug"].ToString();
+            post = _dataStore.GetPost(id);
             post.IsPublic = false;
-            UpdatePost(post, slug, updateSlug);
+            UpdatePost(id, updateSlug);
             return Redirect("/Index");
         }
-
-        private void UpdatePost(EditedPostModel editedPost, string slug, [FromForm] bool updateSlug)
+        private void UpdatePost(int id, [FromForm] bool updateSlug)
         {
-            post = _dataStore.GetPost(slug);
+            post = _dataStore.GetPost(id);
             post.Title = editedPost.Title;
             post.Body = editedPost.Body;
             post.Excerpt = editedPost.Excerpt;
