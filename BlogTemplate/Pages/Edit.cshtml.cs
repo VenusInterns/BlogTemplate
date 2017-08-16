@@ -70,15 +70,10 @@ namespace BlogTemplate.Pages
             post.Body = editedPost.Body;
             post.Excerpt = editedPost.Excerpt;
 
+            _dataStore.SavePost(post);
             if (updateSlug)
             {
-                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
-            }
-
-            _dataStore.SavePost(post);
-            if (editedPost.NewSlug != editedPost.OldSlug)
-            {
-                newPost.Slug = _slugGenerator.CreateSlug(newPost.Title);
+                post.Slug = _slugGenerator.CreateSlug(post.Title);
             }
         }
 
