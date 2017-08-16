@@ -22,7 +22,7 @@ namespace BlogTemplate.Pages
         }
 
         [BindProperty]
-        public Comment Comment { get; set; }
+        public CommentViewModel NewComment { get; set; }
 
         public Post Post { get; set; }
 
@@ -41,18 +41,30 @@ namespace BlogTemplate.Pages
         {
             Post = _dataStore.GetPost(id);
 
+            Comment comment = new Comment
+            {
+                AuthorName = NewComment.AuthorName,
+                Body = NewComment.Body,
+            };
+
             if (Post == null)
             {
                 RedirectToPage("/Index");
             }
             else if (ModelState.IsValid)
             {
-                Comment.IsPublic = true;
-                Comment.UniqueId = Guid.NewGuid();
-                Post.Comments.Add(Comment);
+                comment.IsPublic = true;
+                comment.UniqueId = Guid.NewGuid();
+                Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
             }
             return Page();
+        }
+
+        public class CommentViewModel
+        {
+            public string AuthorName { get; set; }
+            public string Body { get; set; }
         }
     }
 }
