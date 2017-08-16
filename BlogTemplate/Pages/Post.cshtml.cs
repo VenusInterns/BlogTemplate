@@ -14,7 +14,7 @@ namespace BlogTemplate.Pages
 
     public class PostModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public PostModel(BlogDataStore dataStore)
         {
@@ -26,16 +26,9 @@ namespace BlogTemplate.Pages
 
         public Post Post { get; set; }
 
-        public void OnGet()
+        public void OnGet([FromRoute] int id)
         {
-            InitializePost();
-        }
-
-        private void InitializePost()
-        {
-            string slug = RouteData.Values["slug"].ToString();
-
-            Post = _dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {
@@ -44,11 +37,9 @@ namespace BlogTemplate.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment()
+        public IActionResult OnPostPublishComment([FromRoute] int id)
         {
-            string slug = RouteData.Values["slug"].ToString();
-
-            Post = _dataStore.GetPost(slug);
+            Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {
