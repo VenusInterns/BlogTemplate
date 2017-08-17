@@ -12,9 +12,14 @@
     <header class="container">
         <div id="menu" class="navbar navbar-default">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target="#myNavbar">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
                 <h2><a asp-page="/Index">BlogTemplate</a></h2>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav"><a asp-page="/Index">Blog</a></li>
                     <li class="nav"><a asp-page="/About">About</a></li>
@@ -50,9 +55,9 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/js/bootstrap.min.js"></script>
     </environment>
 
+    <script src="~/js/bootstrap.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
