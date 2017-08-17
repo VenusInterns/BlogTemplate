@@ -1,9 +1,9 @@
-using BlogTemplate._1.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
+using System.Text;
+using BlogTemplate._1.Models;
 using Xunit;
 
 namespace BlogTemplate._1.Tests.Fakes
