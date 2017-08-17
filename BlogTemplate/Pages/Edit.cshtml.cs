@@ -64,11 +64,11 @@ namespace BlogTemplate._1.Pages
             newPost.Id = id;
             oldPost = _dataStore.GetPost(id);
 
-            if (oldPost.PubDate.Equals(default(DateTime)))
+            if (oldPost.PubDate.Equals(default(DateTimeOffset)))
             {
                 if (newPost.IsPublic == true)
                 {
-                    newPost.PubDate = DateTime.UtcNow;
+                    newPost.PubDate = DateTimeOffset.Now;
                 }
             }
             else
