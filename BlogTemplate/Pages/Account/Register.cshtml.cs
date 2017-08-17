@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BlogTemplate.Data;
-using BlogTemplate.Services;
+using BlogTemplate._1.Data;
+using BlogTemplate._1.Services;
 
-namespace BlogTemplate.Pages.Account
+namespace BlogTemplate._1.Pages.Account
 {
     public class RegisterModel : PageModel
     {
