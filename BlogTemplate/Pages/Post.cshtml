@@ -13,8 +13,6 @@
     <h5 name="date" class="date">@Model.Post.PubDate.ToString("MMM dd, yyyy")</h5>
     <p>@Model.Post.Body</p>
 
-    <h2>Comments</h2>
-
     @if (Model.Post.Comments.Count == 0)
     {
         <p>No comments yet. Be the first to comment!</p>
@@ -22,7 +20,8 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a>
+        <h4 class="text-primary"><a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a></h4>
+        <h2>Comments</h2>
         @foreach (var comment in Model.Post.Comments)
         {
             string cssClass = comment.IsPublic ? "" : "deletedContent";
@@ -36,7 +35,7 @@
                             <p name="Comment-Body" class="commentBody">@comment.Body</p>
                             <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                             <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                            <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
+                            <input type="submit" name="delete" class="btn btn-default btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
                         </div>
 
                     }
@@ -51,7 +50,7 @@
                             
                             <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                             <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                            <input type="submit" name="delete" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
+                            <input type="submit" name="delete" class="btn btn-default btn-sm" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
                         </div>
                     }
                 </div>
@@ -60,6 +59,7 @@
     }
     else
     {
+        <h2>Comments</h2>
         @foreach (var comment in Model.Post.Comments)
         {
             @if (comment.IsPublic)
