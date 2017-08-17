@@ -22,21 +22,20 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-    <a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a>
-    @foreach (var comment in Model.Post.Comments)
+        <a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a>
+        @foreach (var comment in Model.Post.Comments)
         {
             string cssClass = comment.IsPublic ? "" : "deletedContent";
             <form id="form1" method="post">
                 <div class="@cssClass">
-                    <div class="card">
-                        <div class="card-block"
+                    <div class="well well-sm">
                         <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
                         <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
                         <p name="Comment-Body" class="commentBody">@comment.Body</p>
                         <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                         <input type="hidden" name="slug" value="@Model.Post.Slug" />
                         @if (comment.IsPublic)
-                    {
+                        {
                             <input type="submit" name="delete" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
                         }
                         else
@@ -55,12 +54,15 @@
             @if (comment.IsPublic)
             {
                 <form id="form1" method="post">
-                    <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
-                    <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
-                    <p name="Comment-Body" class="commentBody">@comment.Body</p>
-                    <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-                    <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                    <div class="well well-sm">
+                        <p name="Comment-Title" class="commentTitle">@comment.AuthorName</p>
+                        <p name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</p>
+                        <p name="Comment-Body" class="commentBody">@comment.Body</p>
+                        <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                        <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                    </div>
                 </form>
+
             }
         }
     }
