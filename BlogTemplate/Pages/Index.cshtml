@@ -17,9 +17,9 @@
             <article>
                 <div class="col-md-12">
                     <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
-                    <p class="date">@post.PublishTime.ToString("MMM dd, yyyy")</p>
+                    <h5 class="date text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</h5>
                     <p>@post.Excerpt</p>
-                    <p class="commentCount"><span class="glyphicon glyphicon-comment"></span><a href="/post/@post.Id/@post.Slug">@post.CommentCount</a></p>
+                    <p><a href="/post/@post.Id/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></p>
                 </div>
             </article>
 
