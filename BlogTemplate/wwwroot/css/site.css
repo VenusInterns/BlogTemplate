@@ -5,3 +5,7 @@ footer {
 .delete-header {
     color: black;
 }
+
+.navbar-header h2 {
+    padding-left: 15px;
+}
