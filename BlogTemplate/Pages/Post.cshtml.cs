@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -56,7 +57,9 @@ namespace BlogTemplate._1.Pages
 
         public class CommentViewModel
         {
+            [Required]
             public string AuthorName { get; set; }
+            [Required]
             public string Body { get; set; }
         }
     }
