@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -46,9 +47,12 @@ namespace BlogTemplate._1.Pages
         public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
-            bool wasPublic = post.IsPublic;
-            post.IsPublic = true;
-            UpdatePost(post, updateSlug, wasPublic);
+            if (ModelState.IsValid)
+            {
+                bool wasPublic = post.IsPublic;
+                post.IsPublic = true;
+                UpdatePost(post, updateSlug, wasPublic);
+            }
             return Redirect($"/Post/{id}/{post.Slug}");
         }
 
@@ -56,9 +60,12 @@ namespace BlogTemplate._1.Pages
         public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
-            bool wasPublic = post.IsPublic;
-            post.IsPublic = false;
-            UpdatePost(post, updateSlug, wasPublic);
+            if (ModelState.IsValid)
+            {
+                bool wasPublic = post.IsPublic;
+                post.IsPublic = false;
+                UpdatePost(post, updateSlug, wasPublic);
+            }
             return Redirect("/Drafts");
         }
         private void UpdatePost(Post post, [FromForm] bool updateSlug, bool wasPublic)
@@ -76,7 +83,9 @@ namespace BlogTemplate._1.Pages
 
         public class EditedPostModel
         {
+            [Required]
             public string Title { get; set; }
+            [Required]
             public string Body { get; set; }
             public string Excerpt { get; set; }
         }
