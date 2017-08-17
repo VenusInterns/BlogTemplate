@@ -336,7 +336,8 @@ namespace BlogTemplate._1.Models
                     {
                         byte[] buffer = new byte[uploadedFileStream.Length];
                         uploadedFileStream.Read(buffer, 0, buffer.Length);
-                        _fileSystem.WriteFile($"{UploadsFolder}\\{file.FileName}", buffer);
+                        string name = CreateFileName(file.FileName);
+                        _fileSystem.WriteFile($"{UploadsFolder}\\{name}", buffer);
                     }
                 }
             }
@@ -346,6 +347,31 @@ namespace BlogTemplate._1.Models
         {
             IEnumerable<string> fileNames = _fileSystem.EnumerateFiles(UploadsFolder);
             return fileNames;
+        }
+
+        private bool CheckFileNameExists(string fileName)
+        {
+            return _fileSystem.FileExists($"{UploadsFolder}\\{fileName}");
+        }
+
+        private string CreateFileName(string fileName)
+        {
+            string tempName = fileName;
+            string[] elements = fileName.Split(".");
+            int count = 0;
+            while (CheckFileNameExists(tempName))
+            {
+                count++;
+                if (elements.Length > 1)
+                {
+                    tempName = $"{elements[0]}-{count}.{elements[1]}";
+                }
+                else
+                {
+                    tempName = $"{fileName}-{count}";
+                }
+            }
+            return tempName;
         }
 
     }
