@@ -342,5 +342,11 @@ namespace BlogTemplate.Models
             }
         }
 
+        public IEnumerable<string> GetFileNames()
+        {
+            IEnumerable<string> fileNames = _fileSystem.EnumerateFiles(UploadsFolder);
+            return fileNames;
+        }
+
     }
 }

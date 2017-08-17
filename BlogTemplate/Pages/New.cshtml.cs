@@ -17,6 +17,7 @@ namespace BlogTemplate.Pages
         private BlogDataStore _dataStore;
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
+        public IEnumerable<string> fileNames;
 
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -26,6 +27,7 @@ namespace BlogTemplate.Pages
         }
         public void OnGet()
         {
+            fileNames = _dataStore.GetFileNames();
         }
 
         [BindProperty]
