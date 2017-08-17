@@ -64,7 +64,7 @@ namespace BlogTemplate._1.Pages
                 Body = NewPost.Body,
                 Excerpt = NewPost.Excerpt,
                 Slug = _slugGenerator.CreateSlug(NewPost.Title),
-                LastModified = DateTime.UtcNow,
+                LastModified = DateTimeOffset.Now,
             };
 
             if (string.IsNullOrEmpty(post.Excerpt))
@@ -74,7 +74,7 @@ namespace BlogTemplate._1.Pages
 
             if (publishPost)
             {
-                post.PubDate = DateTime.UtcNow;
+                post.PubDate = DateTimeOffset.Now;
                 post.IsPublic = true;
             }
 

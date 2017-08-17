@@ -46,8 +46,9 @@ namespace BlogTemplate._1.Pages
         public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
+            bool wasPublic = post.IsPublic;
             post.IsPublic = true;
-            UpdatePost(post, updateSlug);
+            UpdatePost(post, updateSlug, wasPublic);
             return Redirect($"/Post/{id}/{post.Slug}");
         }
 
@@ -55,17 +56,18 @@ namespace BlogTemplate._1.Pages
         public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
+            bool wasPublic = post.IsPublic;
             post.IsPublic = false;
-            UpdatePost(post, updateSlug);
+            UpdatePost(post, updateSlug, wasPublic);
             return Redirect("/Drafts");
         }
-        private void UpdatePost(Post post, [FromForm] bool updateSlug)
+        private void UpdatePost(Post post, [FromForm] bool updateSlug, bool wasPublic)
         {
             post.Title = EditedPost.Title;
             post.Body = EditedPost.Body;
             post.Excerpt = EditedPost.Excerpt;
 
-            _dataStore.SavePost(post);
+            _dataStore.UpdatePost(post, wasPublic);
             if (updateSlug)
             {
                 post.Slug = _slugGenerator.CreateSlug(post.Title);
