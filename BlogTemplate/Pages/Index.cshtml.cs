@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
-using System.IO;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     public class IndexModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
+
 
         private readonly BlogDataStore _dataStore;
 
@@ -22,13 +20,13 @@ namespace BlogTemplate.Pages
             _dataStore = dataStore;
         }
 
+
         public void OnGet()
         {
             Func<Post, bool> postFilter = p => p.IsPublic;
             IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
 
-            PostSummaries = postModels.Select(p => new PostSummaryModel
-            {
+            PostSummaries = postModels.Select(p => new PostSummaryModel {
                 Id = p.Id,
                 Slug = p.Slug,
                 Title = p.Title,
@@ -47,6 +45,6 @@ namespace BlogTemplate.Pages
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
 
-        }
+       }
     }
 }

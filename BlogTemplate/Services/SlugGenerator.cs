@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
 
-namespace BlogTemplate.Services
+namespace BlogTemplate._1.Services
 {
     public class SlugGenerator
     {
