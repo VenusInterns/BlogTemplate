@@ -33,8 +33,11 @@ namespace BlogTemplate._1.Tests.Services
             string slug4 = testSlugGenerator.CreateSlug("test/");
             string slug5 = testSlugGenerator.CreateSlug("test&");
             string slug6 = testSlugGenerator.CreateSlug("test!");
-            string slug7 = testSlugGenerator.CreateSlug("test©");
-            string slug8 = testSlugGenerator.CreateSlug("testα");
+            string slug7 = testSlugGenerator.CreateSlug("test#");
+            string slug8 = testSlugGenerator.CreateSlug("test''");
+            string slug9 = testSlugGenerator.CreateSlug("test|");
+            string slug10 = testSlugGenerator.CreateSlug("test©");
+            string slug11 = testSlugGenerator.CreateSlug("testα");
             Assert.Equal("test", slug1);
             Assert.Equal("test", slug2);
             Assert.Equal("test", slug3);
@@ -43,6 +46,8 @@ namespace BlogTemplate._1.Tests.Services
             Assert.Equal("test", slug6);
             Assert.Equal("test", slug7);
             Assert.Equal("test", slug8);
+            Assert.Equal("test", slug9);
+            Assert.Equal("test", slug10);
         }
 
     }
