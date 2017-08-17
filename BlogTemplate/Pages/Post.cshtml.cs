@@ -41,18 +41,17 @@ namespace BlogTemplate.Pages
         {
             Post = _dataStore.GetPost(id);
 
-            Comment comment = new Comment
-            {
-                AuthorName = NewComment.AuthorName,
-                Body = NewComment.Body,
-            };
-
             if (Post == null)
             {
                 RedirectToPage("/Index");
             }
             else if (ModelState.IsValid)
             {
+                Comment comment = new Comment
+                {
+                    AuthorName = NewComment.AuthorName,
+                    Body = NewComment.Body,
+                };
                 comment.IsPublic = true;
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
