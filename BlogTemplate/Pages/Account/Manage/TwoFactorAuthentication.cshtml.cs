@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account.Manage
+namespace BlogTemplate._1.Pages.Account.Manage
 {
     public class TwoFactorAuthenticationModel : PageModel
     {
@@ -40,7 +40,7 @@ namespace BlogTemplate.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound();
             }
 
             HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null;

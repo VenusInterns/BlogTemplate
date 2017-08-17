@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account
+namespace BlogTemplate._1.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
@@ -45,7 +45,7 @@ namespace BlogTemplate.Pages.Account
         {
             if (code == null)
             {
-                throw new ApplicationException("A code must be supplied for password reset.");
+                return new BadRequestResult();
             }
             else
             {

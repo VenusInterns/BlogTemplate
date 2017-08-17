@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account
+namespace BlogTemplate._1.Pages.Account
 {
     public class ExternalLoginModel : PageModel
     {
@@ -106,7 +106,7 @@ namespace BlogTemplate.Pages.Account
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
+                    return NotFound();
                 }
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user);

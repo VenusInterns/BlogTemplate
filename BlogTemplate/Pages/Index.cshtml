@@ -18,7 +18,7 @@
                 <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
                 <p class="date">@post.PublishTime.ToString("MMM dd, yyyy")</p>
                 <p>@post.Excerpt</p>
-                <p class="commentCount"><span class="glyphicon glyphicon-comment"></span><a href="/post/@post.Slug">@post.CommentCount</a></p>
+                <p class="commentCount"><span class="glyphicon glyphicon-comment"></span><a href="/post/@post.Id/@post.Slug">@post.CommentCount</a></p>
             </article>
 
         }

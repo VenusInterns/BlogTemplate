@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account
+namespace BlogTemplate._1.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
@@ -28,13 +28,13 @@ namespace BlogTemplate.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+                return NotFound();
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                throw new ApplicationException($"Error confirming email for user with ID '{userId}':");
+                return NotFound();
             }
 
             return Page();

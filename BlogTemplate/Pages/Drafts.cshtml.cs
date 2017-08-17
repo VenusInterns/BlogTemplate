@@ -1,19 +1,15 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
-using System.IO;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     public class DraftsModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
 
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public DraftsModel(BlogDataStore dataStore)
         {

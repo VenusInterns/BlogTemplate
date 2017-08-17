@@ -1,20 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
 
     public class PostModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public PostModel(BlogDataStore dataStore)
         {

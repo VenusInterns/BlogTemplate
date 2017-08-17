@@ -1,23 +1,21 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
-using Microsoft.AspNetCore.Authorization;
-using BlogTemplate.Services;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class NewModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
-        public IEnumerable<string> fileNames;
 
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -27,7 +25,6 @@ namespace BlogTemplate.Pages
         }
         public void OnGet()
         {
-            fileNames = _dataStore.GetFileNames();
         }
 
         [BindProperty]

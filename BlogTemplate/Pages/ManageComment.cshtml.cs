@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class ManageCommentModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
 
         public ManageCommentModel(BlogDataStore dataStore)
         {

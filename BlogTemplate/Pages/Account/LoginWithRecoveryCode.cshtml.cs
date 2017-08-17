@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account
+namespace BlogTemplate._1.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {
@@ -42,7 +42,7 @@ namespace BlogTemplate.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                return NotFound();
             }
 
             ReturnUrl = returnUrl;
@@ -60,7 +60,7 @@ namespace BlogTemplate.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                return NotFound();
             }
 
             var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);

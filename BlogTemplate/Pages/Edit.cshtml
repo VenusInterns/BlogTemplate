@@ -1,9 +1,10 @@
 @page "{id}/{slug}"
-@using BlogTemplate
-@using BlogTemplate.Models
 @model EditModel
-@using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
+@using BlogTemplate._1
+@using BlogTemplate._1.Models
+@using Microsoft.AspNetCore.Mvc.RazorPages
 
 @{
     ViewData["Title"] = "Edit Post";

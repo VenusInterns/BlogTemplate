@@ -1,22 +1,22 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
-using Microsoft.AspNetCore.Authorization;
-using BlogTemplate.Services;
 
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class EditModel : PageModel
     {
-        private BlogDataStore _dataStore;
+
+        private readonly BlogDataStore _dataStore;
+
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
+
 
         public EditModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -64,9 +64,9 @@ namespace BlogTemplate.Pages
             newPost.Id = id;
             oldPost = _dataStore.GetPost(id);
 
-            if(oldPost.PubDate.Equals(default(DateTime)))
+            if (oldPost.PubDate.Equals(default(DateTime)))
             {
-                if(newPost.IsPublic == true)
+                if (newPost.IsPublic == true)
                 {
                     newPost.PubDate = DateTime.UtcNow;
                 }

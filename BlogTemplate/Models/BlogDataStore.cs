@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class BlogDataStore
     {
@@ -16,7 +16,7 @@ namespace BlogTemplate.Models
         private static Object thisLock = new object();
         protected static int CurrentId = 0;
 
-        private IFileSystem _fileSystem;
+        private readonly IFileSystem _fileSystem;
 
         public BlogDataStore(IFileSystem fileSystem)
         {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class PhysicalFileSystem : IFileSystem
     {
