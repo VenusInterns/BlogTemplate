@@ -12,7 +12,7 @@ namespace BlogTemplate._1.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-        private BlogDataStore _dataStore;
+        private readonly BlogDataStore _dataStore;
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
