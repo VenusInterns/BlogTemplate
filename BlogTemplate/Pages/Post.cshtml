@@ -92,21 +92,27 @@
     <hr class="commentsDivider" />
     @if (Model.Post.IsPublic)
     {
-        <div class="col-md-6 well">
-            <h3>Add Comment</h3>
-            <form id="comment-form" method="post">
-                <div class="form-group">
-                    <label for="AuthorName">Name</label>
-                    <input type="text" class="form-control" placeholder="" asp-for="Comment.AuthorName" />
-                    <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
+        <div class="col-sm-6" style="height:6px;"></div>
+        <div class="add-comment-form">
+            <div class="col-md-6">
+                <h3>Add Comment</h3>
+
+                <div class="well">
+                    <form id="comment-form" method="post">
+                        <div class="form-group">
+                            <label for="AuthorName">Name</label>
+                            <input type="text" class="form-control" placeholder="" asp-for="Comment.AuthorName" />
+                            <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Body">Comment</label>
+                            <textarea placeholder="" class="form-control" asp-for="Comment.Body"></textarea>
+                            <span asp-validation-for="Comment.Body" class="invalid"></span>
+                        </div>
+                        <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="Body">Comment</label>
-                    <textarea placeholder="" class="form-control" asp-for="Comment.Body"></textarea>
-                    <span asp-validation-for="Comment.Body" class="invalid"></span>
-                </div>
-                <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
-            </form>
+            </div>
         </div>
     }
 </article>

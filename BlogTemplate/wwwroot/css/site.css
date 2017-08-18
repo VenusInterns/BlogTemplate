@@ -10,15 +10,19 @@ footer {
     padding-left: 15px;
 }
 
-p a {
+article div h3 a {
     color: #999999;
 }
 
-p a:hover {
-
+article div h3 a:hover {
+    color: black;
     text-decoration: none;
 }
 
 .cancel-link {
     padding-top: 10px;
+}
+
+.add-comment-form {
+    margin-top: 50px;
 }
