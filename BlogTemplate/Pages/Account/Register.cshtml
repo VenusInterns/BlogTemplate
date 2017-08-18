@@ -6,9 +6,9 @@
 
 <h2>@ViewData["Title"]</h2>
 
-if (User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated)
 {
-<p>You are already logged in.</p>
+<p>@ViewData["UserAlreadyRegisteredMessage"]</p>
 }
 else
 {
