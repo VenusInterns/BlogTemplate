@@ -2,6 +2,11 @@ using System;
 using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Xml;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Markdig;
+using Microsoft.AspNetCore.Html;
 
 namespace BlogTemplate._1.Pages
 {
@@ -19,6 +24,12 @@ namespace BlogTemplate._1.Pages
         public Comment Comment { get; set; }
 
         public Post Post { get; set; }
+
+        public HtmlString HtmlBody()
+        {
+            var html = Markdown.ToHtml(Post.Body);
+            return new HtmlString(html);
+        }
 
         public void OnGet([FromRoute] int id)
         {
