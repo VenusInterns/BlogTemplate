@@ -102,12 +102,12 @@
                         <div class="form-group">
                             <label for="AuthorName">Name</label>
                             <input type="text" class="form-control" placeholder="" asp-for="Comment.AuthorName" />
-                            <span asp-validation-for="Comment.AuthorName" class="invalid"></span>
+                            <span asp-validation-for="Comment.AuthorName" class="text-warning"></span>
                         </div>
                         <div class="form-group">
                             <label for="Body">Comment</label>
                             <textarea placeholder="" class="form-control" asp-for="Comment.Body"></textarea>
-                            <span asp-validation-for="Comment.Body" class="invalid"></span>
+                            <span asp-validation-for="Comment.Body" class="text-warning"></span>
                         </div>
                         <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
                     </form>

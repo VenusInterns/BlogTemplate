@@ -17,12 +17,12 @@
         <div class="form-group col-md-6">
             <label for="Title">Title</></label>
             <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
-            <span asp-validation-for="Post.Title" class="invalid"></span>
+            <span asp-validation-for="Post.Title" class="text-warning"></span>
         </div>
         <div class="form-group col-md-12">
             <label for="Body" class="primaryField">Body</label>
             <textarea rows="10" class="form-control" placeholder="" asp-for="Post.Body"></textarea>
-            <span asp-validation-for="Post.Body" class="invalid"></span>
+            <span asp-validation-for="Post.Body" class="text-warning"></span>
         </div>
         <div class="form-group col-md-12">
             <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
