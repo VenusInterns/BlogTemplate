@@ -56,7 +56,7 @@ namespace BlogTemplate._1.Pages
             oldPost = _dataStore.GetPost(id);
             newPost.IsPublic = false;
             UpdatePost(id);
-            return Redirect("/Index");
+            return Redirect("/Drafts");
         }
 
         private void UpdatePost(int id)
