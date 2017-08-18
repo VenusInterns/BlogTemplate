@@ -92,10 +92,9 @@
     <hr class="commentsDivider" />
     @if (Model.Post.IsPublic)
     {
-        <div class="col-md-6">
+        <div class="col-md-6 well">
             <h3>Add Comment</h3>
             <form id="comment-form" method="post">
-                <div asp-validation-summary="All"></div>
                 <div class="form-group">
                     <label for="AuthorName">Name</label>
                     <input type="text" class="form-control" placeholder="" asp-for="Comment.AuthorName" />

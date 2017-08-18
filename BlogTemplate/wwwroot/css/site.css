@@ -9,3 +9,16 @@ footer {
 .navbar-header h2 {
     padding-left: 15px;
 }
+
+p a {
+    color: #999999;
+}
+
+p a:hover {
+
+    text-decoration: none;
+}
+
+.cancel-link {
+    padding-top: 10px;
+}
