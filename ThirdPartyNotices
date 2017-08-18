@@ -1,0 +1,8 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+Do Not Translate or Localize
+
+This file provides information in Section A regarding components that are being relicensed to you by Microsoft under Microsoft's software licensing terms, and information in Section B regarding components that are being made available to you by Microsoft under their original licensing terms.  The actual components vary for each Microsoft Visual Studio software product.  Updates to this file may be found at https://go.microsoft.com/fwlink/?LinkId=507472. Microsoft reserves all rights not expressly granted herein, whether by implication, estoppel or otherwise.
+
+Section A: Microsoft offers you the ability to use the following components with the Microsoft Visual Studio software product you have selected subject to Microsoft's software licensing terms for the Microsoft Visual Studio software product.
+
+1. .Net Processor for Markdown ("Markdig") (https://github.com/lunet-io/markdig)
