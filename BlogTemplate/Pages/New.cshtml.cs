@@ -35,8 +35,8 @@ namespace BlogTemplate._1.Pages
         {
             if (ModelState.IsValid)
             {
-                Post.PubDate = DateTime.UtcNow;
-                Post.LastModified = DateTime.UtcNow;
+                Post.PubDate = DateTimeOffset.Now;
+                Post.LastModified = DateTimeOffset.Now;
                 Post.IsPublic = true;
                 SavePost(Post);
                 return Redirect("/Index");
