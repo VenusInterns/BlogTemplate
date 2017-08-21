@@ -78,7 +78,7 @@ namespace BlogTemplate._1.Pages
 
             if (newPost.Excerpt == null)
             {
-                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, 140);
+                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, newPost.ExcerptMaxLength);
             }
 
             if (Request.Form["updateslug"] == "true")

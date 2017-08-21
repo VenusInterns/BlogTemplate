@@ -64,7 +64,7 @@ namespace BlogTemplate._1.Pages
 
             if (string.IsNullOrEmpty(Post.Excerpt))
             {
-                Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
+                Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, Post.ExcerptMaxLength);
             }
 
             _dataStore.SavePost(Post);
