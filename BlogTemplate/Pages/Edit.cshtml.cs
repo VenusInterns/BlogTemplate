@@ -51,6 +51,10 @@ namespace BlogTemplate._1.Pages
             {
                 bool wasPublic = post.IsPublic;
                 post.IsPublic = true;
+                if (post.PubDate.Equals(default(DateTimeOffset)))
+                {
+                    post.PubDate = DateTimeOffset.Now;
+                }
                 UpdatePost(post, updateSlug, wasPublic);
             }
             return Redirect($"/Post/{id}/{post.Slug}");
