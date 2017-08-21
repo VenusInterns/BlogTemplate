@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,12 +12,9 @@ namespace BlogTemplate._1.Pages
     [Authorize]
     public class EditModel : PageModel
     {
-
         private readonly BlogDataStore _dataStore;
-
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
-
 
         public EditModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
@@ -26,72 +24,74 @@ namespace BlogTemplate._1.Pages
         }
 
         [BindProperty]
-        public Post newPost { get; set; }
-
-        public Post oldPost { get; set; }
+        public EditedPostModel EditedPost { get; set; }
 
         public void OnGet([FromRoute] int id)
         {
-            newPost = oldPost = _dataStore.GetPost(id);
+            Post post = _dataStore.GetPost(id);
 
-            if (oldPost == null)
+            EditedPost = new EditedPostModel
+            {
+                Title = post.Title,
+                Body = post.Body,
+                Excerpt = post.Excerpt,
+            };
+
+            if (post == null)
             {
                 RedirectToPage("/Index");
             }
         }
 
-
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish([FromRoute] int id)
+        public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            oldPost = _dataStore.GetPost(id);
-            newPost.IsPublic = true;
-            UpdatePost(id);
-            return Redirect($"/Post/{id}/{newPost.Slug}");
+            Post post = _dataStore.GetPost(id);
+            if (ModelState.IsValid)
+            {
+                bool wasPublic = post.IsPublic;
+                post.IsPublic = true;
+                if (post.PubDate.Equals(default(DateTimeOffset)))
+                {
+                    post.PubDate = DateTimeOffset.Now;
+                }
+                UpdatePost(post, updateSlug, wasPublic);
+            }
+            return Redirect($"/Post/{id}/{post.Slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id)
+        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
         {
-            oldPost = _dataStore.GetPost(id);
-            newPost.IsPublic = false;
-            UpdatePost(id);
+            Post post = _dataStore.GetPost(id);
+            if (ModelState.IsValid)
+            {
+                bool wasPublic = post.IsPublic;
+                post.IsPublic = false;
+                UpdatePost(post, updateSlug, wasPublic);
+            }
             return Redirect("/Drafts");
         }
-
-        private void UpdatePost(int id)
+        private void UpdatePost(Post post, [FromForm] bool updateSlug, bool wasPublic)
         {
-            newPost.Id = id;
-            oldPost = _dataStore.GetPost(id);
+            post.Title = EditedPost.Title;
+            post.Body = EditedPost.Body;
+            post.Excerpt = EditedPost.Excerpt;
 
-            if (oldPost.PubDate.Equals(default(DateTimeOffset)))
+            _dataStore.UpdatePost(post, wasPublic);
+            if (updateSlug)
             {
-                if (newPost.IsPublic == true)
-                {
-                    newPost.PubDate = DateTimeOffset.Now;
-                }
+                post.Slug = _slugGenerator.CreateSlug(post.Title);
             }
-            else
-            {
-                newPost.PubDate = oldPost.PubDate;
-            }
+        }
 
-            if (newPost.Excerpt == null)
-            {
-                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body, newPost.ExcerptMaxLength);
-            }
-
-            if (Request.Form["updateslug"] == "true")
-            {
-                newPost.Slug = _slugGenerator.CreateSlug(newPost.Title);
-            }
-            else
-            {
-                newPost.Slug = oldPost.Slug;
-            }
-            newPost.Comments = oldPost.Comments;
-
-            _dataStore.UpdatePost(newPost, oldPost);
+        public class EditedPostModel
+        {
+            [Required]
+            public string Title { get; set; }
+            [Required]
+            public string Body { get; set; }
+            public string Excerpt { get; set; }
         }
     }
 }
