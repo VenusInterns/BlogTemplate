@@ -15,7 +15,12 @@
         {
             <article>
                 <h2><a href="/edit/@post.Id/@post.Slug">@post.Title</a></h2>
+                @if (post.PubDate != null)
+                {
+                    <h5 class="date text-muted">@post.PubDate.ToString("MMM dd, yyyy")</h5>
+                }
                 <p class="lead">@post.Excerpt</p>
+                <h3><a href="/post/@post.Id/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
             </article>
         }
     }
