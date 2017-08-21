@@ -52,7 +52,7 @@ namespace BlogTemplate._1.Pages
             {
                 Post.IsPublic = false;
                 SavePost(Post);
-                return Redirect("/Index");
+                return Redirect("/Drafts");
             }
 
             return Page();
