@@ -12,7 +12,7 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
-            Message = "Your application description page.";
+            Message = "Your blog description page.";
         }
     }
 }
