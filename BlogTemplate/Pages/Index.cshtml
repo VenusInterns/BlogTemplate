@@ -5,9 +5,11 @@
 
     if (!Model.PostSummaries.Any())
     {
-        <h3>Welcome!</h3>
-        <p>Get started and write your first blog post <a href="/New">here.</a></p>
-        <p>Happy blogging!</p>
+        <div class="jumbotron">
+            <h1>Welcome!</h1>
+            <p>Get started and write your first blog post <a class="text-primary" href="/New">here</a>.</p>
+            <p>Happy blogging!</p>
+        </div>
     }
 
     else
@@ -15,10 +17,12 @@
         foreach (var post in Model.PostSummaries)
         {
             <article>
-                <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
-                <p class="date">@post.PublishTime.ToString("MMM dd, yyyy")</p>
-                <p>@post.Excerpt</p>
-                <p class="commentCount"><span class="glyphicon glyphicon-comment"></span><a href="/post/@post.Id/@post.Slug">@post.CommentCount</a></p>
+                <div class="col-md-12">
+                    <h2><a href="/post/@post.Id/@post.Slug">@post.Title</a></h2>
+                    <h5 class="date text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</h5>
+                    <p class="lead">@post.Excerpt</p>
+                    <h3><a href="/post/@post.Id/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                </div>
             </article>
 
         }

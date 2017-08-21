@@ -22,6 +22,6 @@ namespace BlogTemplate._1.Models
         public string Slug{ get; set; }
         public bool IsPublic { get; set; }
         public string Excerpt { get; set; }
-
+        public int ExcerptMaxLength { get; } = 140;
     }
 }
