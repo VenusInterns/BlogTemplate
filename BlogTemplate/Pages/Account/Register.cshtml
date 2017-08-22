@@ -6,12 +6,6 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@if (User.Identity.IsAuthenticated)
-{
-<p>@ViewData["UserAlreadyRegisteredMessage"]</p>
-}
-else
-{
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -37,7 +31,6 @@ else
         </form>
     </div>
 </div>
-}
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

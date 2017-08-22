@@ -70,8 +70,7 @@ namespace BlogTemplate.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 if(_userManager.Users.Count() != 0)
                 {
-                    ViewData["UserAlreadyRegisteredMessage"] = "A user account is already registered, please login instead.";
-                    return Page();
+                    return RedirectToPage("/AlreadyRegistered");
                 }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
