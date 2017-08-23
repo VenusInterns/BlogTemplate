@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,7 +17,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [BindProperty]
-        public Comment Comment { get; set; }
+        public CommentViewModel NewComment { get; set; }
 
         public Post Post { get; set; }
 
@@ -41,12 +42,25 @@ namespace BlogTemplate._1.Pages
             }
             else if (ModelState.IsValid)
             {
-                Comment.IsPublic = true;
-                Comment.UniqueId = Guid.NewGuid();
-                Post.Comments.Add(Comment);
+                Comment comment = new Comment
+                {
+                    AuthorName = NewComment.AuthorName,
+                    Body = NewComment.Body,
+                };
+                comment.IsPublic = true;
+                comment.UniqueId = Guid.NewGuid();
+                Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
             }
             return Page();
+        }
+
+        public class CommentViewModel
+        {
+            [Required]
+            public string AuthorName { get; set; }
+            [Required]
+            public string Body { get; set; }
         }
     }
 }
