@@ -13,7 +13,6 @@ namespace BlogTemplate._1.Models
         const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
-        protected static int CurrentId = 0;
 
         private readonly IFileSystem _fileSystem;
 
@@ -29,44 +28,44 @@ namespace BlogTemplate._1.Models
             _fileSystem.CreateDirectory(DraftsFolder);
         }
 
-        private void InitCurrentId()
-        {
-            if(CurrentId == 0)
-            {
-                lock(thisLock)
-                {
-                    if(CurrentId == 0)
-                    {
-                        int max = 0;
-                        IEnumerable<string> postfiles = _fileSystem.EnumerateFiles(PostsFolder).Select(f => Path.GetFileName(f));
-                        foreach (var file in postfiles)
-                        {
-                            int start = file.IndexOf("_");
-                            int end = file.IndexOf(".");
-                            int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
-                            if (currId > max)
-                            {
-                                max = currId;
-                            }
-                        }
+        //private void InitCurrentId()
+        //{
+        //    if(CurrentId == 0)
+        //    {
+        //        lock(thisLock)
+        //        {
+        //            if(CurrentId == 0)
+        //            {
+        //                int max = 0;
+        //                IEnumerable<string> postfiles = _fileSystem.EnumerateFiles(PostsFolder).Select(f => Path.GetFileName(f));
+        //                foreach (var file in postfiles)
+        //                {
+        //                    int start = file.IndexOf("_");
+        //                    int end = file.IndexOf(".");
+        //                    int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
+        //                    if (currId > max)
+        //                    {
+        //                        max = currId;
+        //                    }
+        //                }
 
-                        IEnumerable<string> draftfiles = _fileSystem.EnumerateFiles(DraftsFolder).Select(f => Path.GetFileName(f));
-                        foreach (var file in draftfiles)
-                        {
-                            int start = 0;
-                            int end = file.IndexOf(".");
-                            int currId = Convert.ToInt32(file.Substring(start, end));
-                            if (currId > max)
-                            {
-                                max = currId;
-                            }
-                        }
+        //                IEnumerable<string> draftfiles = _fileSystem.EnumerateFiles(DraftsFolder).Select(f => Path.GetFileName(f));
+        //                foreach (var file in draftfiles)
+        //                {
+        //                    int start = 0;
+        //                    int end = file.IndexOf(".");
+        //                    int currId = Convert.ToInt32(file.Substring(start, end));
+        //                    if (currId > max)
+        //                    {
+        //                        max = currId;
+        //                    }
+        //                }
 
-                        CurrentId = max;
-                    }
-                }           
-            }         
-        }
+        //                CurrentId = max;
+        //            }
+        //        }           
+        //    }         
+        //}
 
         private void SetId(Post post)
         {
