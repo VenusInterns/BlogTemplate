@@ -46,9 +46,9 @@ namespace BlogTemplate._1
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddSingleton<IFileSystem, PhysicalFileSystem>();
-            services.AddScoped<BlogDataStore>();
+            services.AddSingleton<BlogDataStore>();
 
-            services.AddScoped<SlugGenerator>();
+            services.AddSingleton<SlugGenerator>();
             services.AddSingleton<ExcerptGenerator>();
         }
 
