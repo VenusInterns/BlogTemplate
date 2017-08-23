@@ -16,11 +16,13 @@ namespace BlogTemplate.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -30,6 +32,7 @@ namespace BlogTemplate.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public bool noIdentitiesExist { get; set; }
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -54,9 +57,14 @@ namespace BlogTemplate.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
+            noIdentitiesExist = true;
+            if (_userManager.Users.Count() != 0)
+            {
+                noIdentitiesExist = false;
+            }
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                // Clear the existing external cookie to ensure a clean login process
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 

@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BlogTemplate.Tests.Fakes;
+using static BlogTemplate.Pages.Account.LoginModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogTemplate._1.Tests.Pages.Account
 {
@@ -45,12 +47,57 @@ namespace BlogTemplate._1.Tests.Pages.Account
         [Fact]
         public void RegisterUser_CreateFirstUser_LocalRedirect()
         {
+            // Arrange
             FakeUserManager fakeUserManager = new FakeUserManager();
             fakeUserManager.SetUsers(new List<ApplicationUser>(new ApplicationUser[] {}).AsQueryable());
 
             RegisterModel registerModel = new RegisterModel(fakeUserManager, null, null, null);
             registerModel.PageContext = new PageContext();
 
+
+            registerModel.Input.Email = "fsda@fdsa.c";
+            registerModel.Input.Password = "password";
+
+            //Act
+            IActionResult result = registerModel.OnPostAsync().Result;
+
+
+            //Assert
+            Assert.Equal(typeof(LocalRedirectResult), result.GetType());
         }
+
+        //[Fact]
+        //public void RegisterUser_CreateFirstUser_LogError_ReturnPage()
+        //{
+        //    // Arrange
+        //    FakeUserManager fakeUserManager = new FakeUserManager();
+        //    fakeUserManager.SetUsers(new List<ApplicationUser>(new ApplicationUser[] { }).AsQueryable());
+
+        //    RegisterModel registerModel = new RegisterModel(fakeUserManager, null, null, null);
+        //    registerModel.PageContext = new PageContext();
+
+        //    //Act
+        //    IActionResult result = registerModel.OnPostAsync().Result; ;
+
+        //    //Assert
+        //    Assert.Equal(typeof(PageResult), result.GetType());
+        //}
+
+        //[Fact]
+        //public void InvalidModelState_NoRegistration_ReturnPage()
+        //{
+        //    // Arrange
+        //    FakeUserManager fakeUserManager = new FakeUserManager();
+        //    fakeUserManager.SetUsers(new List<ApplicationUser>(new ApplicationUser[] { }).AsQueryable());
+
+        //    RegisterModel registerModel = new RegisterModel(fakeUserManager, null, null, null);
+        //    registerModel.PageContext = new PageContext();
+
+        //    //Act
+        //    IActionResult result = registerModel.OnPostAsync().Result; ;
+
+        //    //Assert
+        //    Assert.Equal(typeof(PageResult), result.GetType());
+        //}
     }
 }

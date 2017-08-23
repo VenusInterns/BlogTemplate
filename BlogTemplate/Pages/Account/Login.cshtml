@@ -45,7 +45,7 @@ else
                         <p>
                             <a asp-page="./ForgotPassword">Forgot your password?</a>
                         </p>
-                        @if (User.Identities.Count() == 0)
+                        @if (Model.noIdentitiesExist)
                         {
                         <p>
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
