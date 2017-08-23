@@ -53,7 +53,9 @@ namespace BlogTemplate._1.Pages
                 _dataStore.SavePost(Post);
                 NewComment.AuthorName = null;
                 NewComment.Body = null;
+                return Redirect("/post/" + id + "/" + Post.Slug);
             }
+
             return Page();
         }
 
