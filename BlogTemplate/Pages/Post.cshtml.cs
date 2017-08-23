@@ -52,6 +52,7 @@ namespace BlogTemplate._1.Pages
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
                 comment = null;
+                ModelState.Clear();
             }
             return Page();
         }
