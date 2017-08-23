@@ -67,12 +67,12 @@ namespace BlogTemplate.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 if(_userManager.Users.Count() != 0)
                 {
                     return RedirectToPage("/AlreadyRegistered");
                 }
 
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
