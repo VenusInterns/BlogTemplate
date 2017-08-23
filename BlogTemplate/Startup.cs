@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BlogTemplate.Data;
-using BlogTemplate.Services;
-using BlogTemplate.Models;
+using BlogTemplate._1.Data;
+using BlogTemplate._1.Services;
+using BlogTemplate._1.Models;
 
-namespace BlogTemplate
+namespace BlogTemplate._1
 {
     public class Startup
     {
@@ -46,9 +46,9 @@ namespace BlogTemplate
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddSingleton<IFileSystem, PhysicalFileSystem>();
-            services.AddScoped<BlogDataStore>();
+            services.AddSingleton<BlogDataStore>();
 
-            services.AddScoped<SlugGenerator>();
+            services.AddSingleton<SlugGenerator>();
             services.AddSingleton<ExcerptGenerator>();
         }
 

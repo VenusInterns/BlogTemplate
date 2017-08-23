@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
-using Microsoft.AspNetCore.Authorization;
-using BlogTemplate.Services;
 
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class NewModel : PageModel
@@ -18,7 +16,6 @@ namespace BlogTemplate.Pages
         const string StorageFolder = "BlogFiles";
 
         private readonly BlogDataStore _dataStore;
-
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
@@ -29,22 +26,20 @@ namespace BlogTemplate.Pages
             _slugGenerator = slugGenerator;
             _excerptGenerator = excerptGenerator;
         }
+
+        [BindProperty]
+        public NewPostViewModel NewPost { get; set; }
+
         public void OnGet()
         {
         }
-
-        [BindProperty]
-        public Post Post { get; set; }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
             if (ModelState.IsValid)
             {
-                Post.PubDate = DateTime.UtcNow;
-                Post.LastModified = DateTime.UtcNow;
-                Post.IsPublic = true;
-                SavePost(Post);
+                SavePost(NewPost, true);
                 return Redirect("/Index");
             }
 
@@ -56,24 +51,44 @@ namespace BlogTemplate.Pages
         {
             if(ModelState.IsValid)
             {
-                Post.IsPublic = false;
-                SavePost(Post);
+                SavePost(NewPost, false);
                 return Redirect("/Index");
             }
 
             return Page();
         }
 
-        private void SavePost(Post post)
+        private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
-            Post.Slug = _slugGenerator.CreateSlug(Post.Title);
+            Post post = new Post {
+                Title = NewPost.Title,
+                Body = NewPost.Body,
+                Excerpt = NewPost.Excerpt,
+                Slug = _slugGenerator.CreateSlug(NewPost.Title),
+                LastModified = DateTimeOffset.Now,
+            };
 
-            if (string.IsNullOrEmpty(Post.Excerpt))
+            if (string.IsNullOrEmpty(post.Excerpt))
             {
-                Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
+                post.Excerpt = _excerptGenerator.CreateExcerpt(post.Body, 140);
             }
 
-            _dataStore.SavePost(Post);
+            if (publishPost)
+            {
+                post.PubDate = DateTimeOffset.Now;
+                post.IsPublic = true;
+            }
+
+            _dataStore.SavePost(post);
+        }
+
+        public class NewPostViewModel
+        {
+            [Required]
+            public string Title { get; set; }
+            [Required]
+            public string Body { get; set; }
+            public string Excerpt { get; set; }
         }
     }
 }

@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static BlogTemplate._1.Pages.EditModel;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class BlogDataStore
     {
@@ -310,17 +311,17 @@ namespace BlogTemplate.Models
             return IteratePosts(files, allDrafts);
         }
 
-        public void UpdatePost(Post newPost, Post oldPost)
+        public void UpdatePost(Post post, bool wasPublic)
         {
-            if(oldPost.IsPublic)
+            if(wasPublic)
             {
-                _fileSystem.DeleteFile($"{PostsFolder}\\{oldPost.PubDate.ToFileTime()}_{oldPost.Id}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml");
             }
             else
             {
-                _fileSystem.DeleteFile($"{DraftsFolder}\\{oldPost.Id}.xml");
+                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id}.xml");
             }
-            SavePost(newPost);
+            SavePost(post);
         }
 
         public bool CheckSlugExists(string slug)

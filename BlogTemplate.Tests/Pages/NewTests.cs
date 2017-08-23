@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BlogTemplate.Models;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Tests.Fakes;
 using Xunit;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-using BlogTemplate.Tests.Fakes;
 
-namespace BlogTemplate.Tests.Pages
+namespace BlogTemplate._1.Tests.Pages
 {
     class NewTests
     {

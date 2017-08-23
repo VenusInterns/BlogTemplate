@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     /*
      * It would have been nice to use a supported mockable interface like 
