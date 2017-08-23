@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BlogTemplate._1.Data;
 
-namespace BlogTemplate.Pages.Account.Manage
+namespace BlogTemplate._1.Pages.Account.Manage
 {
     public class EnableAuthenticatorModel : PageModel
     {
