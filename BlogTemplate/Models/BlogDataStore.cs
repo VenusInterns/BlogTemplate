@@ -217,7 +217,8 @@ namespace BlogTemplate._1.Models
             string outputFilePath;
             if (post.IsPublic == true)
             {
-                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml";
+                string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
+                outputFilePath = $"{PostsFolder}\\{date}_{post.Id}.xml";
             }
             else
             {
@@ -315,7 +316,8 @@ namespace BlogTemplate._1.Models
         {
             if(wasPublic)
             {
-                _fileSystem.DeleteFile($"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml");
+                string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{post.Id}.xml");
             }
             else
             {
