@@ -17,7 +17,7 @@
             <article>
                 <div class="col-md-12">
                     <h2><a href="/edit/@post.Id/@post.Slug">@post.Title</a></h2>
-                    @if (post.PublishTime != null)
+                    @if (post.PublishTime != default(DateTimeOffset))
                     {
                         <h5 class="date text-muted">Last Published @post.PublishTime.ToString("MMM dd, yyyy")</h5>
                     }
