@@ -51,8 +51,8 @@ namespace BlogTemplate._1.Pages
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
-                comment = null;
-                ModelState.Clear();
+                NewComment.AuthorName = null;
+                NewComment.Body = null;
             }
             return Page();
         }
