@@ -12,7 +12,6 @@ namespace BlogTemplate._1.Services
     public class SlugGenerator
     {
         private BlogDataStore _dataStore;
-        private static Regex AllowList = new Regex("([^A-Za-z0-9-])", RegexOptions.None, TimeSpan.FromSeconds(1));
 
         public SlugGenerator(BlogDataStore dataStore)
         {
@@ -23,8 +22,8 @@ namespace BlogTemplate._1.Services
         {
             string tempTitle = title;
             tempTitle = tempTitle.Replace(" ", "-");
-        
-            string slug = AllowList.Replace(tempTitle, "");
+            Regex allowList = new Regex("([^A-Za-z0-9-])");
+            string slug = allowList.Replace(tempTitle, "");
             return slug;
         }
     }
