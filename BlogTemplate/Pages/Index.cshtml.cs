@@ -8,8 +8,6 @@ namespace BlogTemplate._1.Pages
 {
     public class IndexModel : PageModel
     {
-        const string StorageFolder = "BlogFiles";
-
         private readonly BlogDataStore _dataStore;
 
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
