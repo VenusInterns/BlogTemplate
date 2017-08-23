@@ -22,7 +22,7 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-    <a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a>
+    <a asp-page="/edit" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.Slug">Edit Post</a>
     @foreach (var comment in Model.Post.Comments)
         {
             string cssClass = comment.IsPublic ? "" : "deletedContent";
