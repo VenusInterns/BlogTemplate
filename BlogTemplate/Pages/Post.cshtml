@@ -18,7 +18,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-md-12">
-            <h4 class="text-primary"><a href="/edit/@Model.Post.Id/@Model.Post.Slug">Edit Post</a></h4>
+            <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.Slug">Edit Post</a></h4>
         </div>
         <div class="col-md-6">
             <h2>Comments</h2>
