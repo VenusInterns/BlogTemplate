@@ -51,8 +51,6 @@ namespace BlogTemplate._1.Pages
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
-                NewComment.AuthorName = null;
-                NewComment.Body = null;
                 return Redirect("/post/" + id + "/" + Post.Slug);
             }
 
