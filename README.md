@@ -4,8 +4,6 @@ We created this blog template for Visual Studio to help users create a new, pers
 
 This is a blogging engine based on Razor Pages and ASP.NET.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
-
 __Live demo__: https://venusblog.azurewebsites.net/    
 
 
