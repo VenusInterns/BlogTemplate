@@ -20,5 +20,6 @@ namespace BlogTemplate._1.Models
         bool DirectoryExists(string path);
         void CreateDirectory(string path);
         IEnumerable<string> EnumerateFiles(string directoryPath);
+        byte[] ReadAllBytes(string path);
     }
 }

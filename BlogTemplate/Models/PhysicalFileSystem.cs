@@ -50,5 +50,10 @@ namespace BlogTemplate._1.Models
         {
             File.WriteAllBytes(path, data);
         }
+
+        public byte[] ReadAllBytes(string path)
+        {
+            return File.ReadAllBytes(path);
+        }
     }
 }
