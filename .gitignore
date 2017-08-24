@@ -3,7 +3,6 @@
 
 # Files stored for blog user data (development time)
 BlogTemplate/BlogFiles/**
-BlogTemplate/wwwroot/Uploads/**
 
 # User-specific files
 *.suo
