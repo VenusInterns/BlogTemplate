@@ -26,9 +26,14 @@ namespace BlogTemplate._1.Pages
         [BindProperty]
         public EditedPostModel EditedPost { get; set; }
 
-        public void OnGet([FromRoute] int id)
+        public void OnGet([FromRoute] string id)
         {
             Post post = _dataStore.GetPost(id);
+
+            if (post == null)
+            {
+                RedirectToPage("/Index");
+            }
 
             EditedPost = new EditedPostModel
             {
@@ -36,15 +41,10 @@ namespace BlogTemplate._1.Pages
                 Body = post.Body,
                 Excerpt = post.Excerpt,
             };
-
-            if (post == null)
-            {
-                RedirectToPage("/Index");
-            }
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostPublish([FromRoute] string id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
@@ -61,7 +61,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostSaveDraft([FromRoute] string id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)

@@ -29,11 +29,10 @@
                 <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body"></textarea>
                 <span asp-validation-for="EditedPost.Body" class="invalid"></span>
             </div>
-        </div>
-        <div class="col-md-12 form-group">
-            <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-            <textarea class="form-control" placeholder="" asp-for="EditedPost.Excerpt"></textarea>
-        </div>
+            <div class="col-md-12 form-group">
+                <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
+                <textarea class="form-control" placeholder="" asp-for="EditedPost.Excerpt"></textarea>
+            </div>
             <div class="col-md-12">
                 <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
                 <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />

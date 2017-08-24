@@ -20,7 +20,7 @@ namespace BlogTemplate._1.Models
         {
             _fileSystem = fileSystem;
             InitStorageFolder();
-            InitCurrentId();
+            //InitCurrentId();
         }
         public void InitStorageFolder()
         {
@@ -69,13 +69,9 @@ namespace BlogTemplate._1.Models
 
         private void SetId(Post post)
         {
-            if(post.Id == 0)
+            if(post.Id == Guid.Empty)
             {
-                lock (thisLock)
-                {
-                    post.Id = ++CurrentId;
-                }
-
+                post.Id = Guid.NewGuid();
             }
         }
 
@@ -200,7 +196,7 @@ namespace BlogTemplate._1.Models
 
         public void AppendPostInfo(Post post, XElement rootNode)
         {
-            rootNode.Add(new XElement("Id", post.Id.ToString()));
+            rootNode.Add(new XElement("Id", post.Id.ToString("N")));
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
@@ -216,11 +212,11 @@ namespace BlogTemplate._1.Models
             string outputFilePath;
             if (post.IsPublic == true)
             {
-                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml";
+                outputFilePath = $"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id.ToString("N")}.xml";
             }
             else
             {
-                outputFilePath = $"{DraftsFolder}\\{post.Id}.xml";
+                outputFilePath = $"{DraftsFolder}\\{post.Id.ToString("N")}.xml";
             }
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
@@ -247,7 +243,7 @@ namespace BlogTemplate._1.Models
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
-                Id = Convert.ToInt32(doc.Root.Element("Id").Value),
+                Id = Guid.Parse(doc.Root.Element("Id").Value),
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
@@ -260,7 +256,7 @@ namespace BlogTemplate._1.Models
             return post;
         }
 
-        public Post GetPost(int id)
+        public Post GetPost(string id)
         {
             string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
             if (_fileSystem.FileExists(expectedFilePath))
@@ -275,7 +271,7 @@ namespace BlogTemplate._1.Models
                     int start = file.IndexOf("_");
                     int end = file.IndexOf(".");
                     string element = file.Substring(start + 1, end - start - 1);
-                    if(element == id.ToString())
+                    if(element == id)
                     {
                         return CollectPostInfo(file);
                     }
@@ -314,11 +310,11 @@ namespace BlogTemplate._1.Models
         {
             if(wasPublic)
             {
-                _fileSystem.DeleteFile($"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{post.PubDate.ToFileTime()}_{post.Id.ToString("N")}.xml");
             }
             else
             {
-                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id}.xml");
+                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id.ToString("N")}.xml");
             }
             SavePost(post);
         }

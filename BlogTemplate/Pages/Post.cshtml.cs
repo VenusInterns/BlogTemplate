@@ -21,7 +21,7 @@ namespace BlogTemplate._1.Pages
 
         public Post Post { get; set; }
 
-        public void OnGet([FromRoute] int id)
+        public void OnGet([FromRoute] string id)
         {
             Post = _dataStore.GetPost(id);
 
@@ -32,7 +32,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment([FromRoute] int id)
+        public IActionResult OnPostPublishComment([FromRoute] string id)
         {
             Post = _dataStore.GetPost(id);
 

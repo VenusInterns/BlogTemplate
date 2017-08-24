@@ -14,7 +14,7 @@
         foreach (var post in Model.Posts)
         {
             <article>
-                <h2><a href="/edit/@post.Id/@post.Slug">@post.Title</a></h2>
+                <h2><a href="/edit/@post.Id.ToString("N")/@post.Slug">@post.Title</a></h2>
                 <p class="lead">@post.Excerpt</p>
             </article>
         }
