@@ -10,7 +10,7 @@ namespace BlogTemplate._1.Models
 {
     public class BlogDataStore
     {
-        const string UploadsFolder = "BlogFiles\\Uploads";
+        const string UploadsFolder = "wwwroot\\Uploads";
         const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
