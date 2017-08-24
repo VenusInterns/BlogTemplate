@@ -10,10 +10,10 @@
 
         if (oldtitle !== newtitle) {
             if (confirm("Changing the post title will update the post slug and break external links. \nDo you wish to update the slug?")) {
-                this.querySelector("#updateSlug").value = true;
+                this.form.querySelector("#updateSlug").value = true;
             }
             else {
-                this.querySelector("#updateSlug").value = false;
+                this.form.querySelector("#updateSlug").value = false;
             }
         }
 
