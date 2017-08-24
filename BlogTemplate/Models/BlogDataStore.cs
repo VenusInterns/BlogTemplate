@@ -31,11 +31,11 @@ namespace BlogTemplate._1.Models
 
         private void InitCurrentId()
         {
-            if(CurrentId == 0)
+            if (CurrentId == 0)
             {
-                lock(thisLock)
+                lock (thisLock)
                 {
-                    if(CurrentId == 0)
+                    if (CurrentId == 0)
                     {
                         int max = 0;
                         IEnumerable<string> postfiles = _fileSystem.EnumerateFiles(PostsFolder).Select(f => Path.GetFileName(f));
@@ -70,7 +70,7 @@ namespace BlogTemplate._1.Models
 
         private void SetId(Post post)
         {
-            if(post.Id == 0)
+            if (post.Id == 0)
             {
                 lock (thisLock)
                 {
@@ -272,12 +272,12 @@ namespace BlogTemplate._1.Models
             else
             {
                 List<string> files = _fileSystem.EnumerateFiles($"{PostsFolder}").ToList();
-                foreach(var file in files)
+                foreach (var file in files)
                 {
                     int start = file.IndexOf("_");
                     int end = file.IndexOf(".");
                     string element = file.Substring(start + 1, end - start - 1);
-                    if(element == id.ToString())
+                    if (element == id.ToString())
                     {
                         return CollectPostInfo(file);
                     }
@@ -314,7 +314,7 @@ namespace BlogTemplate._1.Models
 
         public void UpdatePost(Post post, bool wasPublic)
         {
-            if(wasPublic)
+            if (wasPublic)
             {
                 string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
                 _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{post.Id}.xml");
