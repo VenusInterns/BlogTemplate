@@ -20,12 +20,14 @@ namespace BlogTemplate.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator();
 
-            testDataStore.SavePost(new Post
+            Post post = new Post()
             {
                 Slug = "Title",
                 IsPublic = true,
                 PubDate = DateTimeOffset.Now,
-            });
+            };
+
+            testDataStore.SavePost(post);
 
             EditedPostModel editedPost = new EditedPostModel()
             {
@@ -34,13 +36,12 @@ namespace BlogTemplate.Tests.Pages
 
             EditModel model = new EditModel(testDataStore, slugGenerator, excerptGenerator);
 
-            model.OnPostPublish(id, true);
-
+            model.OnPostPublish(post.Id, true);
             testDataStore.UpdatePost(post, post.IsPublic);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml");
-            Assert.False(testFileSystem.FileExists($"BlogFiles\\Posts\\{oldPost.PubDate.ToFileTime()}_{oldPost.Id}.xml"));
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{post.PubDate.ToFileTime()}_{post.Id}.xml"));
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{post.PubDate.ToFileTime()}_{post.Id}.xml");
+            Assert.Equal("Edited-Title", post.Slug);
         }
     }
 }
