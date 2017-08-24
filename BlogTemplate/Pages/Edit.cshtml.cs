@@ -4,7 +4,9 @@ using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlogTemplate._1.Pages
 {
@@ -91,6 +93,7 @@ namespace BlogTemplate._1.Pages
             }
             newPost.Comments = oldPost.Comments;
 
+            _dataStore.SaveFiles(Request.Form.Files.ToList());
             _dataStore.UpdatePost(newPost, oldPost);
         }
     }

@@ -12,7 +12,7 @@
 
 <article>
     <h2>Edit Post</h2>
-    <form method="post" id="editpost">
+    <form method="post" id="editpost" enctype="multipart/form-data">
         <div asp-validation-summary="All"></div>
         @if (TempData["notice"] != null)
         {
@@ -29,7 +29,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="Body" class="primaryField">Body</label>
-                <textarea class="form-control" placeholder="" asp-for="newPost.Body" rows="15"></textarea>
+                <textarea class="form-control" placeholder="" asp-for="newPost.Body" rows="15" id="post-body"></textarea>
                 <span asp-validation-for="newPost.Body" class="invalid"></span>
             </div>
         </div>
@@ -37,6 +37,12 @@
             <div class="form-group">
                 <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
                 <textarea class="form-control" placeholder="" asp-for="newPost.Excerpt"></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Upload Files</label>
+                <input type="file" name="files" multiple id="file-input" onchange="insertFiles()" />
             </div>
         </div>
         <div class="col-md-12">
@@ -50,5 +56,6 @@
 </article>
 
 @section Scripts {
+    <script src="~/js/updateBody.js"></script>
     <script src="~/js/slugUpdateWarning.js"></script>
 }
