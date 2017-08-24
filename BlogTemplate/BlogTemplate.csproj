@@ -17,6 +17,8 @@
   <ItemGroup>
     <Folder Include="BlogFiles\" />
     <Folder Include="BlogFiles\Posts\" />
-    <Folder Include="BlogFiles\Uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\Registration.png" />
   </ItemGroup>
 </Project>

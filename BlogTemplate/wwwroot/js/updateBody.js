@@ -5,6 +5,6 @@ function insertFiles() {
     for (var i = 0; i < selectedFiles.files.length; i++) {
         var postBody = $("#post-body");
         var name = selectedFiles.files[i].name;
-        postBody.val(postBody.val() + " ![" + name + "](" + name + ")");
+        postBody.val(postBody.val() + "\n![" + name + "](/Uploads/" + name + ")");
     }
 }
