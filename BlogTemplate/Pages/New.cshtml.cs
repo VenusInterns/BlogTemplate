@@ -52,7 +52,7 @@ namespace BlogTemplate._1.Pages
             if(ModelState.IsValid)
             {
                 SavePost(NewPost, false);
-                return Redirect("/Index");
+                return Redirect("/Drafts");
             }
 
             return Page();
