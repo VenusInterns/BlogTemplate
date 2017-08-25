@@ -110,11 +110,6 @@ namespace BlogTemplate._1.Tests.Fakes
             writer.Flush();
         }
 
-        public void WriteFile(string path, byte[] data)
-        {
-            File.WriteAllBytes(path, data);
-        }
-
         public byte[] ReadAllBytes(string path)
         {
             return File.ReadAllBytes(path);
