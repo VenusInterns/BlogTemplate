@@ -14,8 +14,8 @@
         foreach (var post in Model.Posts)
         {
             <article>
-                <h2><a href="/edit/@post.Id/@post.Slug">@post.Title</a></h2>
-                <p>@post.Excerpt</p>
+                <h2><a asp-page="/edit" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
+                <p class="lead">@post.Excerpt</p>
             </article>
         }
     }

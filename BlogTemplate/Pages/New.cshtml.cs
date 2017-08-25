@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -17,28 +18,27 @@ namespace BlogTemplate._1.Pages
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
+
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
             _slugGenerator = slugGenerator;
             _excerptGenerator = excerptGenerator;
         }
+
+        [BindProperty]
+        public NewPostViewModel NewPost { get; set; }
+
         public void OnGet()
         {
         }
-
-        [BindProperty]
-        public Post Post { get; set; }
 
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublish()
         {
             if (ModelState.IsValid)
             {
-                Post.PubDate = DateTime.UtcNow;
-                Post.LastModified = DateTime.UtcNow;
-                Post.IsPublic = true;
-                SavePost(Post);
+                SavePost(NewPost, true);
                 return Redirect("/Index");
             }
 
@@ -50,25 +50,45 @@ namespace BlogTemplate._1.Pages
         {
             if(ModelState.IsValid)
             {
-                Post.IsPublic = false;
-                SavePost(Post);
+                SavePost(NewPost, false);
                 return Redirect("/Index");
             }
 
             return Page();
         }
 
-        private void SavePost(Post post)
+        private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
-            Post.Slug = _slugGenerator.CreateSlug(Post.Title);
+            Post post = new Post {
+                Title = NewPost.Title,
+                Body = NewPost.Body,
+                Excerpt = NewPost.Excerpt,
+                Slug = _slugGenerator.CreateSlug(NewPost.Title),
+                LastModified = DateTimeOffset.Now,
+            };
 
-            if (string.IsNullOrEmpty(Post.Excerpt))
+            if (string.IsNullOrEmpty(post.Excerpt))
             {
-                Post.Excerpt = _excerptGenerator.CreateExcerpt(Post.Body, 140);
+                post.Excerpt = _excerptGenerator.CreateExcerpt(post.Body, 140);
+            }
+
+            if (publishPost)
+            {
+                post.PubDate = DateTimeOffset.Now;
+                post.IsPublic = true;
             }
 
             _dataStore.SaveFiles(Request.Form.Files.ToList());
-            _dataStore.SavePost(Post);
+            _dataStore.SavePost(post);
+        }
+
+        public class NewPostViewModel
+        {
+            [Required]
+            public string Title { get; set; }
+            [Required]
+            public string Body { get; set; }
+            public string Excerpt { get; set; }
         }
     }
 }

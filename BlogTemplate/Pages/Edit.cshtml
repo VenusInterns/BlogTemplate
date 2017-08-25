@@ -12,41 +12,36 @@
 
 <article>
     <h2>Edit Post</h2>
-    <form method="post" id="editpost">
-        <div asp-validation-summary="All"></div>
-        @if (TempData["notice"] != null)
-        {
-            <h3>@TempData["notice"]</h3>
-        }
-        <div class="form-group">
-            <div class="col-md-6">
+    <div class="col-md-12 well">
+        <form method="post" id="editpost">
+            @if (TempData["notice"] != null)
+            {
+                <h3>@TempData["notice"]</h3>
+            }
+            <div class="form-group col-md-6">
                 <label for="Title">Title</></label>
-                <input type="text" class="form-control" placeholder="" asp-for="newPost.Title" data-oldtitle="@Model.oldPost.Title" />
-                <span asp-validation-for="newPost.Title" class="invalid"></span>
+                <input type="text" class="form-control" placeholder="" asp-for="EditedPost.Title" data-oldtitle="@Model.EditedPost.Title" />
+                <span asp-validation-for="EditedPost.Title" class="text-warning"></span>
             </div>
-        </div>
-        <input type="hidden" name="updateslug" id="updateslug" value="false" />
-        <div class="col-md-12">
-            <div class="form-group">
+            <input type="hidden" name="updateslug" id="updateslug" value="false" />
+            <div class="col-md-12 form-group">
                 <label for="Body" class="primaryField">Body</label>
-                <textarea class="form-control" placeholder="" asp-for="newPost.Body"></textarea>
-                <span asp-validation-for="newPost.Body" class="invalid"></span>
+                <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body"></textarea>
+                <span asp-validation-for="EditedPost.Body" class="text-warning"></span>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
+            <div class="col-md-12 form-group">
                 <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-                <textarea class="form-control" placeholder="" asp-for="newPost.Excerpt"></textarea>
+                <textarea class="form-control" placeholder="" asp-for="EditedPost.Excerpt"></textarea>
             </div>
-        </div>
-        <div class="col-md-12">
-            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
-            <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
-        </div>
-        <div class="col-md-12">
-            <p><a href="/Index">Cancel</a></p>
-        </div>
-    </form>
+            <div class="col-md-12">
+                <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
+                <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+            </div>
+            <div class="col-md-12">
+                <p class="cancel-link"><a href="/Index"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
+            </div>
+        </form>
+    </div>
 </article>
 
 @section Scripts {

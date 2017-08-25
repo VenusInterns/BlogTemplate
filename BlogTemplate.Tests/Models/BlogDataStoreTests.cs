@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Tests.Fakes;
 using Xunit;
+using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Tests.Model
 {
@@ -326,32 +327,5 @@ namespace BlogTemplate._1.Tests.Model
             Assert.Equal(3, testPost.Id);
         }
 
-        [Fact]
-        public void UpdatePost_TitleIsUpdated_UpdateSlug()
-        {
-            IFileSystem testFileSystem = new FakeFileSystem();
-            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
-
-            Post oldPost = new Post
-            {
-                Slug = "Old-Title",
-                IsPublic = true,
-                PubDate = DateTimeOffset.Now
-            };
-
-            Post newPost = new Post
-            {
-                Slug = "New-Title",
-                IsPublic = true,
-                PubDate = DateTimeOffset.Now
-            };
-
-            testDataStore.SavePost(oldPost);
-            testDataStore.UpdatePost(newPost, oldPost);
-
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml");
-            Assert.False(testFileSystem.FileExists($"BlogFiles\\Posts\\{oldPost.PubDate.ToFileTime()}_{oldPost.Id}.xml"));
-        }
     }
 }
