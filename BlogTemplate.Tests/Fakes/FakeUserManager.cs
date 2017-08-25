@@ -36,6 +36,12 @@ namespace BlogTemplate.Tests.Fakes
                 return _users;
             }
         }
+
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
         #region Internal dependencies
         class FakeUserStore : IUserPasswordStore<ApplicationUser>
         {

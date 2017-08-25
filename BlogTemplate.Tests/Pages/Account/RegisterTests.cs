@@ -32,7 +32,7 @@ namespace BlogTemplate._1.Tests.Pages.Account
             IActionResult result = registerModel.OnPostAsync().Result;
 
             // Assert
-            Assert.Equal(typeof(RedirectToPageResult), result.GetType()); 
+            Assert.IsType(typeof(RedirectToPageResult), result); 
         }
 
         [Fact]
@@ -42,17 +42,25 @@ namespace BlogTemplate._1.Tests.Pages.Account
             FakeUserManager fakeUserManager = new FakeUserManager();
             fakeUserManager.SetUsers(new List<ApplicationUser>(new ApplicationUser[] {}).AsQueryable());
 
-            RegisterModel registerModel = new RegisterModel(fakeUserManager, null, null, null);
+            FakeSignInManager fakeSignInManager = new FakeSignInManager();
+
+            RegisterModel registerModel = new RegisterModel(fakeUserManager, fakeSignInManager, new FakeLogger<LoginModel>(), null);
             registerModel.PageContext = new PageContext();
 
-            registerModel.Input.Email = "test@test.com";
+            registerModel.Input = new RegisterModel.InputModel
+            {
+                Email = "test@test.com",
+                Password = "TestPassword.1",
+            };
+
+            //registerModel.Input.Email = "test@test.com";
             //registerModel.Input.Password = "Password.1";
 
             // Act
             IActionResult result = registerModel.OnPostAsync().Result;
 
             // Assert
-            Assert.Equal(typeof(LocalRedirectResult), result.GetType());
+            Assert.IsType(typeof(LocalRedirectResult), result);
         }
     }
 }
