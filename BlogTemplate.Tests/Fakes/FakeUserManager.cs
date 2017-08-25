@@ -23,6 +23,7 @@ namespace BlogTemplate.Tests.Fakes
         }
 
         private IQueryable<ApplicationUser> _users = new List<ApplicationUser>().AsQueryable();
+
         public void SetUsers(IQueryable<ApplicationUser> users)
         {
             _users = users;

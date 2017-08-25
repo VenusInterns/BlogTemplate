@@ -1,12 +1,12 @@
 using BlogTemplate._1.Data;
 using BlogTemplate._1.Pages.Account;
+using BlogTemplate.Tests.Fakes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
-using Xunit;
 using System.Linq;
-using BlogTemplate.Tests.Fakes;
 using System.Threading;
+using Xunit;
 
 namespace BlogTemplate._1.Tests.Pages.Account
 {
@@ -32,7 +32,7 @@ namespace BlogTemplate._1.Tests.Pages.Account
             IActionResult result = registerModel.OnPostAsync().Result;
 
             // Assert
-            Assert.Equal(typeof(RedirectToPageResult), result.GetType()); //True if result is a redirection to a page (AlreadyRegistered page)
+            Assert.Equal(typeof(RedirectToPageResult), result.GetType()); 
         }
     }
 }
