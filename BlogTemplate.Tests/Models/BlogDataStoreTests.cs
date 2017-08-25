@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Tests.Fakes;
 using Xunit;
+using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Tests.Model
 {
