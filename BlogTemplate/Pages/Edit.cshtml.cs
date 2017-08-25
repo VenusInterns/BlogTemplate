@@ -35,6 +35,7 @@ namespace BlogTemplate._1.Pages
                 Title = post.Title,
                 Body = post.Body,
                 Excerpt = post.Excerpt,
+                EnableComments=post.EnableComments
             };
 
             if (post == null)
@@ -77,7 +78,7 @@ namespace BlogTemplate._1.Pages
             post.Title = EditedPost.Title;
             post.Body = EditedPost.Body;
             post.Excerpt = EditedPost.Excerpt;
-
+            post.EnableComments = EditedPost.EnableComments;
             _dataStore.UpdatePost(post, wasPublic);
             if (updateSlug)
             {
@@ -92,6 +93,8 @@ namespace BlogTemplate._1.Pages
             [Required]
             public string Body { get; set; }
             public string Excerpt { get; set; }
+            [Display(Name = "Enable Comments")]
+            public bool EnableComments { get; set; }
         }
     }
 }

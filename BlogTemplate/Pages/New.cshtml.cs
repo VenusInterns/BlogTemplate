@@ -65,6 +65,7 @@ namespace BlogTemplate._1.Pages
                 Excerpt = NewPost.Excerpt,
                 Slug = _slugGenerator.CreateSlug(NewPost.Title),
                 LastModified = DateTimeOffset.Now,
+                EnableComments=NewPost.EnableComments
             };
 
             if (string.IsNullOrEmpty(post.Excerpt))
@@ -89,6 +90,8 @@ namespace BlogTemplate._1.Pages
             [Required]
             public string Body { get; set; }
             public string Excerpt { get; set; }
+            [Display(Name ="Enable Comments")]
+            public bool EnableComments { get; set; }
         }
     }
 }
