@@ -10,7 +10,6 @@ namespace BlogTemplate._1.Pages
     {
         const string StorageFolder = "BlogFiles";
 
-
         private readonly BlogDataStore _dataStore;
 
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
@@ -19,7 +18,6 @@ namespace BlogTemplate._1.Pages
         {
             _dataStore = dataStore;
         }
-
 
         public void OnGet()
         {
@@ -32,7 +30,7 @@ namespace BlogTemplate._1.Pages
                 Title = p.Title,
                 Excerpt = p.Excerpt,
                 PublishTime = p.PubDate,
-                CommentCount = p.Comments.Count,
+                CommentCount = p.Comments.Where(c => c.IsPublic).Count(),
             });
         }
 
