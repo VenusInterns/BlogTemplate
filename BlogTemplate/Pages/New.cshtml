@@ -12,7 +12,7 @@
 
 <h2>Write a New Post</h2>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
             <label for="Title">Title</></label>
@@ -29,9 +29,14 @@
             <textarea class="form-control" placeholder="" asp-for="NewPost.Excerpt"></textarea>
         </div>
         <div class="col-md-12">
+            <div class="form-group">
+                <label>Upload Files</label>
+                <input type="file" name="files" multiple />
+            </div>
+        </div>
+        <div class="col-md-12">
             <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
             <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
         </div>
     </div>
 </form>
-
