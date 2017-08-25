@@ -90,7 +90,6 @@ namespace BlogTemplate._1.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }
