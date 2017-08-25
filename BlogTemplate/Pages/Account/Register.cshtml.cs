@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using BlogTemplate._1.Data;
+using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BlogTemplate._1.Data;
-using BlogTemplate._1.Services;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace BlogTemplate._1.Pages.Account
 {
@@ -66,7 +67,7 @@ namespace BlogTemplate._1.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                if(_userManager.Users.Count() != 0)
+                if (_userManager.Users.Count() != 0)
                 {
                     return RedirectToPage("/AlreadyRegistered");
                 }
@@ -80,7 +81,6 @@ namespace BlogTemplate._1.Pages.Account
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
-                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }

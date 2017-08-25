@@ -1,11 +1,10 @@
-using BlogTemplate.Data;
+using BlogTemplate._1.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +12,11 @@ namespace BlogTemplate.Tests.Fakes
 {
     class FakeUserManager : UserManager<ApplicationUser>
     {
-
         public FakeUserManager()
             : this(new FakeUserStore(), null, null, null, null, null, null, null, null)
         {
         }
-
+        
         public FakeUserManager(IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
@@ -37,9 +35,8 @@ namespace BlogTemplate.Tests.Fakes
                 return _users;
             }
         }
-
         #region Internal dependencies
-        class FakeUserStore : IUserStore<ApplicationUser>
+        class FakeUserStore : IUserPasswordStore<ApplicationUser>
         {
             public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
             {
@@ -71,6 +68,11 @@ namespace BlogTemplate.Tests.Fakes
                 throw new NotImplementedException();
             }
 
+            public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<string> GetUserIdAsync(ApplicationUser user, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
@@ -81,7 +83,17 @@ namespace BlogTemplate.Tests.Fakes
                 throw new NotImplementedException();
             }
 
+            public Task<bool> HasPasswordAsync(ApplicationUser user, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
             }

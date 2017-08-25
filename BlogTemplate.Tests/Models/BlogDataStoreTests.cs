@@ -347,7 +347,7 @@ namespace BlogTemplate._1.Tests.Model
             };
 
             testDataStore.SavePost(oldPost);
-            testDataStore.UpdatePost(newPost, oldPost);
+           // testDataStore.UpdatePost(newPost, oldPost);
 
             Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml"));
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.ToFileTime()}_{newPost.Id}.xml");

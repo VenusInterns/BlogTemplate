@@ -32,7 +32,8 @@ namespace BlogTemplate._1.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public bool noIdentitiesExist { get; set; }
+        public bool NoIdentitiesExist { get; set; }
+
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -57,10 +58,10 @@ namespace BlogTemplate._1.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-            noIdentitiesExist = true;
+            NoIdentitiesExist = true;
             if (_userManager.Users.Count() != 0)
             {
-                noIdentitiesExist = false;
+                NoIdentitiesExist = false;
             }
 
                 // Clear the existing external cookie to ensure a clean login process
