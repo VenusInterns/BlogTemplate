@@ -104,6 +104,16 @@ namespace BlogTemplate._1.Tests.Fakes
             writer.Write(text);
             writer.Flush();
         }
+
+        public void WriteFile(string path, byte[] data)
+        {
+            File.WriteAllBytes(path, data);
+        }
+
+        public byte[] ReadAllBytes(string path)
+        {
+            return File.ReadAllBytes(path);
+        }
         #endregion
 
         #region Tests
