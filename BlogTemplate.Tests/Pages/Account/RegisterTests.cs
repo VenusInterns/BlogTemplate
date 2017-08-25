@@ -34,5 +34,25 @@ namespace BlogTemplate._1.Tests.Pages.Account
             // Assert
             Assert.Equal(typeof(RedirectToPageResult), result.GetType()); 
         }
+
+        [Fact]
+        public void RegisterUser_FirstUser_LocalRedirect()
+        {
+            // Arrange
+            FakeUserManager fakeUserManager = new FakeUserManager();
+            fakeUserManager.SetUsers(new List<ApplicationUser>(new ApplicationUser[] {}).AsQueryable());
+
+            RegisterModel registerModel = new RegisterModel(fakeUserManager, null, null, null);
+            registerModel.PageContext = new PageContext();
+
+            registerModel.Input.Email = "test@test.com";
+            //registerModel.Input.Password = "Password.1";
+
+            // Act
+            IActionResult result = registerModel.OnPostAsync().Result;
+
+            // Assert
+            Assert.Equal(typeof(LocalRedirectResult), result.GetType());
+        }
     }
 }
