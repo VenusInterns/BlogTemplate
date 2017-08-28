@@ -17,5 +17,6 @@
     <Folder Include="BlogFiles\" />
     <Folder Include="BlogFiles\Drafts\" />
     <Folder Include="BlogFiles\Posts\" />
+    <Folder Include="BlogFiles\Uploads\" />
   </ItemGroup>
 </Project>
