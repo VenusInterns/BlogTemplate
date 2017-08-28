@@ -31,11 +31,6 @@ namespace BlogTemplate._1.Models
             return File.ReadAllText(path);
         }
 
-        public byte[] ReadAllBytes(string path)
-        {
-            return File.ReadAllBytes(path);
-        }
-
         public void WriteFileText(string path, string text)
         {
             File.WriteAllText(path, text);
@@ -54,6 +49,11 @@ namespace BlogTemplate._1.Models
         public void WriteFile(string path, byte[] data)
         {
             File.WriteAllBytes(path, data);
+        }
+
+        public byte[] ReadAllBytes(string path)
+        {
+            return File.ReadAllBytes(path);
         }
     }
 }
