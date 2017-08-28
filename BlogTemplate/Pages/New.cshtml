@@ -34,6 +34,14 @@
                 <input type="file" name="files" multiple />
             </div>
         </div>
+        <div class="form-group col-md-12">
+            <div class="checkbox">
+                <label asp-for="NewPost.EnableComments">
+                    <input asp-for="NewPost.EnableComments" />
+                    @Html.DisplayNameFor(m => m.NewPost.EnableComments)
+                </label>
+            </div>
+        </div>
         <div class="col-md-12">
             <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
             <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />

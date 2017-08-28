@@ -21,17 +21,19 @@
             <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.Slug">Edit Post</a></h4>
         </div>
         <div class="col-md-6">
-            <h2>Comments</h2>
-            @if (Model.Post.Comments.Count == 0)
+            @if (Model.Post.Comments.Any() || Model.Post.EnableComments)
             {
-                <p class="text-muted">No comments yet. Be the first to comment!</p>
-            }
-            @foreach (var comment in Model.Post.Comments)
-            {
-                string cssClass = comment.IsPublic ? "" : "deletedContent";
-                <form id="form1" method="post">
-                    <div class="@cssClass">
-                        @if (comment.IsPublic)
+                <h2>Comments</h2>
+                @if (Model.Post.Comments.Count == 0)
+                {
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                }
+                @foreach (var comment in Model.Post.Comments)
+                {
+                    string cssClass = comment.IsPublic ? "" : "deletedContent";
+                    <form id="form1" method="post">
+                        <div class="@cssClass">
+                            @if (comment.IsPublic)
                         {
                             <div class="well well-sm">
                                 <h4 name="Comment-Title" class="commentTitle">@comment.AuthorName</h4>
@@ -42,9 +44,9 @@
                                 <input type="submit" name="delete" class="btn btn-default btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
                             </div>
 
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <div class="well well-sm">
                                 <del class="delete-header">
                                     <h4 name="Comment-Title" class="commentTitle">@comment.AuthorName</h4>
@@ -56,41 +58,45 @@
                                 <input type="hidden" name="slug" value="@Model.Post.Slug" />
                                 <input type="submit" name="delete" class="btn btn-default btn-sm" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
                             </div>
-                        }
-                    </div>
-                </form>
+                            }
+                        </div>
+                    </form>
+                }
             }
         </div>
     }
     else
     {
         <div class="col-md-6">
-            <h2>Comments</h2>
-            @if (Model.Post.Comments.Count == 0)
+            @if (Model.Post.Comments.Any() || Model.Post.EnableComments)
             {
-                <p class="text-muted">No comments yet. Be the first to comment!</p>
-            }
-            @foreach (var comment in Model.Post.Comments)
-            {
-                @if (comment.IsPublic)
+                <h2>Comments</h2>
+                @if (Model.Post.Comments.Count == 0)
                 {
-                    <form id="form1" method="post">
-                        <div class="well well-sm">
-                            <h4 name="Comment-Title" class="commentTitle">@comment.AuthorName</h4>
-                            <h6 name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</h6>
-                            <p name="Comment-Body" class="commentBody">@comment.Body</p>
-                            <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
-                            <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                        </div>
-                    </form>
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                }
+                @foreach (var comment in Model.Post.Comments)
+                {
+                    @if (comment.IsPublic)
+                    {
+                        <form id="form1" method="post">
+                            <div class="well well-sm">
+                                <h4 name="Comment-Title" class="commentTitle">@comment.AuthorName</h4>
+                                <h6 name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</h6>
+                                <p name="Comment-Body" class="commentBody">@comment.Body</p>
+                                <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
+                                <input type="hidden" name="slug" value="@Model.Post.Slug" />
+                            </div>
+                        </form>
 
+                    }
                 }
             }
         </div>
     }
 
     <hr class="commentsDivider" />
-    @if (Model.Post.IsPublic)
+    @if (Model.Post.IsPublic && Model.Post.EnableComments)
     {
         <div class="col-sm-6" style="height:6px;"></div>
         <div class="add-comment-form">
@@ -111,6 +117,17 @@
                         </div>
                         <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
                     </form>
+                </div>
+            </div>
+        </div>
+    }
+    @if (!Model.Post.EnableComments)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Comments are disabled for this post.
                 </div>
             </div>
         </div>

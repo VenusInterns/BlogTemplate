@@ -212,6 +212,7 @@ namespace BlogTemplate._1.Models
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString("o")));
             rootNode.Add(new XElement("IsPublic", post.IsPublic.ToString()));
             rootNode.Add(new XElement("Excerpt", post.Excerpt));
+            rootNode.Add(new XElement("EnableComments", post.EnableComments));
         }
 
         public void SavePost(Post post)
@@ -260,6 +261,7 @@ namespace BlogTemplate._1.Models
                 LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
+                EnableComments = Convert.ToBoolean(doc.Root.Element("EnableComments")?.Value),
             };
             post.Comments = GetAllComments(doc);
             return post;
