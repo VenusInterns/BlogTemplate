@@ -360,19 +360,11 @@ namespace BlogTemplate._1.Models
         private string CreateFileName(string fileName)
         {
             string tempName = fileName;
-            string[] elements = fileName.Split(".");
-            int count = 0;
-            while (CheckFileNameExists(tempName))
+            string shortName = Path.GetFileNameWithoutExtension(fileName);
+            string ext = Path.GetExtension(fileName);
+            for(int i = 1; CheckFileNameExists(tempName); i++)
             {
-                count++;
-                if (elements.Length > 1)
-                {
-                    tempName = $"{elements[0]}-{count}.{elements[1]}";
-                }
-                else
-                {
-                    tempName = $"{fileName}-{count}";
-                }
+                tempName = $"{shortName}-{i}.{ext}";
             }
             return tempName;
         }
