@@ -54,9 +54,6 @@ namespace BlogTemplate._1.Tests.Pages.Account
                 Password = "TestPassword.1",
             };
 
-            //registerModel.Input.Email = "test@test.com";
-            //registerModel.Input.Password = "Password.1";
-
             // Act
             IActionResult result = registerModel.OnPostAsync().Result;
 
