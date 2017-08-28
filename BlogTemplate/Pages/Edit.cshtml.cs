@@ -78,11 +78,11 @@ namespace BlogTemplate._1.Pages
             post.Body = EditedPost.Body;
             post.Excerpt = EditedPost.Excerpt;
 
-            _dataStore.UpdatePost(post, wasPublic);
             if (updateSlug)
             {
                 post.Slug = _slugGenerator.CreateSlug(post.Title);
             }
+            _dataStore.UpdatePost(post, wasPublic);
         }
 
         public class EditedPostModel

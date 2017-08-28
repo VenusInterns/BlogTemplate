@@ -23,7 +23,7 @@
                 <input type="text" class="form-control" placeholder="" asp-for="EditedPost.Title" data-oldtitle="@Model.EditedPost.Title" />
                 <span asp-validation-for="EditedPost.Title" class="text-warning"></span>
             </div>
-            <input type="hidden" name="updateslug" id="updateslug" value="false" />
+            <input type="hidden" name="updateSlug" id="updateSlug" value="false" />
             <div class="col-md-12 form-group">
                 <label for="Body" class="primaryField">Body</label>
                 <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body"></textarea>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-md-12">
                 <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
-                <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+                <input type="submit" name="publish" id="postsave" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
             </div>
             <div class="col-md-12">
                 <p class="cancel-link"><a href="/Index"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
