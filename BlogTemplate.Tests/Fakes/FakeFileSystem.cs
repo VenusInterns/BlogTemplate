@@ -109,18 +109,6 @@ namespace BlogTemplate._1.Tests.Fakes
             writer.Write(text);
             writer.Flush();
         }
-
-        byte[] IFileSystem.ReadAllBytes(string path)
-        {
-            if (!_files.ContainsKey(path))
-            {
-                throw new FileNotFoundException(path);
-            }
-
-            _files[path].Seek(0, SeekOrigin.Begin);
-            StreamReader reader = new StreamReader(_files[path]);
-            
-        }
         #endregion
 
         #region Tests
