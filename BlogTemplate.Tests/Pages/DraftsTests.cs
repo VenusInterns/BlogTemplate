@@ -6,9 +6,9 @@ using BlogTemplate._1.Pages;
 using BlogTemplate._1.Tests.Fakes;
 using Xunit;
 
-namespace BlogTemplate.Tests.Pages
+namespace BlogTemplate._1.Tests.Pages
 {
-    class DraftsTests
+    public class DraftsTests
     {
         [Fact]
         public void GetDrafts_ShowDraftSummaries()

@@ -5,12 +5,13 @@ using BlogTemplate._1.Models;
 using BlogTemplate._1.Pages;
 using BlogTemplate._1.Services;
 using BlogTemplate._1.Tests.Fakes;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Xunit;
 using static BlogTemplate._1.Pages.EditModel;
 
-namespace BlogTemplate.Tests.Pages
+namespace BlogTemplate._1.Tests.Pages
 {
-    class EditTests
+    public class EditTests
     {
         [Fact]
         public void UpdatePost_TitleIsUpdated_UpdateSlug()
@@ -22,25 +23,28 @@ namespace BlogTemplate.Tests.Pages
 
             Post post = new Post()
             {
+                Title = "Title",
                 Slug = "Title",
+                Body = "Body",
+                Excerpt = "Excerpt",
                 IsPublic = true,
                 PubDate = DateTimeOffset.Now,
             };
 
             testDataStore.SavePost(post);
 
-            EditedPostModel editedPost = new EditedPostModel()
-            {
-                Title = "Edited Title",
-            };
+            EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
+            testEditModel.PageContext = new PageContext();
 
-            EditModel model = new EditModel(testDataStore, slugGenerator, excerptGenerator);
+            testEditModel.OnGet(post.Id);
 
-            model.OnPostPublish(post.Id, true);
+            //How does the user interaction with the form work here?
+            //EditedPost.Title = "Edited Title";
+
+            testEditModel.OnPostPublish(post.Id, true);
             testDataStore.UpdatePost(post, post.IsPublic);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{post.PubDate.ToFileTime()}_{post.Id}.xml"));
-            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{post.PubDate.ToFileTime()}_{post.Id}.xml");
+            //Problem: EditedPost is null
             Assert.Equal("Edited-Title", post.Slug);
         }
     }
