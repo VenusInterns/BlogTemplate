@@ -31,6 +31,7 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
+            int TotalPosts = _dataStore.GetAllPosts().Count + _dataStore.GetAllDrafts().Count;            
         }
 
         [ValidateAntiForgeryToken]
