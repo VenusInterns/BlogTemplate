@@ -43,6 +43,11 @@ namespace BlogTemplate._1.Tests.Fakes
             }
         }
 
+        public void WriteFile(string path, byte[] data)
+        {
+            File.WriteAllBytes(path, data);
+        }
+
         #region IFileSystem
         void IFileSystem.CreateDirectory(string path)
         {

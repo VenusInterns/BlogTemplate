@@ -45,5 +45,10 @@ namespace BlogTemplate._1.Models
         {
             return File.GetLastWriteTime(path);
         }
+
+        public void WriteFile(string path, byte[] data)
+        {
+            File.WriteAllBytes(path, data);
+        }
     }
 }

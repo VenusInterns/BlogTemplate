@@ -13,6 +13,7 @@ namespace BlogTemplate._1.Models
         bool FileExists(string path);
         string ReadFileText(string path);
         void WriteFileText(string path, string text);
+        void WriteFile(string path, byte[] data);
         void DeleteFile(string path);
         DateTime GetFileLastWriteTime(string path);
 

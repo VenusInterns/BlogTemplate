@@ -5,16 +5,15 @@ using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlogTemplate._1.Pages
 {
     [Authorize]
     public class NewModel : PageModel
     {
-
-        const string StorageFolder = "BlogFiles";
-
         private readonly BlogDataStore _dataStore;
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
@@ -52,7 +51,7 @@ namespace BlogTemplate._1.Pages
             if(ModelState.IsValid)
             {
                 SavePost(NewPost, false);
-                return Redirect("/Index");
+                return Redirect("/Drafts");
             }
 
             return Page();
@@ -79,6 +78,7 @@ namespace BlogTemplate._1.Pages
                 post.IsPublic = true;
             }
 
+            _dataStore.SaveFiles(Request.Form.Files.ToList());
             _dataStore.SavePost(post);
         }
 
