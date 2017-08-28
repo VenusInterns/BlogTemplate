@@ -30,8 +30,7 @@ namespace BlogTemplate._1.Pages
         public NewPostViewModel NewPost { get; set; }
 
         public void OnGet()
-        {
-            int TotalPosts = _dataStore.GetAllPosts().Count + _dataStore.GetAllDrafts().Count;            
+        {           
         }
 
         [ValidateAntiForgeryToken]

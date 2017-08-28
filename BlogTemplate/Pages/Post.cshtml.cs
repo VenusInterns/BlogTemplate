@@ -10,7 +10,7 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
-
+        public bool MaxedOutComments { get; set; }
         public PostModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
@@ -28,6 +28,11 @@ namespace BlogTemplate._1.Pages
             if (Post == null)
             {
                 RedirectToPage("/Index");
+            }
+            MaxedOutComments = false;
+            if(Post.Comments.Count >4)
+            {
+                MaxedOutComments = true;
             }
         }
 
