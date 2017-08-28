@@ -43,12 +43,12 @@ namespace BlogTemplate._1.Tests.Fakes
             }
         }
 
-        public void WriteFile(string path, byte[] data)
+        #region IFileSystem
+        void IFileSystem.WriteFile(string path, byte[] data)
         {
-            File.WriteAllBytes(path, data);
+            AddFile(path, data);
         }
 
-        #region IFileSystem
         void IFileSystem.CreateDirectory(string path)
         {
             AddDirectory(path);
@@ -110,9 +110,16 @@ namespace BlogTemplate._1.Tests.Fakes
             writer.Flush();
         }
 
-        public byte[] ReadAllBytes(string path)
+        byte[] IFileSystem.ReadAllBytes(string path)
         {
-            return File.ReadAllBytes(path);
+            if (!_files.ContainsKey(path))
+            {
+                throw new FileNotFoundException(path);
+            }
+
+            _files[path].Seek(0, SeekOrigin.Begin);
+            StreamReader reader = new StreamReader(_files[path]);
+            
         }
         #endregion
 
