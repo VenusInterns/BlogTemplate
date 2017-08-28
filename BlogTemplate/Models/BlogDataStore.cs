@@ -368,5 +368,10 @@ namespace BlogTemplate._1.Models
             }
             return tempName;
         }
+
+        public byte[] GetFileData(string fileName)
+        {
+            return _fileSystem.ReadAllBytes($"{UploadsFolder}\\{fileName}");
+        }
     }
 }
