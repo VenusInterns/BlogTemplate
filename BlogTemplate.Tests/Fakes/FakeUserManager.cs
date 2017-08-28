@@ -42,6 +42,11 @@ namespace BlogTemplate.Tests.Fakes
             return Task.FromResult(IdentityResult.Success);
         }
 
+        public override Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        {
+            return Task.FromResult("");
+        }
+
         #region Internal dependencies
         class FakeUserStore : IUserPasswordStore<ApplicationUser>
         {

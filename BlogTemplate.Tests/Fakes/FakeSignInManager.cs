@@ -14,7 +14,7 @@ namespace BlogTemplate.Tests.Fakes
     class FakeSignInManager : SignInManager<ApplicationUser>
     {
         public FakeSignInManager()
-            : this(new FakeManager(), null, null, null, null, null)
+            : this(new FakeUserManager(), null, null, null, null, null)
         {
         }
 
@@ -28,11 +28,6 @@ namespace BlogTemplate.Tests.Fakes
             return Task.FromResult(IdentityResult.Success);
         }
 
-#region Internal dependencies
-        class FakeManager : UserManager<ApplicationUser>
-        {
-
-        }
     }
 
 }
