@@ -30,7 +30,7 @@ namespace BlogTemplate._1.Pages
                 RedirectToPage("/Index");
             }
             MaxedOutComments = false;
-            if(Post.Comments.Count >4)
+            if(Post.Comments.Count > 99)
             {
                 MaxedOutComments = true;
             }
