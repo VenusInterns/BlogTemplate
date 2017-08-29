@@ -14,7 +14,7 @@ namespace BlogTemplate._1.Tests.Pages
     public class EditTests
     {
         [Fact]
-        public void UpdatePost_TitleIsUpdated_UpdateSlug()
+        public void UpdatePostP2P_TitleIsUpdated_UpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
