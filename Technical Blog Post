@@ -57,4 +57,4 @@ For example:
     dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
     
 ### Using Razor Pages
-Once you've created an instance of the template, you can open it in Visual Studio and you'll immediately notice the difference in Razor Pages from MVC (if that's what you were familiar with before). The solution file should look something like the one in the image below. It's easy to notice how the Pages are separate from the Models and within each page is it's corresponding Controller. ![solutionFile]("C:\Users\t-luisaz\Desktop\solutionFIle.PNG") 
+Once you've created an instance of the template, you can open it in Visual Studio and you'll immediately notice the difference in Razor Pages from MVC (if that's what you were familiar with before). The solution file should look something like the one in the image below. It's easy to notice how the Pages are separate from the Models and within each page is it's corresponding Controller. ![solutionFile](C:\Users\t-luisaz\Desktop\solutionFIle.PNG) 
