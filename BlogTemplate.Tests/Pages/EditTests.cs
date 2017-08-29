@@ -39,7 +39,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.OnGet(post.Id);
 
             //How does the user interaction with the form work here?
-            //EditedPost.Title = "Edited Title";
+            testEditModel.EditedPost.Title = "Edited Title";
 
             testEditModel.OnPostPublish(post.Id, true);
             testDataStore.UpdatePost(post, post.IsPublic);
