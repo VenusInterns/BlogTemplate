@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
+using Markdig;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -30,7 +32,6 @@ namespace BlogTemplate._1.Pages
 
         public HtmlString HtmlBody()
         {
-
             var html = Markdown.ToHtml(Post.Body, pipeline);
             return new HtmlString(html);
         }
