@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogTemplate._1.Tests.Pages
 {
-    class NewTests
+    public class NewTests
     {
         [Fact]
         public void SavePost_NoExcerptIsEntered_AutoGenerateExcerpt()
