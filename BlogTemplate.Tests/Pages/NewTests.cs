@@ -15,25 +15,19 @@ namespace BlogTemplate._1.Tests.Pages
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
             ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
+            testExcerptGenerator.maxLength = 5;
             SlugGenerator testSlugGenerator = new SlugGenerator(testDataStore);
 
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);
             model.PageContext = new PageContext();
-
             model.OnGet();
-            Post NewPost = new Post
-            {
-                Title = "Title",
-                Body = "This is the body of my post",
-            };
+            model.NewPost.Title = "Title";
+            model.NewPost.Body = "This is the body";
 
-            testDataStore.SavePost(NewPost);
-
-            //Problem: NewPost is null
             model.OnPostPublish();
 
-            Assert.Equal("This is the body of my post", model.NewPost.Body);
-            Assert.Equal("This ", model.NewPost.Excerpt);
+            Assert.Equal("This is the body", model.NewPost.Body);
+            Assert.Equal("This ...", model.NewPost.Excerpt);
         }
     }
 }

@@ -12,7 +12,8 @@ namespace BlogTemplate._1.Tests.Services
         {
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body", 5);
+            testExcerptGenerator.maxLength = 5;
+            string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body");
             Assert.Equal("This ...", testExcerpt);
         }
         [Fact]
@@ -20,7 +21,8 @@ namespace BlogTemplate._1.Tests.Services
         {
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body", 50);
+            testExcerptGenerator.maxLength = 50;
+            string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body");
             Assert.Equal("This is the body", testExcerpt);
         }
     }

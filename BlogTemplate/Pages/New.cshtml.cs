@@ -30,6 +30,8 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
+            Post post = new Post();
+            NewPost = new NewPostViewModel();
         }
 
         [ValidateAntiForgeryToken]
@@ -58,18 +60,17 @@ namespace BlogTemplate._1.Pages
 
         private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
+            if (string.IsNullOrEmpty(newPost.Excerpt))
+            {
+                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body);
+            }
             Post post = new Post {
-                Title = NewPost.Title,
-                Body = NewPost.Body,
-                Excerpt = NewPost.Excerpt,
-                Slug = _slugGenerator.CreateSlug(NewPost.Title),
+                Title = newPost.Title,
+                Body = newPost.Body,
+                Excerpt = newPost.Excerpt,
+                Slug = _slugGenerator.CreateSlug(newPost.Title),
                 LastModified = DateTimeOffset.Now,
             };
-
-            if (string.IsNullOrEmpty(post.Excerpt))
-            {
-                post.Excerpt = _excerptGenerator.CreateExcerpt(post.Body, 140);
-            }
 
             if (publishPost)
             {
@@ -77,7 +78,8 @@ namespace BlogTemplate._1.Pages
                 post.IsPublic = true;
             }
 
-            _dataStore.SaveFiles(Request.Form.Files.ToList());
+            //What does Request.Form.Files.ToList() even do?
+            //_dataStore.SaveFiles(Request.Form.Files.ToList());
             _dataStore.SavePost(post);
         }
 
