@@ -18,6 +18,13 @@ namespace BlogTemplate.Pages
     {
         private readonly BlogDataStore _dataStore;
 
+        private static MarkdownPipeline pipeline = new MarkdownPipelineBuilder()
+               .UseDiagrams()
+               .UseAdvancedExtensions()
+               .UseYamlFrontMatter()
+               .DisableHtml()
+               .Build();
+
         public PostModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
@@ -30,11 +37,7 @@ namespace BlogTemplate.Pages
 
         public HtmlString HtmlBody()
         {
-            var pipeline = new MarkdownPipelineBuilder()
-               .UseDiagrams()
-               .UseAdvancedExtensions()
-               .UseYamlFrontMatter()
-               .Build();
+
             var html = Markdown.ToHtml(Post.Body, pipeline);
             return new HtmlString(html);
         }
