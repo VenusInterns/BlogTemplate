@@ -30,7 +30,12 @@ namespace BlogTemplate.Pages
 
         public HtmlString HtmlBody()
         {
-            var html = Markdown.ToHtml(Post.Body);
+            var pipeline = new MarkdownPipelineBuilder()
+               .UseDiagrams()
+               .UseAdvancedExtensions()
+               .UseYamlFrontMatter()
+               .Build();
+            var html = Markdown.ToHtml(Post.Body, pipeline);
             return new HtmlString(html);
         }
 
