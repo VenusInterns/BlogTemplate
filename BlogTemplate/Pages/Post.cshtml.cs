@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
-using Markdig;
+using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,17 +12,12 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
+        private readonly MarkdownRenderer _markdownRenderer;
 
-        private static MarkdownPipeline pipeline = new MarkdownPipelineBuilder()
-               .UseDiagrams()
-               .UseAdvancedExtensions()
-               .UseYamlFrontMatter()
-               .DisableHtml()
-               .Build();
-
-        public PostModel(BlogDataStore dataStore)
+        public PostModel(BlogDataStore dataStore, MarkdownRenderer markdownRenderer)
         {
             _dataStore = dataStore;
+            _markdownRenderer = markdownRenderer;
         }
 
         [BindProperty]
@@ -32,8 +27,8 @@ namespace BlogTemplate._1.Pages
 
         public HtmlString HtmlBody()
         {
-            var html = Markdown.ToHtml(Post.Body, pipeline);
-            return new HtmlString(html);
+            var html = _markdownRenderer.HtmlBody(Post.Body);
+            return html;
         }
 
         public void OnGet([FromRoute] int id)
