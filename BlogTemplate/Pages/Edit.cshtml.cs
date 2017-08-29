@@ -58,7 +58,7 @@ namespace BlogTemplate._1.Pages
                 {
                     post.PubDate = DateTimeOffset.Now;
                 }
-                if (post.Slug == "")
+                if (!hasSlug)
                 {
                     post.Slug = _slugGenerator.CreateSlug(post.Title);
                 }
