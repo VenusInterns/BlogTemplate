@@ -11,7 +11,7 @@ using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Tests.Pages
 {
-    public class EditTests
+    class EditTests
     {
         [Fact]
         public void UpdatePost_TitleIsUpdated_UpdateSlug()
