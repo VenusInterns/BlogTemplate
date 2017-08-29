@@ -35,16 +35,12 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-
             testEditModel.OnGet(post.Id);
-
-            //How does the user interaction with the form work here?
             testEditModel.EditedPost.Title = "Edited Title";
-
             testEditModel.OnPostPublish(post.Id, true);
-            testDataStore.UpdatePost(post, post.IsPublic);
 
-            //Problem: EditedPost is null
+            post = testDataStore.GetPost(post.Id);
+
             Assert.Equal("Edited-Title", post.Slug);
         }
     }
