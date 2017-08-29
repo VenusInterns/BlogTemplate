@@ -1,39 +1,42 @@
 @page
-@using BlogTemplate
-@using BlogTemplate.Models
 @model NewModel
-@using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+
+@using BlogTemplate._1
+@using BlogTemplate._1.Models
+@using Microsoft.AspNetCore.Mvc.RazorPages
 
 @{
     ViewData["Title"] = "New Blog Post";
 }
 
 <h2>Write a New Post</h2>
-<form method="POST">
-    <div asp-validation-summary="All"></div>
-    <div class="form-group">
-        <div class="col-md-6">
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="col-md-12 well">
+        <div class="form-group col-md-6">
             <label for="Title">Title</></label>
-            <input type="text" class="form-control" placeholder="" asp-for="Post.Title" />
-            <span asp-validation-for="Post.Title" class="invalid"></span>
+            <input type="text" class="form-control" placeholder="" asp-for="NewPost.Title" />
+            <span asp-validation-for="NewPost.Title" class="text-warning"></span>
         </div>
-    </div>
-    <div class="col-md-12">
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <label for="Body" class="primaryField">Body</label>
-            <textarea class="form-control" placeholder="" asp-for="Post.Body" rows="15"></textarea>
-            <span asp-validation-for="Post.Body" class="invalid"></span>
+            <textarea rows="10" class="form-control" placeholder="" asp-for="NewPost.Body"></textarea>
+            <span asp-validation-for="NewPost.Body" class="text-warning"></span>
         </div>
-    </div>
-    <div class="col-md-12">
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
-            <textarea class="form-control" placeholder="" asp-for="Post.Excerpt"></textarea>
+            <textarea class="form-control" placeholder="" asp-for="NewPost.Excerpt"></textarea>
         </div>
-    </div>
-    <div class="col-md-12">
-        <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
-        <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Upload Files</label>
+                <input type="file" name="files" multiple />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
+            <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+        </div>
     </div>
 </form>

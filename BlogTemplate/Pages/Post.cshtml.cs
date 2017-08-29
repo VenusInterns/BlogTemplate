@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogTemplate.Models;
+using System.ComponentModel.DataAnnotations;
+using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Authorization;
-using Markdig;
-using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BlogTemplate.Pages
+namespace BlogTemplate._1.Pages
 {
 
     public class PostModel : PageModel
@@ -31,7 +24,7 @@ namespace BlogTemplate.Pages
         }
 
         [BindProperty]
-        public Comment Comment { get; set; }
+        public CommentViewModel NewComment { get; set; }
 
         public Post Post { get; set; }
 
@@ -63,12 +56,27 @@ namespace BlogTemplate.Pages
             }
             else if (ModelState.IsValid)
             {
-                Comment.IsPublic = true;
-                Comment.UniqueId = Guid.NewGuid();
-                Post.Comments.Add(Comment);
+                Comment comment = new Comment
+                {
+                    AuthorName = NewComment.AuthorName,
+                    Body = NewComment.Body,
+                };
+                comment.IsPublic = true;
+                comment.UniqueId = Guid.NewGuid();
+                Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
+                return Redirect("/post/" + id + "/" + Post.Slug);
             }
+
             return Page();
+        }
+
+        public class CommentViewModel
+        {
+            [Required]
+            public string AuthorName { get; set; }
+            [Required]
+            public string Body { get; set; }
         }
     }
 }

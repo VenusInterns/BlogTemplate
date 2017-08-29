@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BlogTemplate.Models
+namespace BlogTemplate._1.Models
 {
     public class PhysicalFileSystem : IFileSystem
     {
@@ -44,6 +44,11 @@ namespace BlogTemplate.Models
         public DateTime GetFileLastWriteTime(string path)
         {
             return File.GetLastWriteTime(path);
+        }
+
+        public void WriteFile(string path, byte[] data)
+        {
+            File.WriteAllBytes(path, data);
         }
     }
 }
