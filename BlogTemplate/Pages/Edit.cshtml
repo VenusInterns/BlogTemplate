@@ -13,7 +13,7 @@
 <article>
     <h2>Edit Post</h2>
     <div class="col-md-12 well">
-        <form method="post" id="editpost">
+        <form method="post" id="editpost" data-has-slug="@Model.hasSlug">
             @if (TempData["notice"] != null)
             {
                 <h3>@TempData["notice"]</h3>
