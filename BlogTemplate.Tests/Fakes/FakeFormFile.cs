@@ -34,7 +34,7 @@ namespace BlogTemplate._1.Tests.Fakes
 
         public Stream OpenReadStream()
         {
-            return new MemoryStream();
+            return new MemoryStream(new byte[this.Length]);
         }
     }
 }

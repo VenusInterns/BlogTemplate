@@ -337,10 +337,19 @@ namespace BlogTemplate._1.Models
                 {                    
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        byte[] buffer = new byte[uploadedFileStream.Length];
-                        uploadedFileStream.Read(buffer, 0, buffer.Length);
                         string name = CreateFileName(file.FileName);
-                        _fileSystem.WriteFile($"{UploadsFolder}\\{name}", buffer);
+                        byte[] buffer = new byte[1024];
+                        int index = 0;
+                        while(index < buffer.Length)
+                        {
+                            int bytesRead = uploadedFileStream.Read(buffer, 0, buffer.Length - index);
+                            if (bytesRead == 0)
+                            {
+                                break;
+                            }
+                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, index, bytesRead);
+                            index += bytesRead;
+                        }
                     }
                 }
             }

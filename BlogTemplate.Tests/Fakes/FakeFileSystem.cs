@@ -110,6 +110,24 @@ namespace BlogTemplate._1.Tests.Fakes
             writer.Write(text);
             writer.Flush();
         }
+
+        void IFileSystem.AppendFile(string path, byte[] data)
+        {
+            
+        }
+
+        void IFileSystem.AppendFile(string path, byte[] data, int offset, int count)
+        {
+            if (!_files.ContainsKey(path))
+            {
+                AddFile(path);
+            }
+
+            _files[path].Seek(0, SeekOrigin.Begin);
+            MemoryStream writer = _files[path];
+            writer.Write(data, offset, count);
+            writer.Flush();
+        }
         #endregion
 
         #region Tests
