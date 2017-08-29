@@ -8,11 +8,34 @@ A more detailed talk we did on writing the blog template with code reviews and d
 ### Background
 This template was designed to help Visual Studio users create new web applications fast and effortlessly. We decided on building a Blog Template because such a template would give developers (with varying levels of experience) the ability to create a simple project, and add as much complexity to it as they wanted. The additional features to the blog are what make it a useful tool for developers:
 * [Entity Framework](https://docs.microsoft.com/en-us/aspnet/entity-framework) provides an environment that makes it easy to work with relational data. In our scenario, that data comes in the form of blog posts and comments for each post.
-* The usage of [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/linq/) (Language Integrated Query) enables the developer to store (query) items from the blog into a variety of targets like databases, xml documents (currently in use), and in-memory objects without having to redesign how things are queried, but rather where they are stored. ![datastoreimplementation](https://user-images.githubusercontent.com/15707311/29847570-2c1e0a8c-8cd1-11e7-8934-1792ba7bf73e.PNG)
-* The blog is built on Razor Pages from ASP.NET Core. Because of this, developers with some knowledge of ASP.NET Core can learn about the pros and cons of building with Razor Pages as opposed to the previously established MVC schema. Once you've created an instance of the template, you can open it in Visual Studio and you'll immediately notice the difference in Razor Pages from MVC (if that's what you were familiar with before). The solution file should look something like the one in the image below. It's easy to notice how the Pages are separate from the Controllers and within each page is it's corresponding Model. If you would like to add another page to your project you simply add a new item and make sure it is a Razor Page (which also comes with a page model). ![solutionfile](https://user-images.githubusercontent.com/15707311/29847605-5e84f1a2-8cd1-11e7-876c-5a1428996ddf.PNG)
-* The template includes a user authentication feature, done by implementing the new ASP.NET [Identity Library](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity) for Razor Pages. This was a simple tool to add that consisted of installing the NuGet package and creating a new project with the package and then transferring the previous project files into this new project with Identity. Although a hassle, moving the files from one project to the other was quite simple because both projects were built with Razor Pages. In adding identity we simply enabled it in the startup file and added the corresponding pages (with their models). ![configureservices](https://user-images.githubusercontent.com/15707311/29847724-06f342ee-8cd2-11e7-8497-abc836b59269.PNG) ![identity solution file](https://user-images.githubusercontent.com/15707311/29847723-03df55fc-8cd2-11e7-9a68-372f4fa71344.PNG)
+* The usage of [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/linq/) (Language Integrated Query) enables the developer to store (query) items from the blog into a variety of targets like databases, xml documents (currently in use), and in-memory objects without having to redesign how things are queried, but rather where they are stored. 
+
+
+![datastoreimplementation](https://user-images.githubusercontent.com/15707311/29847570-2c1e0a8c-8cd1-11e7-8934-1792ba7bf73e.PNG)
+
+
+* The blog is built on Razor Pages from ASP.NET Core. Because of this, developers with some knowledge of ASP.NET Core can learn about the pros and cons of building with Razor Pages as opposed to the previously established MVC schema. Once you've created an instance of the template, you can open it in Visual Studio and you'll immediately notice the difference in Razor Pages from MVC (if that's what you were familiar with before). The solution file should look something like the one in the image below. It's easy to notice how the Pages are separate from the Controllers and within each page is it's corresponding Model. If you would like to add another page to your project you simply add a new item and make sure it is a Razor Page (which also comes with a page model). 
+
+
+![solutionfile](https://user-images.githubusercontent.com/15707311/29847605-5e84f1a2-8cd1-11e7-876c-5a1428996ddf.PNG)
+
+
+* The template includes a user authentication feature, done by implementing the new ASP.NET [Identity Library](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity) for Razor Pages. This was a simple tool to add that consisted of installing the NuGet package and creating a new project with the package and then transferring the previous project files into this new project with Identity. Although a hassle, moving the files from one project to the other was quite simple because both projects were built with Razor Pages. In adding identity we simply enabled it in the startup file and added the corresponding pages (with their models). 
+
+
+![configureservices](https://user-images.githubusercontent.com/15707311/29847724-06f342ee-8cd2-11e7-8497-abc836b59269.PNG) 
+
+
+![identity solution file](https://user-images.githubusercontent.com/15707311/29847723-03df55fc-8cd2-11e7-9a68-372f4fa71344.PNG)
+
+
 * The ASP.NET Identity library for Razor Pages is not available yet. To access it (as opposed to the MVC version) click here.
-* The template uses bootstrap, which makes it simple for developers to customize their project in ways that they are already familiar with. HAVE JULIET ADD A SNIPPET ON HOW TO ADD/WORK WITH BOOTSTRAP ![bootstrap solution](https://user-images.githubusercontent.com/15707311/29847804-5bc514a0-8cd2-11e7-9d6e-ebc43cee0f10.PNG)
+* The template uses bootstrap, which makes it simple for developers to customize their project in ways that they are already familiar with. HAVE JULIET ADD A SNIPPET ON HOW TO ADD/WORK WITH BOOTSTRAP 
+
+
+![bootstrap solution](https://user-images.githubusercontent.com/15707311/29847804-5bc514a0-8cd2-11e7-9d6e-ebc43cee0f10.PNG)
+
+
 
 ### Goals
 We hope the above features make this a tool that developers can use to speed up the development process of their project while also serving an educational purpose for those who want to learn how to implement/work with those new items. In making this an educational tool, we hope that our blog provides effective examples of said features. The following are a set of goals that we attempted to achieve and we challenge you to accomplish on your way to building the best web applications:
