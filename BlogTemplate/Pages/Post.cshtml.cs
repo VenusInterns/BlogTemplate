@@ -14,16 +14,13 @@ namespace BlogTemplate._1.Pages
         {
             _dataStore = dataStore;
         }
-        bool isCommentsFull;
-        const int MaxAllowedComments = 3;
+
+        const int MaxAllowedComments = 100;
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
-        public bool IsCommentsFull
-        {
-            get => isCommentsFull;
-            set => isCommentsFull = Post.Comments.Count >= MaxAllowedComments;
-        } 
+        public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
+ 
 
         public Post Post { get; set; }
 
@@ -66,8 +63,11 @@ namespace BlogTemplate._1.Pages
         public class CommentViewModel
         {
             [Required]
+            [MaxLength(100, ErrorMessage = "You have exceeded the maximum length of 100 characters")]
             public string AuthorName { get; set; }
+
             [Required]
+            [MaxLength(1000, ErrorMessage = "You have exceeded the maximum length of 1000 characters")]
             public string Body { get; set; }
         }
     }
