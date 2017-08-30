@@ -78,8 +78,11 @@ namespace BlogTemplate._1.Pages
                 post.IsPublic = true;
             }
 
-            //What does Request.Form.Files.ToList() even do?
-            //_dataStore.SaveFiles(Request.Form.Files.ToList());
+            if (Request != null)
+            {
+                _dataStore.SaveFiles(Request.Form.Files.ToList());
+            }
+
             _dataStore.SavePost(post);
         }
 

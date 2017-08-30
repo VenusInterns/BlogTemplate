@@ -61,14 +61,14 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
             {
                 bool wasPublic = post.IsPublic;
                 post.IsPublic = false;
-                UpdatePost(post, updateSlug, wasPublic);
+                UpdatePost(post, false, wasPublic);
             }
             return Redirect("/Drafts");
         }
