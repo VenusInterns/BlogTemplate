@@ -50,6 +50,7 @@ namespace BlogTemplate._1
 
             services.AddSingleton<SlugGenerator>();
             services.AddSingleton<ExcerptGenerator>();
+            services.AddSingleton<MarkdownRenderer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <h1>@Model.Post.Title</h1>
         <h5 name="date" class="date text-muted">@Model.Post.PubDate.ToString("MMM dd, yyyy")</h5>
-        <p>@Model.Post.Body</p>
+        <p>@Model.HtmlBody()</p>
     </div>
 
     @if (User.Identity.IsAuthenticated)
