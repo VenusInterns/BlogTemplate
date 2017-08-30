@@ -14,7 +14,7 @@ namespace BlogTemplate._1.Tests.Pages
     public class EditTests
     {
         [Fact]
-        public void UpdatePostP2P_TitleIsUpdated_UpdateSlug()
+        public void UpdatePost_PostToPostTitleIsUpdated_UpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
@@ -44,7 +44,7 @@ namespace BlogTemplate._1.Tests.Pages
             Assert.Equal("Edited-Title", post.Slug);
         }
         [Fact]
-        public void UpdatePostD2P_TitleIsUpdated_UpdateSlug()
+        public void UpdatePost_DraftToPostTitleIsUpdated_UpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
@@ -73,7 +73,7 @@ namespace BlogTemplate._1.Tests.Pages
             Assert.Equal("Edited-Title", post.Slug);
         }
         [Fact]
-        public void UpdatePostP2D2P_TitleIsUpdated_UpdateSlug()
+        public void UpdatePost_PostToDraftToPostTitleIsUpdated_UpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
@@ -111,7 +111,7 @@ namespace BlogTemplate._1.Tests.Pages
             Assert.Equal("Edited-Title-2", post.Slug);
         }
         [Fact]
-        public void UpdatePostP2D_TitleIsUpdated_DoNotUpdateSlug()
+        public void UpdatePost_PostToDraftTitleIsUpdated_DoNotUpdateSlug()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());

@@ -30,8 +30,7 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
-            Post post = new Post();
-            NewPost = new NewPostViewModel();
+            //NewPost = new NewPostViewModel();
         }
 
         [ValidateAntiForgeryToken]

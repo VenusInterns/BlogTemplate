@@ -18,17 +18,13 @@ namespace BlogTemplate._1.Tests.Pages
 
             Post draftPost = new Post
             {
-                Slug = "Draft-Post",
                 Title = "Draft Post",
-                Excerpt = "Draft excerpt",
                 IsPublic = false,
                 PubDate = DateTime.UtcNow,
             };
             Post publishedPost = new Post
             {
-                Slug = "Published-Post",
                 Title = "Published Post",
-                Excerpt = "Published excerpt",
                 IsPublic = true,
                 PubDate = DateTime.UtcNow,
             };
@@ -37,16 +33,14 @@ namespace BlogTemplate._1.Tests.Pages
             testDataStore.SavePost(publishedPost);
 
             DraftsModel testDraftsModel = new DraftsModel(testDataStore);
-
             testDraftsModel.OnGet();
+            DraftSummaryModel testDraftSummaryModel = testDraftsModel.DraftSummaries.First();
 
             Assert.Equal(1, testDraftsModel.DraftSummaries.Count());
-            Assert.Equal(draftPost.Id, testDraftsModel.DraftSummaries.First().Id);
-            Assert.Equal("Draft-Post", testDraftsModel.DraftSummaries.First().Slug);
-            Assert.Equal("Draft Post", testDraftsModel.DraftSummaries.First().Title);
-            Assert.Equal(draftPost.PubDate, testDraftsModel.DraftSummaries.First().PublishTime);
-            Assert.Equal("Draft excerpt", testDraftsModel.DraftSummaries.First().Excerpt);
-            Assert.Equal(0, testDraftsModel.DraftSummaries.First().CommentCount);
+            Assert.Equal(draftPost.Id, testDraftSummaryModel.Id);
+            Assert.Equal("Draft Post", testDraftSummaryModel.Title);
+            Assert.Equal(draftPost.PubDate, testDraftSummaryModel.PublishTime);
+            Assert.Equal(0, testDraftSummaryModel.CommentCount);
         }
     }
 }
