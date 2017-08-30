@@ -16,7 +16,7 @@ namespace BlogTemplate._1.Services
                .DisableHtml()
                .Build();
 
-        public HtmlString RenderMarkdownToHtml(string bodyText)
+        public HtmlString RenderMarkdown(string bodyText)
         {
             var html = Markdown.ToHtml(bodyText, pipeline);
             return new HtmlString(html);
