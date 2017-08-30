@@ -2,20 +2,27 @@
 @model DraftsModel
 @{
     ViewData["Title"] = "Drafts";
+
     <h2>@ViewData["Title"]</h2>
 
-    if (!Model.Posts.Any())
+    if (!Model.DraftSummaries.Any())
     {
         <p>View and edit your saved drafts here.</p>
     }
-
     else
     {
-        foreach (var post in Model.Posts)
+        foreach (var post in Model.DraftSummaries)
         {
             <article>
-                <h2><a asp-page="/edit" asp-route-id="@post.Id">@post.Title</a></h2>
-                <p class="lead">@post.Excerpt</p>
+                <div class="col-md-12">
+                    <h2><a asp-page="/edit" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
+                    @if (post.PublishTime != default(DateTimeOffset))
+                    {
+                        <h5 class="date text-muted">Last Published @post.PublishTime.ToString("MMM dd, yyyy")</h5>
+                    }
+                    <p class="lead">@post.Excerpt</p>
+                    <h3><a href="/post/@post.Id/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                </div>
             </article>
         }
     }

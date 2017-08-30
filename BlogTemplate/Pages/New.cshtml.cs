@@ -18,7 +18,6 @@ namespace BlogTemplate._1.Pages
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
-
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
