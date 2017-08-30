@@ -28,6 +28,8 @@ namespace BlogTemplate._1.Tests.Pages
             Assert.Equal("This is the body", model.NewPost.Body);
             Assert.Equal("This ...", model.NewPost.Excerpt);
         }
+
+        [Fact]
         public void OnPostSaveDraft_NoExcerptIsEntered_AutoGenerateExcerpt()
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();

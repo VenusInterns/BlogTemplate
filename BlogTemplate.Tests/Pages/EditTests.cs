@@ -25,8 +25,6 @@ namespace BlogTemplate._1.Tests.Pages
             {
                 Title = "Title",
                 Slug = "Title",
-                Body = "Body",
-                Excerpt = "Excerpt",
                 IsPublic = true,
                 PubDate = DateTimeOffset.Now,
             };
@@ -43,6 +41,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             Assert.Equal("Edited-Title", post.Slug);
         }
+
         [Fact]
         public void UpdatePost_DraftToPostTitleIsUpdated_UpdateSlug()
         {
@@ -55,8 +54,6 @@ namespace BlogTemplate._1.Tests.Pages
             {
                 Title = "Title",
                 Slug = "Title",
-                Body = "Body",
-                Excerpt = "Excerpt",
                 IsPublic = false,
             };
 
@@ -72,6 +69,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             Assert.Equal("Edited-Title", post.Slug);
         }
+
         [Fact]
         public void UpdatePost_PostToDraftToPostTitleIsUpdated_UpdateSlug()
         {
@@ -84,8 +82,6 @@ namespace BlogTemplate._1.Tests.Pages
             {
                 Title = "Title",
                 Slug = "Title",
-                Body = "Body",
-                Excerpt = "Excerpt",
                 IsPublic = true,
                 PubDate = DateTimeOffset.Now,
             };
@@ -110,6 +106,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             Assert.Equal("Edited-Title-2", post.Slug);
         }
+
         [Fact]
         public void UpdatePost_PostToDraftTitleIsUpdated_DoNotUpdateSlug()
         {
@@ -122,8 +119,6 @@ namespace BlogTemplate._1.Tests.Pages
             {
                 Title = "Title",
                 Slug = "Title",
-                Body = "Body",
-                Excerpt = "Excerpt",
                 IsPublic = true,
             };
 
