@@ -30,7 +30,7 @@ namespace BlogTemplate._1.Pages
 
         public void OnGet()
         {
-            //NewPost = new NewPostViewModel();
+            NewPost = new NewPostViewModel();
         }
 
         [ValidateAntiForgeryToken]
@@ -63,6 +63,7 @@ namespace BlogTemplate._1.Pages
             {
                 newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body);
             }
+
             Post post = new Post {
                 Title = newPost.Title,
                 Body = newPost.Body,

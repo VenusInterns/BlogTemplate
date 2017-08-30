@@ -14,8 +14,7 @@ namespace BlogTemplate._1.Tests.Pages
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
-            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            testExcerptGenerator.maxLength = 5;
+            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator(5);
             SlugGenerator testSlugGenerator = new SlugGenerator(testDataStore);
 
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);
@@ -33,8 +32,7 @@ namespace BlogTemplate._1.Tests.Pages
         {
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
-            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            testExcerptGenerator.maxLength = 5;
+            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator(5);
             SlugGenerator testSlugGenerator = new SlugGenerator(testDataStore);
 
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);

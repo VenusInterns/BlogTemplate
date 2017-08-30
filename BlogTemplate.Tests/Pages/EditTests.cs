@@ -19,7 +19,7 @@ namespace BlogTemplate._1.Tests.Pages
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
             Post post = new Post()
             {
@@ -49,7 +49,7 @@ namespace BlogTemplate._1.Tests.Pages
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
             Post post = new Post()
             {
@@ -78,7 +78,7 @@ namespace BlogTemplate._1.Tests.Pages
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
             Post post = new Post()
             {
@@ -116,7 +116,7 @@ namespace BlogTemplate._1.Tests.Pages
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
             Post post = new Post()
             {

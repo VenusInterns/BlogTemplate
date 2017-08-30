@@ -11,8 +11,7 @@ namespace BlogTemplate._1.Tests.Services
         public void CreateExcerpt_BodyLengthExceedsMaxLength_ExcerptIsTruncated()
         {
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
-            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            testExcerptGenerator.maxLength = 5;
+            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator(5);
             string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body");
             Assert.Equal("This ...", testExcerpt);
         }
@@ -20,8 +19,7 @@ namespace BlogTemplate._1.Tests.Services
         public void CreateExcerpt_BodyLengthDoesNotExceedMaxLength_ExcerptEqualsBody()
         {
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
-            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator();
-            testExcerptGenerator.maxLength = 50;
+            ExcerptGenerator testExcerptGenerator = new ExcerptGenerator(50);
             string testExcerpt = testExcerptGenerator.CreateExcerpt("This is the body");
             Assert.Equal("This is the body", testExcerpt);
         }

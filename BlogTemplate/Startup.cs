@@ -49,7 +49,8 @@ namespace BlogTemplate._1
             services.AddSingleton<BlogDataStore>();
 
             services.AddSingleton<SlugGenerator>();
-            services.AddSingleton<ExcerptGenerator>();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
+            services.AddSingleton<ExcerptGenerator>(excerptGenerator);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
