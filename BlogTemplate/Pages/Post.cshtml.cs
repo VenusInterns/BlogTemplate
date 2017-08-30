@@ -10,14 +10,20 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
-        public bool MaxedOutComments = false;
         public PostModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
         }
+        bool isCommentsFull;
+        const int MaxAllowedComments = 3;
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
+        public bool IsCommentsFull
+        {
+            get => isCommentsFull;
+            set => isCommentsFull = Post.Comments.Count >= MaxAllowedComments;
+        } 
 
         public Post Post { get; set; }
 
@@ -28,10 +34,6 @@ namespace BlogTemplate._1.Pages
             if (Post == null)
             {
                 RedirectToPage("/Index");
-            }
-            if(Post.Comments.Count > 99)
-            {
-                MaxedOutComments = true;
             }
         }
 
