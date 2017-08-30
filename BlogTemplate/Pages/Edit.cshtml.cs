@@ -24,7 +24,6 @@ namespace BlogTemplate._1.Pages
         }
 
         [BindProperty]
-        public string PathToPost { get; set; }
         public EditedPostModel EditedPost { get; set; }
 
         public void OnGet([FromRoute] int id)
@@ -43,8 +42,6 @@ namespace BlogTemplate._1.Pages
             {
                 RedirectToPage("/Index");
             }
-
-            PathToPost = $"/Post/{id}/{post.Slug}";
         }
 
         [ValidateAntiForgeryToken]
