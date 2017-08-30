@@ -25,6 +25,7 @@ namespace BlogTemplate._1.Pages
 
         [BindProperty]
         public EditedPostModel EditedPost { get; set; }
+        public bool hasSlug { get; set; }
 
         public void OnGet([FromRoute] int id)
         {
@@ -36,6 +37,8 @@ namespace BlogTemplate._1.Pages
                 Body = post.Body,
                 Excerpt = post.Excerpt,
             };
+
+            hasSlug = !string.IsNullOrEmpty(post.Slug);
 
             if (post == null)
             {
@@ -54,6 +57,10 @@ namespace BlogTemplate._1.Pages
                 if (post.PubDate.Equals(default(DateTimeOffset)))
                 {
                     post.PubDate = DateTimeOffset.Now;
+                }
+                if (!hasSlug)
+                {
+                    post.Slug = _slugGenerator.CreateSlug(post.Title);
                 }
                 UpdatePost(post, updateSlug, wasPublic);
             }
