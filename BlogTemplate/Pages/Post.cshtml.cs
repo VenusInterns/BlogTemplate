@@ -14,17 +14,14 @@ namespace BlogTemplate._1.Pages
         {
             _dataStore = dataStore;
         }
-        bool isCommentsFull;
-        const int MaxAllowedComments = 3;
+
+        const int MaxAllowedComments = 100;
+        const int MaxNameLength = 100;
+        const int MaxBodyLength = 1000;
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
-        public bool IsCommentsFull
-        {
-            get => isCommentsFull;
-            set => isCommentsFull = Post.Comments.Count >= MaxAllowedComments;
-        } 
-
+        public bool IsCommentsFull { get { return Post.Comments.Count >= MaxAllowedComments; } }
         public Post Post { get; set; }
 
         public void OnGet([FromRoute] int id)
@@ -37,6 +34,15 @@ namespace BlogTemplate._1.Pages
             }
         }
 
+        public string Trim(string body, int maxLength)
+        {
+            string TrimmedBody = body;
+            if(body.Length >= maxLength)
+            {
+                TrimmedBody = body.Substring(0, maxLength);
+            }
+            return TrimmedBody;
+        }
         [ValidateAntiForgeryToken]
         public IActionResult OnPostPublishComment([FromRoute] int id)
         {
@@ -50,8 +56,8 @@ namespace BlogTemplate._1.Pages
             {
                 Comment comment = new Comment
                 {
-                    AuthorName = NewComment.AuthorName,
-                    Body = NewComment.Body,
+                    AuthorName = Trim(NewComment.AuthorName, MaxNameLength),
+                    Body = Trim(NewComment.Body, MaxBodyLength),
                 };
                 comment.IsPublic = true;
                 comment.UniqueId = Guid.NewGuid();
