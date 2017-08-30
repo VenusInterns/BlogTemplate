@@ -27,7 +27,7 @@ namespace BlogTemplate._1.Pages
 
         public HtmlString HtmlBody()
         {
-            var html = _markdownRenderer.HtmlBody(Post.Body);
+            var html = _markdownRenderer.RenderMarkdownToHtml(Post.Body);
             return html;
         }
 

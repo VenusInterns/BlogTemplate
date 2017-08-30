@@ -15,7 +15,8 @@ namespace BlogTemplate._1.Services
                .UseYamlFrontMatter()
                .DisableHtml()
                .Build();
-        public HtmlString HtmlBody(string bodyText)
+
+        public HtmlString RenderMarkdownToHtml(string bodyText)
         {
             var html = Markdown.ToHtml(bodyText, pipeline);
             return new HtmlString(html);
