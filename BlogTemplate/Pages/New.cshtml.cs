@@ -62,7 +62,6 @@ namespace BlogTemplate._1.Pages
                 Title = NewPost.Title,
                 Body = NewPost.Body,
                 Excerpt = NewPost.Excerpt,
-                Slug = _slugGenerator.CreateSlug(NewPost.Title),
                 LastModified = DateTimeOffset.Now,
             };
 
@@ -75,6 +74,7 @@ namespace BlogTemplate._1.Pages
             {
                 post.PubDate = DateTimeOffset.Now;
                 post.IsPublic = true;
+                post.Slug = _slugGenerator.CreateSlug(NewPost.Title);
             }
 
             _dataStore.SaveFiles(Request.Form.Files.ToList());
