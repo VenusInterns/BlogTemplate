@@ -110,5 +110,34 @@ namespace BlogTemplate._1.Tests.Pages
 
             Assert.Equal("Edited-Title-2", post.Slug);
         }
+        [Fact]
+        public void UpdatePostP2D_TitleIsUpdated_DoNotUpdateSlug()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
+            SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator();
+
+            Post post = new Post()
+            {
+                Title = "Title",
+                Slug = "Title",
+                Body = "Body",
+                Excerpt = "Excerpt",
+                IsPublic = true,
+            };
+
+            testDataStore.SavePost(post);
+
+            EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
+            testEditModel.PageContext = new PageContext();
+            testEditModel.OnGet(post.Id);
+            testEditModel.EditedPost.Title = "Edited Title";
+            testEditModel.OnPostSaveDraft(post.Id);
+
+            post = testDataStore.GetPost(post.Id);
+
+            Assert.Equal("Title", post.Slug);
+        }
     }
 }

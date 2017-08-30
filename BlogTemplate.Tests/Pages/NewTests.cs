@@ -21,7 +21,6 @@ namespace BlogTemplate._1.Tests.Pages
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);
             model.PageContext = new PageContext();
             model.OnGet();
-            //Make it a form rather than a post
             model.NewPost.Title = "Title";
             model.NewPost.Body = "This is the body";
 
