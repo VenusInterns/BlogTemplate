@@ -18,8 +18,7 @@ namespace BlogTemplate._1.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
-            Post post = new Post
-            {
+            Post post = new Post {
                 Title = "Title",
                 Slug = "Title",
                 IsPublic = true,
@@ -30,8 +29,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-            testEditModel.EditedPost = new EditModel.EditedPostModel
-            {
+            testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
             };
 
@@ -50,8 +48,7 @@ namespace BlogTemplate._1.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
-            Post post = new Post
-            {
+            Post post = new Post {
                 Title = "Title",
                 IsPublic = false,
             };
@@ -60,8 +57,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-            testEditModel.EditedPost = new EditModel.EditedPostModel
-            {
+            testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
             };
 
@@ -80,8 +76,7 @@ namespace BlogTemplate._1.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
-            Post post = new Post
-            {
+            Post post = new Post {
                 Title = "Title",
                 Slug = "Title",
                 IsPublic = false,
@@ -91,8 +86,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-            testEditModel.EditedPost = new EditModel.EditedPostModel
-            {
+            testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
             };
 
@@ -111,8 +105,7 @@ namespace BlogTemplate._1.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
-            Post post = new Post
-            {
+            Post post = new Post {
                 Title = "Title",
                 Slug = "Title",
                 IsPublic = false,
@@ -123,8 +116,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-            testEditModel.EditedPost = new EditModel.EditedPostModel
-            {
+            testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
             };
 
@@ -143,8 +135,7 @@ namespace BlogTemplate._1.Tests.Pages
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
 
-            Post post = new Post
-            {
+            Post post = new Post {
                 Title = "Title",
                 Slug = "Title",
                 IsPublic = true,
@@ -154,8 +145,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             EditModel testEditModel = new EditModel(testDataStore, slugGenerator, excerptGenerator);
             testEditModel.PageContext = new PageContext();
-            testEditModel.EditedPost = new EditModel.EditedPostModel
-            {
+            testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
             };
 

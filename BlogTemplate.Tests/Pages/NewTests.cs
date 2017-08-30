@@ -19,8 +19,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);
             model.PageContext = new PageContext();
-            model.NewPost = new NewModel.NewPostViewModel
-            {
+            model.NewPost = new NewModel.NewPostViewModel {
                 Title = "Title",
                 Body = "This is the body",
             };
@@ -41,8 +40,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             NewModel model = new NewModel(testDataStore, testSlugGenerator, testExcerptGenerator);
             model.PageContext = new PageContext();
-            model.NewPost = new NewModel.NewPostViewModel
-            {
+            model.NewPost = new NewModel.NewPostViewModel {
                 Title = "Title",
                 Body = "This is the body",
             };
