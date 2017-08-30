@@ -83,6 +83,10 @@ namespace BlogTemplate._1.Pages
         {
             post.Title = EditedPost.Title;
             post.Body = EditedPost.Body;
+            if (string.IsNullOrEmpty(EditedPost.Excerpt))
+            {
+                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body, 140);
+            }
             post.Excerpt = EditedPost.Excerpt;
 
             if (updateSlug)
