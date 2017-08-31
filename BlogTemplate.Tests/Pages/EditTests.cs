@@ -13,7 +13,6 @@ namespace BlogTemplate._1.Tests.Pages
         [Fact]
         public void UpdatePost_PublishedToPublished_TitleIsUpdated_UpdateSlug()
         {
-            IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
@@ -44,7 +43,6 @@ namespace BlogTemplate._1.Tests.Pages
         [Fact]
         public void UpdatePost_DraftToPublished_TitleIsUpdated_UpdateSlug()
         {
-            IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
@@ -73,7 +71,6 @@ namespace BlogTemplate._1.Tests.Pages
         [Fact]
         public void UpdatePost_PreviouslyPublishedDraftToPublished_TitleIsUpdated_UpdateSlug()
         {
-            IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
@@ -103,7 +100,6 @@ namespace BlogTemplate._1.Tests.Pages
         [Fact]
         public void UpdatePost_PreviouslyPublishedDraftToPublished_DoNotUpdatePubDate()
         {
-            IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
@@ -134,7 +130,6 @@ namespace BlogTemplate._1.Tests.Pages
         [Fact]
         public void UpdatePost_PublishedToDraft_TitleIsUpdated_DoNotUpdateSlug()
         {
-            IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(new FakeFileSystem());
             SlugGenerator slugGenerator = new SlugGenerator(testDataStore);
             ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
