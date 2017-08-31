@@ -31,6 +31,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.PageContext = new PageContext();
             testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
+                Excerpt = "Excerpt",
             };
 
             testEditModel.OnPostPublish(post.Id, true);
@@ -59,6 +60,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.PageContext = new PageContext();
             testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
+                Excerpt = "Excerpt",
             };
 
             testEditModel.OnPostPublish(post.Id, true);
@@ -88,6 +90,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.PageContext = new PageContext();
             testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
+                Excerpt = "Excerpt",
             };
 
             testEditModel.OnPostPublish(post.Id, true);
@@ -118,6 +121,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.PageContext = new PageContext();
             testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
+                Excerpt = "Excerpt",
             };
 
             testEditModel.OnPostPublish(post.Id, true);
@@ -147,6 +151,7 @@ namespace BlogTemplate._1.Tests.Pages
             testEditModel.PageContext = new PageContext();
             testEditModel.EditedPost = new EditModel.EditedPostModel {
                 Title = "Edited Title",
+                Excerpt = "Excerpt",
             };
 
             testEditModel.OnPostSaveDraft(post.Id);
