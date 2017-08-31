@@ -39,6 +39,11 @@ namespace BlogTemplate._1.Pages
             {
                 RedirectToPage("/Index");
             }
+
+            //if(RouteData.Values["slug"].ToString() != Post.Slug)
+            //{
+            //    Redirect($"/Post/{Post.Id}/{Post.Slug}");
+            //}
         }
 
         [ValidateAntiForgeryToken]
