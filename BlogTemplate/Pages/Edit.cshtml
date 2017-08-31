@@ -34,6 +34,12 @@
                 <textarea class="form-control" placeholder="" asp-for="EditedPost.Excerpt"></textarea>
             </div>
             <div class="col-md-12">
+                <div class="form-group">
+                    <label>Upload Files</label>
+                    <input type="file" name="files" class="form-control-file" multiple />
+                </div>
+            </div>
+            <div class="col-md-12">
                 <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
                 <input type="submit" name="publish" id="postsave" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
             </div>
