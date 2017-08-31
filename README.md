@@ -4,9 +4,11 @@ We created this blog template for Visual Studio to help users create a new, pers
 
 This is a blogging engine based on Razor Pages and ASP.NET.
 
+
 __Live demo__: https://venusblog.azurewebsites.net/    
 
 Username: _webinterns@microsoft.com_
+
 Password: _Password.1_
 
 ### Introduction to the Blog Template
