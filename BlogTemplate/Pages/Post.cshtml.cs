@@ -20,9 +20,6 @@ namespace BlogTemplate._1.Pages
             _markdownRenderer = markdownRenderer;
         }
 
-        [BindProperty]
-        public CommentViewModel NewComment { get; set; }
-
         public Post Post { get; set; }
 
         public HtmlString HtmlBody()
@@ -39,10 +36,26 @@ namespace BlogTemplate._1.Pages
             {
                 RedirectToPage("/Index");
             }
+
+            CommentViewModel NewComment = new CommentViewModel();
+        }
+
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostDeletePost([FromRoute] int id)
+        {
+            Post = _dataStore.GetPost(id);
+
+            if (ModelState.IsValid)
+            {
+                Post.IsDeleted = true;
+                return RedirectToPage("/Index");
+            }
+            return Redirect("/post/" + id + "/" + Post.Slug);
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment([FromRoute] int id)
+        public IActionResult OnPostPublishComment([FromRoute] int id, [FromForm] CommentViewModel NewComment)
         {
             Post = _dataStore.GetPost(id);
 

@@ -56,7 +56,7 @@ namespace BlogTemplate._1.Pages
 
             return Page();
         }
-
+        
         private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
             Post post = new Post {
@@ -75,6 +75,7 @@ namespace BlogTemplate._1.Pages
             {
                 post.PubDate = DateTimeOffset.Now;
                 post.IsPublic = true;
+                post.IsDeleted = false;
                 post.Slug = _slugGenerator.CreateSlug(NewPost.Title);
             }
 
