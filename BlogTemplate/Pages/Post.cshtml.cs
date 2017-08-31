@@ -42,7 +42,8 @@ namespace BlogTemplate._1.Pages
 
             if (RouteData.Values["slug"].ToString() != Post.Slug)
             {
-                return Redirect($"/Post/{Post.Id}/{Post.Slug}");
+                //return Redirect($"/Post/{Post.Id}/{Post.Slug}");
+                return RedirectPermanent($"/Post/{Post.Id}/{Post.Slug}");
             }
 
             return Page();
