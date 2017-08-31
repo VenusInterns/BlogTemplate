@@ -337,19 +337,23 @@ namespace BlogTemplate._1.Models
                 {                    
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        string name = CreateFileName(file.FileName);
-                        byte[] buffer = new byte[1024];
-                        int index = 0;
-                        while(index < buffer.Length)
+                        string name = file.FileName;
+                        if(CheckFileNameExists(name))
                         {
-                            int bytesRead = uploadedFileStream.Read(buffer, 0, buffer.Length - index);
+                            _fileSystem.DeleteFile($"{UploadsFolder}\\{name}");
+                        }
+
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        do
+                        {
+                            bytesRead = uploadedFileStream.Read(buffer, 0, 1024);
                             if (bytesRead == 0)
                             {
                                 break;
                             }
-                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, index, bytesRead);
-                            index += bytesRead;
-                        }
+                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, 0, bytesRead);
+                        } while (bytesRead > 0);
                     }
                 }
             }
@@ -373,7 +377,7 @@ namespace BlogTemplate._1.Models
             string ext = Path.GetExtension(fileName);
             for(int i = 1; CheckFileNameExists(tempName); i++)
             {
-                tempName = $"{shortName}-{i}.{ext}";
+                tempName = $"{shortName}-{i}{ext}";
             }
             return tempName;
         }
