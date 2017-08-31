@@ -35,13 +35,14 @@ namespace BlogTemplate._1.Pages
                 Title = post.Title,
                 Body = post.Body,
                 Excerpt = post.Excerpt,
-                Id = post.Id,
             };
 
             if (post == null)
             {
                 RedirectToPage("/Index");
             }
+
+            ViewData["Id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]
@@ -93,8 +94,6 @@ namespace BlogTemplate._1.Pages
             [Required]
             public string Body { get; set; }
             public string Excerpt { get; set; }
-            [Required]
-            public int Id { get; set; }
         }
     }
 }

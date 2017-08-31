@@ -38,7 +38,7 @@
                 <input type="submit" name="publish" id="postsave" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
             </div>
             <div class="col-md-12">
-                <p class="cancel-link"><a asp-page="/post" asp-route-id="@Model.EditedPost.Id"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
+                <p class="cancel-link"><a asp-page="/post" asp-route-id="@ViewData["Id"]"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
             </div>
         </form>
     </div>
