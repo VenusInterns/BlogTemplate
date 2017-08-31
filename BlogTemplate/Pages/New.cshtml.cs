@@ -64,6 +64,7 @@ namespace BlogTemplate._1.Pages
                 Body = NewPost.Body,
                 Excerpt = NewPost.Excerpt,
                 LastModified = DateTimeOffset.Now,
+                IsDeleted = true,
             };
 
             if (string.IsNullOrEmpty(post.Excerpt))
@@ -75,7 +76,6 @@ namespace BlogTemplate._1.Pages
             {
                 post.PubDate = DateTimeOffset.Now;
                 post.IsPublic = true;
-                post.IsDeleted = false;
                 post.Slug = _slugGenerator.CreateSlug(NewPost.Title);
             }
 

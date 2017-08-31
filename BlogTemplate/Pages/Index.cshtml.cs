@@ -22,9 +22,8 @@ namespace BlogTemplate._1.Pages
         public void OnGet()
         {
             Func<Post, bool> postFilter = p => p.IsPublic;
-            IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter);
             Func<Post, bool> deletedPostFilter = p => p.IsDeleted;
-            postModels = _dataStore.GetAllPosts().Where(deletedPostFilter);
+            IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter).Where(deletedPostFilter);
 
             PostSummaries = postModels.Select(p => new PostSummaryModel {
                 Id = p.Id,

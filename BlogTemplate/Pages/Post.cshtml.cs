@@ -48,7 +48,7 @@ namespace BlogTemplate._1.Pages
 
             if (ModelState.IsValid)
             {
-                Post.IsDeleted = true;
+                Post.IsDeleted = false;
                 return RedirectToPage("/Index");
             }
             return Redirect("/post/" + id + "/" + Post.Slug);
