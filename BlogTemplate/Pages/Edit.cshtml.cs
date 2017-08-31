@@ -85,7 +85,7 @@ namespace BlogTemplate._1.Pages
             post.Body = EditedPost.Body;
             if (string.IsNullOrEmpty(EditedPost.Excerpt))
             {
-                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body, 140);
+                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body);
             }
             post.Excerpt = EditedPost.Excerpt;
 
