@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
-using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Models
 {
