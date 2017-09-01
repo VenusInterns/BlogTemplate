@@ -2,6 +2,15 @@
 # ASP.NET Core Blog Template
 We created this blog template for Visual Studio to help users create a new, personal web application quickly and effortlessly.
 
+This is a blogging engine based on Razor Pages and ASP.NET.
+
+
+__Live demo__: https://venusblog.azurewebsites.net/    
+
+Username: _webinterns@microsoft.com_
+
+Password: _Password.1_
+
 ### Introduction to the Blog Template
 This blog template is meant to help developers building a blog or a different web app that includes any features from this template. In using our blog, developers will save time because they can use this template to work from and build off of. This blog template also provides a fresh look at building web apps from [ASP.NET](https://docs.microsoft.com/en-us/aspnet/core/) Core using the new [Razor Pages](https://docs.microsoft.com/en-us/aspnet/core/mvc/razor-pages/) architecture. If you're not aware of Razor Pages yet, you should take a look as it effectively streamlines building a web application by associating HTML pages with their code so rather than compartmentalizing a project by the model-view-controller pattern, the separation is made by each additional page. We have found this very easy to work with because it allows us to think of the project by the components that make it up rather than the type of each component.
 

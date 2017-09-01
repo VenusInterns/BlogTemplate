@@ -46,10 +46,12 @@ namespace BlogTemplate._1
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddSingleton<IFileSystem, PhysicalFileSystem>();
-            services.AddScoped<BlogDataStore>();
+            services.AddSingleton<BlogDataStore>();
 
-            services.AddScoped<SlugGenerator>();
-            services.AddSingleton<ExcerptGenerator>();
+            services.AddSingleton<SlugGenerator>();
+            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
+            services.AddSingleton<ExcerptGenerator>(excerptGenerator);
+            services.AddSingleton<MarkdownRenderer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Tests.Fakes;
 using Xunit;
+using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Tests.Model
 {
@@ -56,7 +57,7 @@ namespace BlogTemplate._1.Tests.Model
             testPost.PubDate = DateTime.UtcNow;
             testDataStore.SavePost(testPost);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTime()}_{testPost.Id.ToString("N")}.xml"));
+            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{testPost.PubDate.UtcDateTime.ToString("s").Replace(":","-")}_{testPost.Id.ToString("N")}.xml"));
             Post result = testDataStore.GetPost(testPost.Id.ToString("N"));
             Assert.Equal("Test-Post-Slug", result.Slug);
             Assert.Equal("Test Title", result.Title);
@@ -87,11 +88,12 @@ namespace BlogTemplate._1.Tests.Model
                 IsPublic = true
 
             };
-            testPost.PubDate = DateTime.UtcNow;
+            testPost.Comments.Add(testComment);
             testDataStore.SavePost(testPost);
 
-            Assert.True(testFileSystem.FileExists($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTime()}_{testPost.Id.ToString("N")}.xml"));
-            StringReader xmlFileContents = new StringReader(testFileSystem.ReadFileText($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTime()}_{testPost.Id.ToString("N")}.xml"));
+            string filePath = $"BlogFiles\\Posts\\{testPost.PubDate.UtcDateTime.ToString("s").Replace(":", "-")}_{testPost.Id.ToString("N")}.xml";
+            Assert.True(testFileSystem.FileExists(filePath));
+            StringReader xmlFileContents = new StringReader(testFileSystem.ReadFileText(filePath));
             XDocument doc = XDocument.Load(xmlFileContents);
             Assert.True(doc.Root.Elements("Comments").Any());
         }
@@ -172,7 +174,7 @@ namespace BlogTemplate._1.Tests.Model
             testPost.Comments.Add(comment2);
             testDataStore.SavePost(testPost);
 
-            string text = testFileSystem.ReadFileText($"BlogFiles\\Posts\\{testPost.PubDate.ToFileTime()}_{testPost.Id.ToString("N")}.xml");
+            string text = testFileSystem.ReadFileText($"BlogFiles\\Posts\\{testPost.PubDate.UtcDateTime.ToString("s").Replace(":","-")}_{testPost.Id.ToString("N")}.xml");
             StringReader reader = new StringReader(text);
 
             XDocument doc = XDocument.Load(reader);
@@ -274,8 +276,8 @@ namespace BlogTemplate._1.Tests.Model
             newPost.Id = oldPost.Id;
             testDataStore.UpdatePost(newPost, true);
 
-            Post post = testDataStore.GetPost(newPost.Id.ToString("N"));
-            Assert.Equal("New-Title", post.Slug);
+            Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.UtcDateTime.ToString("s").Replace(":","-")}_{newPost.Id.ToString("N")}.xml");
+            Assert.Equal("New-Title", result.Slug);
         }
     }
 }

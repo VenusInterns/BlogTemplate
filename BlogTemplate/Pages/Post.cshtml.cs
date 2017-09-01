@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,25 +12,34 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
+        private readonly MarkdownRenderer _markdownRenderer;
 
-        public PostModel(BlogDataStore dataStore)
+        public PostModel(BlogDataStore dataStore, MarkdownRenderer markdownRenderer)
         {
             _dataStore = dataStore;
+            _markdownRenderer = markdownRenderer;
         }
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
 
         public Post Post { get; set; }
+        public HtmlString HtmlBody()
+        {
+            var html = _markdownRenderer.RenderMarkdown(Post.Body);
+            return html;
+        }
 
-        public void OnGet([FromRoute] string id)
+        public IActionResult OnGet([FromRoute] string id)
         {
             Post = _dataStore.GetPost(id);
 
-            if (Post == null)
+            if (Post == null || !Post.IsPublic)
             {
-                RedirectToPage("/Index");
+                return RedirectToPage("/Index");
             }
+
+            return Page();
         }
 
         [ValidateAntiForgeryToken]
@@ -51,7 +62,9 @@ namespace BlogTemplate._1.Pages
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
+                return Redirect("/post/" + id + "/" + Post.Slug);
             }
+
             return Page();
         }
 
