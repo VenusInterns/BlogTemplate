@@ -31,7 +31,7 @@ namespace BlogTemplate._1.Pages
             return html;
         }
 
-        public IActionResult OnGet([FromRoute] int id)
+        public IActionResult OnGet([FromRoute] int id, [FromRoute] string slug)
         {
             Post = _dataStore.GetPost(id);
 
@@ -40,7 +40,7 @@ namespace BlogTemplate._1.Pages
                 return RedirectToPage("/Index");
             }
 
-            if (RouteData.Values["slug"].ToString() != Post.Slug)
+            if (slug != Post.Slug)
             {
                 return RedirectPermanent($"/Post/{Post.Id}/{Post.Slug}");
             }
