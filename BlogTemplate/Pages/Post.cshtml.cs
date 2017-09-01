@@ -31,14 +31,21 @@ namespace BlogTemplate._1.Pages
             return html;
         }
 
-        public void OnGet([FromRoute] int id)
+        public IActionResult OnGet([FromRoute] int id)
         {
             Post = _dataStore.GetPost(id);
 
             if (Post == null)
             {
-                RedirectToPage("/Index");
+                return RedirectToPage("/Index");
             }
+
+            if (RouteData.Values["slug"].ToString() != Post.Slug)
+            {
+                return RedirectPermanent($"/Post/{Post.Id}/{Post.Slug}");
+            }
+
+            return Page();
         }
 
         [ValidateAntiForgeryToken]
