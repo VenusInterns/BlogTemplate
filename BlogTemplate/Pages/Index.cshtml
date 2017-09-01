@@ -21,7 +21,7 @@
                     <h2><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
                     <div class="text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</div>
                     <p class="lead">@post.Excerpt</p>
-                    <h3><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                    <h4><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h4>
                 </div>
             </article>
 
