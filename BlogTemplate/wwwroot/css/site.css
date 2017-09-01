@@ -10,15 +10,6 @@ footer {
     padding-left: 15px;
 }
 
-article div h3 a {
-    color: #999999;
-}
-
-article div h3 a:hover {
-    color: black;
-    text-decoration: none;
-}
-
 .cancel-link {
     padding-top: 10px;
 }

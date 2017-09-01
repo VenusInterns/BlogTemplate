@@ -9,25 +9,18 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="container">
-        <div id="menu" class="navbar navbar-default">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target="#myNavbar">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <h2><a asp-page="/Index">BlogTemplate.1</a></h2>
+                <a class="navbar-brand" asp-page="/Index">BlogTemplate.1</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <a class="nav-item nav-link" asp-page="/Index">Blog</a>
+                <a class="nav-item nav-link" asp-page="/About">About</a>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="nav"><a asp-page="/Index">Blog</a></li>
-                    <li class="nav"><a asp-page="/About">About</a></li>
-                    @await Html.PartialAsync("_LoginPartial")
-                </ul>
-            </div>
-        </div>
-    </header>
+        </nav>
     <main class="container">
         @RenderBody()
     </main>
