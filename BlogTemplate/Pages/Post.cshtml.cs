@@ -40,19 +40,29 @@ namespace BlogTemplate._1.Pages
             CommentViewModel NewComment = new CommentViewModel();
         }
 
-
-        [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeletePost([FromRoute] int id)
+        public IActionResult ChangeState(bool Deleted, int id)
         {
             Post = _dataStore.GetPost(id);
 
             if (ModelState.IsValid)
             {
-                Post.IsDeleted = true;
+                Post.IsDeleted = Deleted;
                 _dataStore.SavePost(Post);
                 return RedirectToPage("/Index");
             }
             return Redirect("/post/" + id + "/" + Post.Slug);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostDeletePost([FromRoute] int id)
+        {
+            return ChangeState(true, id);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostUnDeletePost([FromRoute] int id)
+        {
+            return ChangeState(false, id);
         }
 
         [ValidateAntiForgeryToken]
