@@ -48,7 +48,7 @@ namespace BlogTemplate._1.Pages
 
             if (ModelState.IsValid)
             {
-                Post.IsDeleted = false;
+                Post.IsDeleted = true;
                 _dataStore.SavePost(Post);
                 return RedirectToPage("/Index");
             }

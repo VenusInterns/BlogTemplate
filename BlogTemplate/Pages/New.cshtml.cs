@@ -64,7 +64,7 @@ namespace BlogTemplate._1.Pages
                 Body = NewPost.Body,
                 Excerpt = NewPost.Excerpt,
                 LastModified = DateTimeOffset.Now,
-                IsDeleted = true,
+                IsDeleted = false,
             };
 
             if (string.IsNullOrEmpty(post.Excerpt))
