@@ -40,14 +40,6 @@ Customizing the theme of your blog generated with our Venus Blog template is fas
 ![bootstrap solution](https://user-images.githubusercontent.com/15707311/29847804-5bc514a0-8cd2-11e7-9d6e-ebc43cee0f10.PNG)
 
 
-
-### Goals
-We hope the above features make this a tool that developers can use to speed up the development process of their project while also serving an educational purpose for those who want to learn how to implement/work with those new items. In making this an educational tool, we hope that our blog provides effective examples of said features. The following are a set of goals that we attempted to achieve and we challenge you to accomplish on your way to building the best web applications:
-	* Grow ASP.NET Core usage
-	* Educate users about Razor Pages
-	* Grow Visual Studio usage
-	* Build a community around the template 
-
 ### Using the Template
 * [Visual Studio](https://www.visualstudio.com/vs/)
 * Make sure to install the following workloads to get started:
@@ -83,3 +75,13 @@ For example:
 
     dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
     
+
+Four months ago we each received an email from our soon to be manager, Barry, informing us that we would be on the Visual Studio Web Tools team. Our task was to create a template of a web application as a pilot for a set of templates showcasing new functionalities in Razor Pages. We decided on building a blog template because of our familiarity with writing and reading blogs, and because we felt it could be relatable within the developer community. Along with researching topics in web development, we had fun playing with different blog engines to help us brainstorm features for our project. In that first week, we all acted as program managers and prioritized features. Every three weeks we rotated between the PM and developer roles, with one of us acting as PM and the other two as developers. 
+
+"My favorite part of the internship was being able to interact with people from all over Visual Studio to get their feedback on our Blog Template or to ask them questions about specific technologies" -Lucas
+
+
+
+
+
+Through developing this we've learned a lot about web development and Razor Pages and we hope that our project encourages developers to build more web applications with Microsoft's technologies and have fun doing so.
