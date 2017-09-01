@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Xunit;
 
-namespace BlogTemplate.Tests.Pages
+namespace BlogTemplate._1.Tests.Pages
 {
     public class TrashTests
     {
@@ -20,6 +20,8 @@ namespace BlogTemplate.Tests.Pages
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
             MarkdownRenderer markdownRenderer = new MarkdownRenderer();
+            PostModel testPostModel = new PostModel(testDataStore, markdownRenderer);
+            testPostModel.PageContext = new PageContext();
 
             Post post = new Post
             {
@@ -29,20 +31,20 @@ namespace BlogTemplate.Tests.Pages
             };
             testDataStore.SavePost(post);
 
-            PostModel testPostModel = new PostModel(testDataStore, markdownRenderer);
-            testPostModel.PageContext = new PageContext();
             testPostModel.OnPostDeletePost(post.Id);
+            Post result = testDataStore.GetPost(post.Id);
             
-            Assert.True(post.IsDeleted);
+            Assert.True(result.IsDeleted);
         }
 
         [Fact]
         public void UnDeletePost_MoveToIndex()
         {
-            //Arrange
             IFileSystem fakeFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(fakeFileSystem);
             MarkdownRenderer markdownRenderer = new MarkdownRenderer();
+            PostModel testPostModel = new PostModel(testDataStore, markdownRenderer);
+            testPostModel.PageContext = new PageContext();
 
             Post post = new Post
             {
@@ -50,21 +52,12 @@ namespace BlogTemplate.Tests.Pages
                 Body = "This is the body of my post",
                 IsDeleted = true,
             };
-
             testDataStore.SavePost(post);
 
-            PostModel testPostModel = new PostModel(testDataStore, markdownRenderer);
-            testPostModel.PageContext = new PageContext();
-
-            //Act
-            testPostModel.OnGet(post.Id);
             testPostModel.OnPostUnDeletePost(post.Id);
+            Post result = testDataStore.GetPost(post.Id);
 
-
-            IndexModel model = new IndexModel(testDataStore);
-            model.OnGet();
-            //Assert
-            Assert.Equal(1, model.PostSummaries.Count());
+            Assert.False(result.IsDeleted);
         }
     }
 }
