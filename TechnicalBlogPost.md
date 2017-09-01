@@ -18,26 +18,17 @@ This template was designed to help Visual Studio users create new web applicatio
 
 ![filestructure](https://user-images.githubusercontent.com/15066077/29988450-4480ab2c-8f22-11e7-9e9c-689ed834be0e.png)
 
-* The template includes a user authentication feature, done by implementing the new ASP.NET [Identity Library](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity) for Razor Pages. This was a simple tool to add that consisted of installing the NuGet package and creating a new project with the package and then transferring the previous project files into this new project with Identity. Although a hassle, moving the files from one project to the other was quite simple because both projects were built with Razor Pages. In adding identity we simply enabled it in the startup file and added the corresponding pages (with their models). 
-
+* The template includes a user authentication feature, implemented using the new ASP.NET [Identity Library](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/introduction-to-aspnet-identity). This tool allows the owner of the blog to be the single user registered and in control of the blog. Identity also provided us with a tested and secure way to create and protect user profiles. We were able to use this library to implement login, registration, password recovery, and other user management features. To enable identity we simply included it in the startup file and added the corresponding pages (with their models). 
 
 ![configureservices](https://user-images.githubusercontent.com/15707311/29847724-06f342ee-8cd2-11e7-8497-abc836b59269.PNG) 
 
+![identityfiles](https://user-images.githubusercontent.com/15066077/29988871-5b485376-8f24-11e7-8a19-dd15d6d5f7f0.png)
 
-![identity solution file](https://user-images.githubusercontent.com/15707311/29847723-03df55fc-8cd2-11e7-9a68-372f4fa71344.PNG)
+* Customizing the theme is fast and flexible with the use of Bootstrap. Simply download a Bootstrap theme `.min.css` file and add it to the CSS folder in your project (wwwroot > css). You can find free or paid Bootstrap themes at websites such as [bootswatch.com](https://bootswatch.com/). You can delete our default theme file, `journal-bootstrap.min.css`, to remove the default theming. Run your project, and you'll see that the style of your blog has changed instantly.
 
-
-* The ASP.NET Identity library for Razor Pages is not available yet. To access it (as opposed to the MVC version) click here.
-* The template uses bootstrap, which makes it simple for developers to customize their project in ways that they are already familiar with.
-
-Customizing the theme of your blog generated with our Venus Blog template is fast and easy with Bootstrap. Simply download a Bootstrap theme .min.css file and add it to the CSS folder in your project (wwwroot > css). You can find free or paid Bootstrap themes at websites such as [bootswatch.com](https://bootswatch.com/). You can delete our default theme file, journal-bootstrap.min.css, to remove the default theming. Run your project, and you'll see that the look of your blog has changed instantly.
-
-
-![bootstrap solution](https://user-images.githubusercontent.com/15707311/29847804-5bc514a0-8cd2-11e7-9d6e-ebc43cee0f10.PNG)
-
+![bootstrapfiles](https://user-images.githubusercontent.com/15066077/29989021-54cd895c-8f25-11e7-9a4a-a32d9551dff6.png)
 
 * [Entity Framework](https://docs.microsoft.com/en-us/aspnet/entity-framework) provides an environment that makes it easy to work with relational data. In our scenario, that data comes in the form of blog posts and comments for each post.
-* The usage of [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/linq/) (Language Integrated Query) enables the developer to query items from the blog from a variety of sources such as databases, XML documents (currently in use), and in-memory objects without having to redesign or learn how elements are queried from a specific source.
 
 ### Using the Template
 * [Visual Studio](https://www.visualstudio.com/vs/)
@@ -75,7 +66,7 @@ For example:
     dotnet new3 blog -o c:\temp\TestBlog\ -n "My Blog"
     
 
-Four months ago we each received an email from our soon to be manager, Barry, informing us that we would be on the Visual Studio Web Tools team. Our task was to create a template of a web application as a pilot for a set of templates showcasing new functionalities in Razor Pages. We decided on building a blog template because of our familiarity with writing and reading blogs, and because we felt it could be relatable within the developer community. Along with researching topics in web development, we had fun playing with different blog engines to help us brainstorm features for our project. In that first week, we all acted as program managers and prioritized features. Every three weeks we rotated between the PM and developer roles, with one of us acting as PM and the other two as developers. 
+Three months ago, we walked into the Visual Studio Web Tools team and were met with a warm welcome from our manager and mentors. Our task was to create a template of a web application as a pilot for a set of templates showcasing new functionalities in Razor Pages. We decided on building a blog template because of our familiarity with writing and reading blogs, and because we felt it could be relatable within the developer community. Along with researching topics in web development, we had fun playing with different blog engines to help us brainstorm features for our project. In that first week, we all acted as program managers and prioritized features. Every three weeks we rotated between the PM and developer roles, with one of us acting as PM and the other two as developers. 
 
 "My favorite part of the internship was being able to interact with people from all over Visual Studio to get their feedback on our Blog Template or to ask them questions about specific technologies" -Lucas
 
