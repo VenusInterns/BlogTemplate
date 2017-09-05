@@ -57,7 +57,6 @@ namespace BlogTemplate._1.Pages
                 _dataStore.SavePost(Post);
                 return Redirect("/post/" + id + "/" + Post.Slug);
             }
-
             return Page();
         }
 
