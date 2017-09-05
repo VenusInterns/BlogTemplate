@@ -25,6 +25,7 @@ namespace BlogTemplate._1.Pages
 
         [BindProperty]
         public EditedPostModel EditedPost { get; set; }
+        public bool hasSlug { get; set; }
 
         public void OnGet([FromRoute] int id)
         {
@@ -37,10 +38,14 @@ namespace BlogTemplate._1.Pages
                 Excerpt = post.Excerpt,
             };
 
+            hasSlug = !string.IsNullOrEmpty(post.Slug);
+
             if (post == null)
             {
                 RedirectToPage("/Index");
             }
+
+            ViewData["Id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]
@@ -55,20 +60,24 @@ namespace BlogTemplate._1.Pages
                 {
                     post.PubDate = DateTimeOffset.Now;
                 }
+                if (!hasSlug)
+                {
+                    post.Slug = _slugGenerator.CreateSlug(post.Title);
+                }
                 UpdatePost(post, updateSlug, wasPublic);
             }
             return Redirect($"/Post/{id}/{post.Slug}");
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
             {
                 bool wasPublic = post.IsPublic;
                 post.IsPublic = false;
-                UpdatePost(post, updateSlug, wasPublic);
+                UpdatePost(post, false, wasPublic);
             }
             return Redirect("/Drafts");
         }
@@ -76,6 +85,10 @@ namespace BlogTemplate._1.Pages
         {
             post.Title = EditedPost.Title;
             post.Body = EditedPost.Body;
+            if (string.IsNullOrEmpty(EditedPost.Excerpt))
+            {
+                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body);
+            }
             post.Excerpt = EditedPost.Excerpt;
 
             if (updateSlug)
