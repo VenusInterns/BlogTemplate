@@ -65,8 +65,8 @@ namespace BlogTemplate._1.Models
 
                         CurrentId = max;
                     }
-                }           
-            }         
+                }
+            }
         }
 
         private void SetId(Post post)
@@ -249,18 +249,17 @@ namespace BlogTemplate._1.Models
         public Post CollectPostInfo(string expectedFilePath)
         {
             XDocument doc = LoadPostXml(expectedFilePath);
-            Post post = new Post
-            {
-                Id = Convert.ToInt32(doc.Root.Element("Id").Value),
-                Slug = doc.Root.Element("Slug").Value,
-                Title = doc.Root.Element("Title").Value,
-                Body = doc.Root.Element("Body").Value,
-                PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value),
-                LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
-                IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                IsDeleted = Convert.ToBoolean(doc.Root.Element("IsDeleted").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value,
-            };
+            Post post = new Post();
+            if (doc.Root.Element("Id") && !doc.Root.Element("Id").IsEmpty)
+                post.Id = Convert.ToInt32(doc.Root.Element("Id").Value);
+            post.Slug = doc.Root.Element("Slug").Value;
+            post.Title = doc.Root.Element("Title").Value;
+            post.Body = doc.Root.Element("Body").Value;
+            post.PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value);
+            post.LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value);
+            post.IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value);
+            post.IsDeleted = Convert.ToBoolean(doc.Root.Element("IsDeleted").Value);
+            post.Excerpt = doc.Root.Element("Excerpt").Value;
             post.Comments = GetAllComments(doc);
             return post;
         }
@@ -330,11 +329,11 @@ namespace BlogTemplate._1.Models
         }
 
         public void SaveFiles(List<IFormFile> files)
-        {           
-            foreach(var file in files)
+        {
+            foreach (var file in files)
             {
-                if(file.Length > 0)
-                {                    
+                if (file.Length > 0)
+                {
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
                         byte[] buffer = new byte[uploadedFileStream.Length];
