@@ -1,13 +1,9 @@
+
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Xml;
-using System.Xml.Linq;
 using BlogTemplate._1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
-using Markdig;
-using Microsoft.AspNetCore.Html;
 
 namespace BlogTemplate._1.Pages
 {
@@ -15,22 +11,19 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
-
         public PostModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
         }
 
+        const int MaxAllowedComments = 100;
+
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
-
+        
+        public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
+ 
         public Post Post { get; set; }
-
-        public HtmlString HtmlBody()
-        {
-            var html = Markdown.ToHtml(Post.Body);
-            return new HtmlString(html);
-        }
 
         public void OnGet([FromRoute] int id)
         {
@@ -49,7 +42,7 @@ namespace BlogTemplate._1.Pages
 
             if (Post == null)
             {
-                RedirectToPage("/Index");
+                return RedirectToPage("/Index");
             }
             else if (ModelState.IsValid)
             {
@@ -62,15 +55,20 @@ namespace BlogTemplate._1.Pages
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
+                return Redirect("/post/" + id + "/" + Post.Slug);
             }
+
             return Page();
         }
 
         public class CommentViewModel
         {
             [Required]
+            [MaxLength(100, ErrorMessage = "You have exceeded the maximum length of 100 characters")]
             public string AuthorName { get; set; }
+
             [Required]
+            [MaxLength(1000, ErrorMessage = "You have exceeded the maximum length of 1000 characters")]
             public string Body { get; set; }
         }
     }

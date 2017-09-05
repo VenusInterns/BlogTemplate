@@ -7,12 +7,19 @@ namespace BlogTemplate._1.Services
 {
     public class ExcerptGenerator
     {
-        public string CreateExcerpt(string body, int maxLength)
+        private readonly int _maxLength;
+
+        public ExcerptGenerator(int maxLength)
+        {
+            _maxLength = maxLength;
+        }
+
+        public string CreateExcerpt(string body)
         {
             string excerpt;
-            if (body.Length > maxLength)
+            if (body.Length > _maxLength)
             {
-                excerpt = body.Substring(0, maxLength) + "...";
+                excerpt = body.Substring(0, _maxLength) + "...";
             }
             else
             {

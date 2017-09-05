@@ -1,4 +1,4 @@
-@page "{id}/{slug}"
+@page "{id}"
 @model EditModel
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
@@ -13,7 +13,7 @@
 <article>
     <h2>Edit Post</h2>
     <div class="col-md-12 well">
-        <form method="post" id="editpost" enctype="multipart/form-data">
+        <form method="post" id="editpost" enctype="multipart/form-data" data-has-slug="@Model.hasSlug">
             @if (TempData["notice"] != null)
             {
                 <h3>@TempData["notice"]</h3>
@@ -23,7 +23,7 @@
                 <input type="text" class="form-control" placeholder="" asp-for="EditedPost.Title" data-oldtitle="@Model.EditedPost.Title" />
                 <span asp-validation-for="EditedPost.Title" class="text-warning"></span>
             </div>
-            <input type="hidden" name="updateslug" id="updateslug" value="false" />
+            <input type="hidden" name="updateSlug" id="updateSlug" value="false" />
             <div class="col-md-12 form-group">
                 <label for="Body" class="primaryField">Body</label>
                 <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body" id="post-body"></textarea>
@@ -41,10 +41,10 @@
             </div>
             <div class="col-md-12">
                 <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
-                <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
+                <input type="submit" name="publish" id="postsave" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
             </div>
             <div class="col-md-12">
-                <p class="cancel-link"><a href="/Index"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
+                <p class="cancel-link"><a asp-page="/post" asp-route-id="@ViewData["Id"]"><span class="glyphicon glyphicon-triangle-left"></span> Cancel and Undo Changes</a></p>
             </div>
         </form>
     </div>
