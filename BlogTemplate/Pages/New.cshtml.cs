@@ -18,7 +18,6 @@ namespace BlogTemplate._1.Pages
         private readonly SlugGenerator _slugGenerator;
         private readonly ExcerptGenerator _excerptGenerator;
 
-
         public NewModel(BlogDataStore dataStore, SlugGenerator slugGenerator, ExcerptGenerator excerptGenerator)
         {
             _dataStore = dataStore;
@@ -59,27 +58,31 @@ namespace BlogTemplate._1.Pages
         
         private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
+            if (string.IsNullOrEmpty(newPost.Excerpt))
+            {
+                newPost.Excerpt = _excerptGenerator.CreateExcerpt(newPost.Body);
+            }
+
             Post post = new Post {
-                Title = NewPost.Title,
-                Body = NewPost.Body,
-                Excerpt = NewPost.Excerpt,
+                Title = newPost.Title,
+                Body = newPost.Body,
+                Excerpt = newPost.Excerpt,
+                Slug = _slugGenerator.CreateSlug(newPost.Title),
                 LastModified = DateTimeOffset.Now,
                 IsDeleted = false,
             };
-
-            if (string.IsNullOrEmpty(post.Excerpt))
-            {
-                post.Excerpt = _excerptGenerator.CreateExcerpt(post.Body, 140);
-            }
 
             if (publishPost)
             {
                 post.PubDate = DateTimeOffset.Now;
                 post.IsPublic = true;
-                post.Slug = _slugGenerator.CreateSlug(NewPost.Title);
             }
 
-            _dataStore.SaveFiles(Request.Form.Files.ToList());
+            if (Request != null)
+            {
+                _dataStore.SaveFiles(Request.Form.Files.ToList());
+            }
+
             _dataStore.SavePost(post);
         }
 

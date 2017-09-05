@@ -44,6 +44,8 @@ namespace BlogTemplate._1.Pages
             {
                 RedirectToPage("/Index");
             }
+
+            ViewData["Id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]
@@ -68,14 +70,14 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostSaveDraft([FromRoute] int id)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
             {
                 bool wasPublic = post.IsPublic;
                 post.IsPublic = false;
-                UpdatePost(post, updateSlug, wasPublic);
+                UpdatePost(post, false, wasPublic);
             }
             return Redirect("/Drafts");
         }
@@ -85,7 +87,7 @@ namespace BlogTemplate._1.Pages
             post.Body = EditedPost.Body;
             if (string.IsNullOrEmpty(EditedPost.Excerpt))
             {
-                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body, 140);
+                EditedPost.Excerpt = _excerptGenerator.CreateExcerpt(EditedPost.Body);
             }
             post.Excerpt = EditedPost.Excerpt;
 

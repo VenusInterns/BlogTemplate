@@ -7,7 +7,7 @@
     {
         <div class="jumbotron">
             <h1>Welcome!</h1>
-            <p>Get started and write your first blog post <a class="text-primary" href="/New">here</a>.</p>
+            <p>Get started and write your first blog post <a class="text-primary" asp-page="/New">here</a>.</p>
             <p>Happy blogging!</p>
         </div>
     }
@@ -19,7 +19,7 @@
             <article>
                 <div class="col-md-12">
                     <h2><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
-                    <h5 class="date text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</h5>
+                    <div class="text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</div>
                     <p class="lead">@post.Excerpt</p>
                     <h3><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
                 </div>

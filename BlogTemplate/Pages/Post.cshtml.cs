@@ -28,14 +28,15 @@ namespace BlogTemplate._1.Pages
             return html;
         }
 
-        public void OnGet([FromRoute] int id)
+        public IActionResult OnGet([FromRoute] int id)
         {
             Post = _dataStore.GetPost(id);
 
-            if (Post == null)
+            if (Post == null || !Post.IsPublic)
             {
-                RedirectToPage("/Index");
+                return RedirectToPage("/Index");
             }
+
 
             CommentViewModel NewComment = new CommentViewModel();
         }
