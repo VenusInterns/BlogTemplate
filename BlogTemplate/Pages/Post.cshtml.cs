@@ -39,6 +39,7 @@ namespace BlogTemplate._1.Pages
 
 
             CommentViewModel NewComment = new CommentViewModel();
+            return Page();
         }
 
         public IActionResult ChangeState(bool Deleted, int id)
