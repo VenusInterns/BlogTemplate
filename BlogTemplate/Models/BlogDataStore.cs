@@ -211,6 +211,7 @@ namespace BlogTemplate._1.Models
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString("o")));
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString("o")));
             rootNode.Add(new XElement("IsPublic", post.IsPublic.ToString()));
+            rootNode.Add(new XElement("IsDeleted", post.IsDeleted.ToString()));
             rootNode.Add(new XElement("Excerpt", post.Excerpt));
         }
 
@@ -259,6 +260,7 @@ namespace BlogTemplate._1.Models
                 PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value),
                 LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
+                IsDeleted = Convert.ToBoolean(doc.Root.Element("IsDeleted").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
             post.Comments = GetAllComments(doc);

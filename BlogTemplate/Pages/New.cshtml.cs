@@ -55,7 +55,7 @@ namespace BlogTemplate._1.Pages
 
             return Page();
         }
-
+        
         private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
             if (string.IsNullOrEmpty(newPost.Excerpt))
@@ -69,6 +69,7 @@ namespace BlogTemplate._1.Pages
                 Excerpt = newPost.Excerpt,
                 Slug = _slugGenerator.CreateSlug(newPost.Title),
                 LastModified = DateTimeOffset.Now,
+                IsDeleted = false,
             };
 
             if (publishPost)

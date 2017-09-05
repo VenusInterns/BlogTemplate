@@ -20,9 +20,6 @@ namespace BlogTemplate._1.Pages
             _markdownRenderer = markdownRenderer;
         }
 
-        [BindProperty]
-        public CommentViewModel NewComment { get; set; }
-
         public Post Post { get; set; }
 
         public HtmlString HtmlBody()
@@ -40,11 +37,37 @@ namespace BlogTemplate._1.Pages
                 return RedirectToPage("/Index");
             }
 
-            return Page();
+
+            CommentViewModel NewComment = new CommentViewModel();
+        }
+
+        public IActionResult ChangeState(bool Deleted, int id)
+        {
+            Post = _dataStore.GetPost(id);
+
+            if (ModelState.IsValid)
+            {
+                Post.IsDeleted = Deleted;
+                _dataStore.SavePost(Post);
+                return RedirectToPage("/Index");
+            }
+            return Redirect("/post/" + id + "/" + Post.Slug);
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment([FromRoute] int id)
+        public IActionResult OnPostDeletePost([FromRoute] int id)
+        {
+            return ChangeState(true, id);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostUnDeletePost([FromRoute] int id)
+        {
+            return ChangeState(false, id);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostPublishComment([FromRoute] int id, [FromForm] CommentViewModel NewComment)
         {
             Post = _dataStore.GetPost(id);
 
