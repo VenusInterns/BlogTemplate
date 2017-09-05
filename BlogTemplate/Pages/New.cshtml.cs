@@ -27,7 +27,7 @@ namespace BlogTemplate._1.Pages
         public NewPostViewModel NewPost { get; set; }
 
         public void OnGet()
-        {
+        {           
         }
 
         [ValidateAntiForgeryToken]
