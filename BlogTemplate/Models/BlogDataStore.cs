@@ -98,10 +98,17 @@ namespace BlogTemplate._1.Models
 
         private XDocument LoadPostXml(string filePath)
         {
-            string text = _fileSystem.ReadFileText(filePath);
-            StringReader reader = new StringReader(text);
-
-            return XDocument.Load(reader);
+            try
+            {
+                string text = _fileSystem.ReadFileText(filePath);
+                StringReader reader = new StringReader(text);
+                return XDocument.Load(reader);
+            }
+            catch
+            {
+                throw; //throw some kind of exception
+            }
+            
         }
 
         public IEnumerable<XElement> GetCommentRoot(XDocument doc)
@@ -248,34 +255,44 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            XDocument doc = LoadPostXml(expectedFilePath);
-            Post post = new Post();
-            if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
+            try
             {
-                post.Id = Convert.ToInt32(doc.Root.Element("Id").Value);
+                XDocument doc = LoadPostXml(expectedFilePath);
+
+                //Check whether the XDocument has a post node
+
+                Post post = new Post();
+                if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
+                {
+                    post.Id = Convert.ToInt32(doc.Root.Element("Id").Value);
+                }
+                else
+                {
+                    SetId(post);
+                }
+                post.Slug = (doc.Root.Element("Slug") != null && !doc.Root.Element("Slug").IsEmpty) ?
+                    doc.Root.Element("Slug").Value : "";
+                post.Title = (doc.Root.Element("Title") != null && !doc.Root.Element("Title").IsEmpty) ?
+                    doc.Root.Element("Title").Value : "";
+                post.Body = (doc.Root.Element("Body") != null && !doc.Root.Element("Body").IsEmpty) ?
+                    doc.Root.Element("Body").Value : "";
+                post.PubDate = (doc.Root.Element("PubDate") != null && !doc.Root.Element("PubDate").IsEmpty) ?
+                    DateTimeOffset.Parse(doc.Root.Element("PubDate").Value) : default(DateTimeOffset);
+                post.LastModified = (doc.Root.Element("LastModified") != null && !doc.Root.Element("LastModified").IsEmpty) ?
+                    DateTimeOffset.Parse(doc.Root.Element("LastModified").Value) : default(DateTimeOffset);
+                post.IsPublic = (doc.Root.Element("IsPublic") != null && !doc.Root.Element("IsPublic").IsEmpty) ?
+                    Convert.ToBoolean(doc.Root.Element("IsPublic").Value) : true;
+                post.IsDeleted = (doc.Root.Element("IsDeleted") != null && !doc.Root.Element("IsDeleted").IsEmpty) ?
+                    Convert.ToBoolean(doc.Root.Element("IsDeleted").Value) : false;
+                post.Excerpt = (doc.Root.Element("Excerpt") != null && !doc.Root.Element("Excerpt").IsEmpty) ?
+                    doc.Root.Element("Excerpt").Value : "";
+                post.Comments = GetAllComments(doc);
+                return post;
             }
-            else
+            catch
             {
-                SetId(post);
+                throw;
             }
-            post.Slug = (doc.Root.Element("Slug") != null && !doc.Root.Element("Slug").IsEmpty) ?
-                doc.Root.Element("Slug").Value : "";
-            post.Title = (doc.Root.Element("Title") != null && !doc.Root.Element("Title").IsEmpty) ?
-                doc.Root.Element("Title").Value : "";
-            post.Body = (doc.Root.Element("Body") != null && !doc.Root.Element("Body").IsEmpty) ?
-                doc.Root.Element("Body").Value : "";
-            post.PubDate = (doc.Root.Element("PubDate") != null && !doc.Root.Element("PubDate").IsEmpty) ?
-                DateTimeOffset.Parse(doc.Root.Element("PubDate").Value) : default(DateTimeOffset);
-            post.LastModified = (doc.Root.Element("LastModified") != null && !doc.Root.Element("LastModified").IsEmpty) ?
-                DateTimeOffset.Parse(doc.Root.Element("LastModified").Value) : default(DateTimeOffset);
-            post.IsPublic = (doc.Root.Element("IsPublic") != null && !doc.Root.Element("IsPublic").IsEmpty) ?
-                Convert.ToBoolean(doc.Root.Element("IsPublic").Value) : true;
-            post.IsDeleted = (doc.Root.Element("IsDeleted") != null && !doc.Root.Element("IsDeleted").IsEmpty) ?
-                Convert.ToBoolean(doc.Root.Element("IsDeleted").Value) : false;
-            post.Excerpt = (doc.Root.Element("Excerpt") != null && !doc.Root.Element("Excerpt").IsEmpty) ?
-                doc.Root.Element("Excerpt").Value : "";
-            post.Comments = GetAllComments(doc);
-            return post;
         }
 
         public Post GetPost(int id)

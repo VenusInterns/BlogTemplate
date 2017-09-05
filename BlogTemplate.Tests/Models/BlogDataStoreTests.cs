@@ -357,7 +357,7 @@ namespace BlogTemplate._1.Tests.Model
         }
 
         [Fact]
-        public void CollectPostInfo_EmptyFile_SetDefaultValues()
+        public void CollectPostInfo_EmptyFile_HasPostNode_SetDefaultValues()
         {
             IFileSystem testFileSystem = new FakeFileSystem();
             BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
@@ -374,6 +374,18 @@ namespace BlogTemplate._1.Tests.Model
             Assert.Equal(true, testPost.IsPublic);
             Assert.Equal(false, testPost.IsDeleted);
             Assert.Equal("", testPost.Excerpt);
+        }
+
+        [Fact]
+        public void CollectPostInfo_EmptyFile_DoesNotHavePostNode_SetDefaultValues()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "");
+            TResult Func<out TResult>() = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml")
+
+            Assert.Throws<Exception>(testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
         }
     }
 }
