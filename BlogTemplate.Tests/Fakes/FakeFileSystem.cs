@@ -113,15 +113,7 @@ namespace BlogTemplate._1.Tests.Fakes
 
         void IFileSystem.AppendFile(string path, byte[] data)
         {
-            if (!_files.ContainsKey(path))
-            {
-                AddFile(path);
-            }
-
-            _files[path].Seek(0, SeekOrigin.Begin);
-            MemoryStream writer = _files[path];
-            writer.Write(data, 0, data.Length);
-            writer.Flush();
+            ((IFileSystem)this).AppendFile(path, data, 0, data.Length);
         }
 
         void IFileSystem.AppendFile(string path, byte[] data, int offset, int count)
