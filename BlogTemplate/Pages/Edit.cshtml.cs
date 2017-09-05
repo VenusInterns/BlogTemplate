@@ -97,7 +97,10 @@ namespace BlogTemplate._1.Pages
             {
                 post.Slug = _slugGenerator.CreateSlug(post.Title);
             }
-            _dataStore.SaveFiles(Request.Form.Files.ToList());
+            if (Request != null)
+            {
+                _dataStore.SaveFiles(Request.Form.Files.ToList());
+            }
             _dataStore.UpdatePost(post, wasPublic);
         }
         public class EditedPostModel
