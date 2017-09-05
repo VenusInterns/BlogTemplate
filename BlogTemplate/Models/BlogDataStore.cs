@@ -207,7 +207,7 @@ namespace BlogTemplate._1.Models
             XDocument doc = LoadPostXml(expectedFilePath);
             Post post = new Post
             {
-                Id = Guid.Parse(doc.Root.Element("Id").Value),
+                //Id = Guid.Parse(doc.Root.Element("Id").Value),
                 Slug = doc.Root.Element("Slug").Value,
                 Title = doc.Root.Element("Title").Value,
                 Body = doc.Root.Element("Body").Value,
@@ -216,6 +216,21 @@ namespace BlogTemplate._1.Models
                 IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
                 Excerpt = doc.Root.Element("Excerpt").Value,
             };
+            if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
+            {
+                Guid newGuid;
+                if(Guid.TryParse(doc.Root.Element("Id").Value, out newGuid))
+                {
+                    post.Id = newGuid;
+                }
+                else
+                {
+                    string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
+                    _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{doc.Root.Element("Id").Value}.xml");
+                    SetId(post);
+                    SavePost(post);
+                }
+            }
             post.Comments = GetAllComments(doc);
             return post;
         }
