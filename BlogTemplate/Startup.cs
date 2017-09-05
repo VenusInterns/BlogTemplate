@@ -1,12 +1,17 @@
-using BlogTemplate._1.Data;
-using BlogTemplate._1.Models;
-using BlogTemplate._1.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BlogTemplate._1.Data;
+using BlogTemplate._1.Services;
+using BlogTemplate._1.Models;
 
 namespace BlogTemplate._1
 {
@@ -44,8 +49,7 @@ namespace BlogTemplate._1
             services.AddSingleton<BlogDataStore>();
 
             services.AddSingleton<SlugGenerator>();
-            ExcerptGenerator excerptGenerator = new ExcerptGenerator(140);
-            services.AddSingleton<ExcerptGenerator>(excerptGenerator);
+            services.AddSingleton<ExcerptGenerator>();
             services.AddSingleton<MarkdownRenderer>();
         }
 
