@@ -20,9 +20,9 @@ namespace BlogTemplate._1.Pages
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
+        
         public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
  
-
         public Post Post { get; set; }
 
         public void OnGet([FromRoute] int id)
