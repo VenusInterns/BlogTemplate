@@ -355,5 +355,25 @@ namespace BlogTemplate._1.Tests.Model
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.UtcDateTime.ToString("s").Replace(":","-")}_{newPost.Id}.xml");
             Assert.Equal("New-Title", result.Slug);
         }
+
+        [Fact]
+        public void CollectPostInfo_EmptyFile_SetDefaultValues()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "<Post/>");
+            Post testPost = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml");
+
+            Assert.NotEqual(0, testPost.Id);
+            Assert.Equal("", testPost.Slug);
+            Assert.Equal("", testPost.Title);
+            Assert.Equal("", testPost.Body);
+            Assert.Equal(default(DateTimeOffset), testPost.PubDate);
+            Assert.Equal(default(DateTimeOffset), testPost.LastModified);
+            Assert.Equal(true, testPost.IsPublic);
+            Assert.Equal(false, testPost.IsDeleted);
+            Assert.Equal("", testPost.Excerpt);
+        }
     }
 }
