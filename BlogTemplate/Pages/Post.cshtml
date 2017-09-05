@@ -20,6 +20,20 @@
         <div class="col-md-12">
             <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.Slug">Edit Post</a></h4>
         </div>
+        <form id="deletepost" method="post">
+            @if (Model.Post.IsDeleted)
+            {
+                <div>
+                    <input type="submit" name="undelete" class="btn btn-primary btn-sm" value="Undelete" asp-page-handler="UnDeletePost" />
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete" asp-page-handler="DeletePost" />
+                </div>
+            }
+        </form>
         <div class="col-md-6">
             <h2>Comments</h2>
             @if (Model.Post.Comments.Count == 0)
@@ -39,7 +53,7 @@
                                 <p name="Comment-Body" class="commentBody">@comment.Body</p>
                                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                                 <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                                <input type="submit" name="delete" class="btn btn-default btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
+                                <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete" asp-page-handler="Delete" />
                             </div>
 
                         }
@@ -83,14 +97,13 @@
                             <input type="hidden" name="slug" value="@Model.Post.Slug" />
                         </div>
                     </form>
-
                 }
             }
         </div>
     }
 
     <hr class="commentsDivider" />
-    @if (Model.Post.IsPublic)
+    @if (Model.Post.IsPublic && !Model.IsCommentsFull)
     {
         <div class="col-sm-6" style="height:6px;"></div>
         <div class="add-comment-form">
@@ -101,13 +114,11 @@
                     <form id="comment-form" method="post">
                         <div class="form-group">
                             <label for="AuthorName">Name</label>
-                            <input type="text" class="form-control" placeholder="" asp-for="NewComment.AuthorName" />
-                            <span asp-validation-for="NewComment.AuthorName" class="text-warning"></span>
+                            <input type="text" class="form-control" placeholder="" name="NewComment.AuthorName" />
                         </div>
                         <div class="form-group">
                             <label for="Body">Comment</label>
-                            <textarea placeholder="" class="form-control" asp-for="NewComment.Body"></textarea>
-                            <span asp-validation-for="NewComment.Body" class="text-warning"></span>
+                            <textarea placeholder="" class="form-control" name="NewComment.Body"></textarea>
                         </div>
                         <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="PublishComment" />
                     </form>

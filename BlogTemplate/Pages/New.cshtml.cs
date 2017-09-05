@@ -1,13 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BlogTemplate._1.Pages
 {
@@ -29,7 +27,7 @@ namespace BlogTemplate._1.Pages
         public NewPostViewModel NewPost { get; set; }
 
         public void OnGet()
-        {
+        {           
         }
 
         [ValidateAntiForgeryToken]
@@ -55,7 +53,7 @@ namespace BlogTemplate._1.Pages
 
             return Page();
         }
-
+        
         private void SavePost(NewPostViewModel newPost, bool publishPost)
         {
             if (string.IsNullOrEmpty(newPost.Excerpt))
@@ -69,6 +67,7 @@ namespace BlogTemplate._1.Pages
                 Excerpt = newPost.Excerpt,
                 Slug = _slugGenerator.CreateSlug(newPost.Title),
                 LastModified = DateTimeOffset.Now,
+                IsDeleted = false,
             };
 
             if (publishPost)

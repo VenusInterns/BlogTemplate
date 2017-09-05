@@ -1,8 +1,7 @@
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
-using BlogTemplate._1.Services;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,35 +11,28 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
-        private readonly MarkdownRenderer _markdownRenderer;
-
-        public PostModel(BlogDataStore dataStore, MarkdownRenderer markdownRenderer)
+        public PostModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
-            _markdownRenderer = markdownRenderer;
         }
+
+        const int MaxAllowedComments = 100;
 
         [BindProperty]
         public CommentViewModel NewComment { get; set; }
-
+        
+        public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
+ 
         public Post Post { get; set; }
 
-        public HtmlString HtmlBody()
-        {
-            var html = _markdownRenderer.RenderMarkdown(Post.Body);
-            return html;
-        }
-
-        public IActionResult OnGet([FromRoute] int id)
+        public void OnGet([FromRoute] int id)
         {
             Post = _dataStore.GetPost(id);
 
-            if (Post == null || !Post.IsPublic)
+            if (Post == null)
             {
-                return RedirectToPage("/Index");
+                RedirectToPage("/Index");
             }
-
-            return Page();
         }
 
         [ValidateAntiForgeryToken]
@@ -72,8 +64,11 @@ namespace BlogTemplate._1.Pages
         public class CommentViewModel
         {
             [Required]
+            [MaxLength(100, ErrorMessage = "You have exceeded the maximum length of 100 characters")]
             public string AuthorName { get; set; }
+
             [Required]
+            [MaxLength(1000, ErrorMessage = "You have exceeded the maximum length of 1000 characters")]
             public string Body { get; set; }
         }
     }

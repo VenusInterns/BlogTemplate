@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BlogTemplate._1.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogTemplate._1.Pages
 {
-    public class IndexModel : PageModel
+    public class TrashModel : PageModel
     {
         const string StorageFolder = "BlogFiles";
 
@@ -14,18 +16,18 @@ namespace BlogTemplate._1.Pages
 
         public IEnumerable<PostSummaryModel> PostSummaries { get; private set; }
 
-        public IndexModel(BlogDataStore dataStore)
+        public TrashModel(BlogDataStore dataStore)
         {
             _dataStore = dataStore;
         }
 
         public void OnGet()
         {
-            Func<Post, bool> postFilter = p => p.IsPublic;
-            Func<Post, bool> deletedPostFilter = p => !p.IsDeleted;
-            IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(postFilter).Where(deletedPostFilter);
+            Func<Post, bool> deletedPostFilter = p => p.IsDeleted;
+            IEnumerable<Post> postModels = _dataStore.GetAllPosts().Where(deletedPostFilter);
 
-            PostSummaries = postModels.Select(p => new PostSummaryModel {
+            PostSummaries = postModels.Select(p => new PostSummaryModel
+            {
                 Id = p.Id,
                 Slug = p.Slug,
                 Title = p.Title,
@@ -43,6 +45,6 @@ namespace BlogTemplate._1.Pages
             public DateTimeOffset PublishTime { get; set; }
             public string Excerpt { get; set; }
             public int CommentCount { get; set; }
-       }
+        }
     }
 }

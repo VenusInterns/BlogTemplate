@@ -1,0 +1,25 @@
+@page
+@model TrashModel
+@{
+    ViewData["Title"] = "Trash Bin";
+
+    if (!Model.PostSummaries.Any())
+    {
+    <div class="jumbotron">
+        <p>There are no posts in your trash bin.</p>
+    </div>
+    }else
+    {
+        foreach (var post in Model.PostSummaries)
+        {
+            <article>
+                <div class="col-md-12">
+                    <h2><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
+                    <h5 class="date text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</h5>
+                    <p class="lead">@post.Excerpt</p>
+                    <h3><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                </div>
+            </article>
+        }
+    }
+}
