@@ -383,9 +383,8 @@ namespace BlogTemplate._1.Tests.Model
             BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
 
             testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "");
-            TResult Func<out TResult>() = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml")
 
-            Assert.Throws<Exception>(testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
+            Assert.Throws<NullReferenceException>(() => testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
         }
     }
 }
