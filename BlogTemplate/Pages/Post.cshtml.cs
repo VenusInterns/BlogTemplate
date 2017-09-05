@@ -1,7 +1,8 @@
-
 using System;
 using System.ComponentModel.DataAnnotations;
 using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,32 +12,61 @@ namespace BlogTemplate._1.Pages
     public class PostModel : PageModel
     {
         private readonly BlogDataStore _dataStore;
-        public PostModel(BlogDataStore dataStore)
-        {
-            _dataStore = dataStore;
-        }
-
+        private readonly MarkdownRenderer _markdownRenderer;
         const int MaxAllowedComments = 100;
 
-        [BindProperty]
-        public CommentViewModel NewComment { get; set; }
-        
-        public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
- 
+        public PostModel(BlogDataStore dataStore, MarkdownRenderer markdownRenderer)
+        {
+            _dataStore = dataStore;
+            _markdownRenderer = markdownRenderer;
+        }
+
         public Post Post { get; set; }
+        public bool IsCommentsFull => Post.Comments.Count >= MaxAllowedComments;
+
+        public HtmlString HtmlBody()
+        {
+            var html = _markdownRenderer.RenderMarkdown(Post.Body);
+            return html;
+        }
 
         public void OnGet([FromRoute] int id)
         {
             Post = _dataStore.GetPost(id);
 
-            if (Post == null)
+            if (Post == null || !Post.IsPublic)
             {
                 RedirectToPage("/Index");
             }
         }
 
+        public IActionResult ChangeState(bool Deleted, int id)
+        {
+            Post = _dataStore.GetPost(id);
+
+            if (ModelState.IsValid)
+            {
+                Post.IsDeleted = Deleted;
+                _dataStore.SavePost(Post);
+                return RedirectToPage("/Index");
+            }
+            return Redirect("/post/" + id + "/" + Post.Slug);
+        }
+
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment([FromRoute] int id)
+        public IActionResult OnPostDeletePost([FromRoute] int id)
+        {
+            return ChangeState(true, id);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostUnDeletePost([FromRoute] int id)
+        {
+            return ChangeState(false, id);
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult OnPostPublishComment([FromRoute] int id, [FromForm] CommentViewModel NewComment)
         {
             Post = _dataStore.GetPost(id);
 
@@ -66,7 +96,6 @@ namespace BlogTemplate._1.Pages
             [Required]
             [MaxLength(100, ErrorMessage = "You have exceeded the maximum length of 100 characters")]
             public string AuthorName { get; set; }
-
             [Required]
             [MaxLength(1000, ErrorMessage = "You have exceeded the maximum length of 1000 characters")]
             public string Body { get; set; }
