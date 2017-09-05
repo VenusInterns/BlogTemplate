@@ -50,5 +50,21 @@ namespace BlogTemplate._1.Models
         {
             File.WriteAllBytes(path, data);
         }
+
+        public void AppendFile(string path, byte[] data)
+        {
+            Stream outStream = File.OpenWrite(path);
+            outStream.Seek(0, SeekOrigin.End);
+            outStream.Write(data, 0, data.Length);
+        }
+
+        public void AppendFile(string path, byte[] data, int offset, int count)
+        {
+            using (Stream outStream = File.OpenWrite(path))
+            {
+                outStream.Seek(0, SeekOrigin.End);
+                outStream.Write(data, offset, count);
+            }
+        }
     }
 }
