@@ -291,7 +291,7 @@ namespace BlogTemplate._1.Models
 
         private List<Post> IteratePosts(List<string> files)
         {
-            List<Post> allPosts = new List<Post>;
+            List<Post> allPosts = new List<Post>();
             foreach (var file in files)
             {
                 Post post = CollectPostInfo(file);
