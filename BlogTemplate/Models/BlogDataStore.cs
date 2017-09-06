@@ -289,8 +289,9 @@ namespace BlogTemplate._1.Models
             return null;
         }
 
-        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
+        private List<Post> IteratePosts(List<string> files)
         {
+            List<Post> allPosts = new List<Post>;
             foreach (var file in files)
             {
                 Post post = CollectPostInfo(file);
@@ -303,16 +304,14 @@ namespace BlogTemplate._1.Models
         {
             string filePath = $"{PostsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
-            List<Post> allPosts = new List<Post>();
-            return IteratePosts(files, allPosts);
+            return IteratePosts(files);
         }
 
         public List<Post> GetAllDrafts()
         {
             string filePath = $"{DraftsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
-            List<Post> allDrafts = new List<Post>();
-            return IteratePosts(files, allDrafts);
+            return IteratePosts(files);
         }
 
         public void UpdatePost(Post post, bool wasPublic)
