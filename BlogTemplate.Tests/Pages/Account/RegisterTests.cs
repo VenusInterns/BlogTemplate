@@ -1,6 +1,6 @@
 using BlogTemplate._1.Data;
 using BlogTemplate._1.Pages.Account;
-using BlogTemplate.Tests.Fakes;
+using BlogTemplate._1.Tests.Fakes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;

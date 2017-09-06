@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
-using static BlogTemplate._1.Pages.EditModel;
 
 namespace BlogTemplate._1.Models
 {
@@ -57,7 +55,6 @@ namespace BlogTemplate._1.Models
         {
             string text = _fileSystem.ReadFileText(filePath);
             StringReader reader = new StringReader(text);
-
             return XDocument.Load(reader);
         }
 
@@ -166,6 +163,7 @@ namespace BlogTemplate._1.Models
             rootNode.Add(new XElement("PubDate", post.PubDate.ToString("o")));
             rootNode.Add(new XElement("LastModified", post.LastModified.ToString("o")));
             rootNode.Add(new XElement("IsPublic", post.IsPublic.ToString()));
+            rootNode.Add(new XElement("IsDeleted", post.IsDeleted.ToString()));
             rootNode.Add(new XElement("Excerpt", post.Excerpt));
         }
 
@@ -204,18 +202,17 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            XDocument doc = LoadPostXml(expectedFilePath);
-            Post post = new Post
+            XDocument doc;
+            try
             {
-                //Id = Guid.Parse(doc.Root.Element("Id").Value),
-                Slug = doc.Root.Element("Slug").Value,
-                Title = doc.Root.Element("Title").Value,
-                Body = doc.Root.Element("Body").Value,
-                PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value),
-                LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
-                IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value,
-            };
+                doc = LoadPostXml(expectedFilePath);
+            }
+            catch
+            {
+                return null;
+            }
+
+            Post post = new Post();
             if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
             {
                 Guid newGuid;
@@ -231,8 +228,52 @@ namespace BlogTemplate._1.Models
                     SavePost(post);
                 }
             }
+            post.Slug = GetValue(doc.Root.Element("Slug"), "");
+            post.Title = GetValue(doc.Root.Element("Title"), "");
+            post.Body = GetValue(doc.Root.Element("Body"), "");
+            post.PubDate = GetValue(doc.Root.Element("PubDate"), default(DateTimeOffset));
+            post.LastModified = GetValue(doc.Root.Element("LastModified"), default(DateTimeOffset));
+            post.IsPublic = GetValue(doc.Root.Element("IsPublic"), true);
+            post.IsDeleted = GetValue(doc.Root.Element("IsDeleted"), false);
+            post.Excerpt = GetValue(doc.Root.Element("Excerpt"), "");
             post.Comments = GetAllComments(doc);
             return post;
+        }
+
+        private static string GetValue(XElement e, string defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return e.Value;
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        private static DateTimeOffset GetValue(XElement e, DateTimeOffset defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return DateTimeOffset.Parse(e.Value);
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        private static bool GetValue(XElement e, bool defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return Convert.ToBoolean(e.Value);
+            }
+            else
+            {
+                return defaultValue;
+            }
         }
 
         public Post GetPost(string id)
@@ -259,8 +300,9 @@ namespace BlogTemplate._1.Models
             return null;
         }
 
-        private List<Post> IteratePosts(List<string> files, List<Post> allPosts)
+        private List<Post> IteratePosts(List<string> files)
         {
+            List<Post> allPosts = new List<Post>();
             foreach (var file in files)
             {
                 Post post = CollectPostInfo(file);
@@ -273,16 +315,14 @@ namespace BlogTemplate._1.Models
         {
             string filePath = $"{PostsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
-            List<Post> allPosts = new List<Post>();
-            return IteratePosts(files, allPosts);
+            return IteratePosts(files);
         }
 
         public List<Post> GetAllDrafts()
         {
             string filePath = $"{DraftsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
-            List<Post> allDrafts = new List<Post>();
-            return IteratePosts(files, allDrafts);
+            return IteratePosts(files);
         }
 
         public void UpdatePost(Post post, bool wasPublic)
@@ -300,17 +340,30 @@ namespace BlogTemplate._1.Models
         }
 
         public void SaveFiles(List<IFormFile> files)
-        {           
-            foreach(var file in files)
+        {
+            foreach (var file in files)
             {
-                if(file.Length > 0)
-                {                    
+                if (file.Length > 0)
+                {
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        byte[] buffer = new byte[uploadedFileStream.Length];
-                        uploadedFileStream.Read(buffer, 0, buffer.Length);
-                        string name = CreateFileName(file.FileName);
-                        _fileSystem.WriteFile($"{UploadsFolder}\\{name}", buffer);
+                        string name = file.FileName;
+                        if(CheckFileNameExists(name))
+                        {
+                            _fileSystem.DeleteFile($"{UploadsFolder}\\{name}");
+                        }
+
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        do
+                        {
+                            bytesRead = uploadedFileStream.Read(buffer, 0, 1024);
+                            if (bytesRead == 0)
+                            {
+                                break;
+                            }
+                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, 0, bytesRead);
+                        } while (bytesRead > 0);
                     }
                 }
             }
@@ -330,22 +383,13 @@ namespace BlogTemplate._1.Models
         private string CreateFileName(string fileName)
         {
             string tempName = fileName;
-            string[] elements = fileName.Split(".");
-            int count = 0;
-            while (CheckFileNameExists(tempName))
+            string shortName = Path.GetFileNameWithoutExtension(fileName);
+            string ext = Path.GetExtension(fileName);
+            for(int i = 1; CheckFileNameExists(tempName); i++)
             {
-                count++;
-                if (elements.Length > 1)
-                {
-                    tempName = $"{elements[0]}-{count}.{elements[1]}";
-                }
-                else
-                {
-                    tempName = $"{fileName}-{count}";
-                }
+                tempName = $"{shortName}-{i}{ext}";
             }
             return tempName;
         }
-
     }
 }

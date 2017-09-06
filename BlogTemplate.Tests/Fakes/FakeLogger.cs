@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace BlogTemplate.Tests.Fakes
+namespace BlogTemplate._1.Tests.Fakes
 {
     class FakeLogger<T> : ILogger<T>
     {

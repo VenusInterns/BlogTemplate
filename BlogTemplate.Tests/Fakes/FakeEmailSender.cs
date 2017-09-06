@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlogTemplate._1.Services;
 
-namespace BlogTemplate.Tests.Fakes
+namespace BlogTemplate._1.Tests.Fakes
 {
     class FakeEmailSender : IEmailSender
     {

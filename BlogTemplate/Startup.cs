@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlogTemplate._1.Data;
+using BlogTemplate._1.Models;
+using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BlogTemplate._1.Data;
-using BlogTemplate._1.Services;
-using BlogTemplate._1.Models;
 
 namespace BlogTemplate._1
 {

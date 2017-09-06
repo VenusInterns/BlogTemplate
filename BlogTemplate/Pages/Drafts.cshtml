@@ -18,10 +18,10 @@
                     <h2><a asp-page="/edit" asp-route-id="@post.Id.ToString("N")" asp-route-slug="@post.Slug">@post.Title</a></h2>
                     @if (post.PublishTime != default(DateTimeOffset))
                     {
-                        <div class="text-muted">Last Published @post.PublishTime.ToString("MMM dd, yyyy")</div>
+                        <div class="h5 text-muted">Last Published @post.PublishTime.ToString("MMM dd, yyyy")</div>
                     }
                     <p class="lead">@post.Excerpt</p>
-                    <h3><a href="/post/@post.Id.ToString("N")/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                    <h4><a href="/post/@post.Id.ToString("N")/@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h4>
                 </div>
             </article>
         }
