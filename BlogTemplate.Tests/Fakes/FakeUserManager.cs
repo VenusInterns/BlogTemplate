@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BlogTemplate.Tests.Fakes
+namespace BlogTemplate._1.Tests.Fakes
 {
     class FakeUserManager : UserManager<ApplicationUser>
     {
