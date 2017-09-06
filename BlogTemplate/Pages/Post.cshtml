@@ -53,7 +53,7 @@
                                 <p name="Comment-Body" class="commentBody">@comment.Body</p>
                                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                                 <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                                <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete" asp-page-handler="Delete" />
+                                <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
                             </div>
 
                         }

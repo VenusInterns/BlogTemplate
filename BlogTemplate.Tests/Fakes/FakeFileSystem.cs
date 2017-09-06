@@ -43,12 +43,13 @@ namespace BlogTemplate._1.Tests.Fakes
             }
         }
 
-        public void WriteFile(string path, byte[] data)
-        {
-            File.WriteAllBytes(path, data);
-        }
 
         #region IFileSystem
+        void IFileSystem.WriteFile(string path, byte[] data)
+        {
+            AddFile(path, data);
+        }
+
         void IFileSystem.CreateDirectory(string path)
         {
             AddDirectory(path);
@@ -107,6 +108,24 @@ namespace BlogTemplate._1.Tests.Fakes
             _files[path].Seek(0, SeekOrigin.Begin);
             StreamWriter writer = new StreamWriter(_files[path]);
             writer.Write(text);
+            writer.Flush();
+        }
+
+        void IFileSystem.AppendFile(string path, byte[] data)
+        {
+            ((IFileSystem)this).AppendFile(path, data, 0, data.Length);
+        }
+
+        void IFileSystem.AppendFile(string path, byte[] data, int offset, int count)
+        {
+            if (!_files.ContainsKey(path))
+            {
+                AddFile(path);
+            }
+
+            _files[path].Seek(0, SeekOrigin.Begin);
+            MemoryStream writer = _files[path];
+            writer.Write(data, offset, count);
             writer.Flush();
         }
         #endregion

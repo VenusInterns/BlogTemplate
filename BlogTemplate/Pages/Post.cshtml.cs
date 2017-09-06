@@ -72,7 +72,7 @@ namespace BlogTemplate._1.Pages
 
             if (Post == null)
             {
-                RedirectToPage("/Index");
+                return RedirectToPage("/Index");
             }
             else if (ModelState.IsValid)
             {

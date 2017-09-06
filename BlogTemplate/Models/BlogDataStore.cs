@@ -384,10 +384,23 @@ namespace BlogTemplate._1.Models
                 {
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        byte[] buffer = new byte[uploadedFileStream.Length];
-                        uploadedFileStream.Read(buffer, 0, buffer.Length);
-                        string name = CreateFileName(file.FileName);
-                        _fileSystem.WriteFile($"{UploadsFolder}\\{name}", buffer);
+                        string name = file.FileName;
+                        if(CheckFileNameExists(name))
+                        {
+                            _fileSystem.DeleteFile($"{UploadsFolder}\\{name}");
+                        }
+
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        do
+                        {
+                            bytesRead = uploadedFileStream.Read(buffer, 0, 1024);
+                            if (bytesRead == 0)
+                            {
+                                break;
+                            }
+                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, 0, bytesRead);
+                        } while (bytesRead > 0);
                     }
                 }
             }
@@ -407,22 +420,13 @@ namespace BlogTemplate._1.Models
         private string CreateFileName(string fileName)
         {
             string tempName = fileName;
-            string[] elements = fileName.Split(".");
-            int count = 0;
-            while (CheckFileNameExists(tempName))
+            string shortName = Path.GetFileNameWithoutExtension(fileName);
+            string ext = Path.GetExtension(fileName);
+            for(int i = 1; CheckFileNameExists(tempName); i++)
             {
-                count++;
-                if (elements.Length > 1)
-                {
-                    tempName = $"{elements[0]}-{count}.{elements[1]}";
-                }
-                else
-                {
-                    tempName = $"{fileName}-{count}";
-                }
+                tempName = $"{shortName}-{i}{ext}";
             }
             return tempName;
         }
-
     }
 }

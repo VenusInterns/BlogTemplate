@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.AspNetCore.Http;
 
 namespace BlogTemplate._1.Pages
 {
@@ -95,9 +97,12 @@ namespace BlogTemplate._1.Pages
             {
                 post.Slug = _slugGenerator.CreateSlug(post.Title);
             }
+            if (Request != null)
+            {
+                _dataStore.SaveFiles(Request.Form.Files.ToList());
+            }
             _dataStore.UpdatePost(post, wasPublic);
         }
-
         public class EditedPostModel
         {
             [Required]

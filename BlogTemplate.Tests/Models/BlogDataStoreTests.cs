@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using BlogTemplate._1.Models;
 using BlogTemplate._1.Tests.Fakes;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 using static BlogTemplate._1.Pages.EditModel;
 
@@ -354,6 +355,26 @@ namespace BlogTemplate._1.Tests.Model
 
             Post result = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\{newPost.PubDate.UtcDateTime.ToString("s").Replace(":","-")}_{newPost.Id}.xml");
             Assert.Equal("New-Title", result.Slug);
+        }
+
+        [Fact]
+        public void SaveFiles_CreatesFilesInUploadsFolder()
+        {
+            FakeFormFile file1 = new FakeFormFile();
+            file1.FileName = "file1";
+            file1.Length = 5;
+            FakeFormFile file2 = new FakeFormFile();
+            file2.FileName = "file2";
+            file2.Length = 5;
+            List<IFormFile> files = new List<IFormFile>();
+            files.Add(file1);
+            files.Add(file2);
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+            testDataStore.SaveFiles(files);
+
+            Assert.True(testFileSystem.FileExists("wwwroot\\Uploads\\file1"));
+            Assert.True(testFileSystem.FileExists("wwwroot\\Uploads\\file2"));
         }
 
         [Fact]
