@@ -13,7 +13,7 @@
 <article>
     <h2>Edit Post</h2>
     <div class="col-md-12 well">
-        <form method="post" id="editpost" data-has-slug="@Model.hasSlug">
+        <form method="post" id="editpost" enctype="multipart/form-data" data-has-slug="@Model.hasSlug">
             @if (TempData["notice"] != null)
             {
                 <h3>@TempData["notice"]</h3>
@@ -26,12 +26,18 @@
             <input type="hidden" name="updateSlug" id="updateSlug" value="false" />
             <div class="col-md-12 form-group">
                 <label for="Body" class="primaryField">Body</label>
-                <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body"></textarea>
+                <textarea rows="10" class="form-control" placeholder="" asp-for="EditedPost.Body" id="post-body"></textarea>
                 <span asp-validation-for="EditedPost.Body" class="text-warning"></span>
             </div>
             <div class="col-md-12 form-group">
                 <label for="Excerpt" class="secondaryField">Excerpt (Optional)</label>
                 <textarea class="form-control" placeholder="" asp-for="EditedPost.Excerpt"></textarea>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Upload Files</label>
+                    <input type="file" name="files" multiple id="file-input" onchange="insertFiles()" />
+                </div>
             </div>
             <div class="col-md-12">
                 <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
@@ -45,5 +51,6 @@
 </article>
 
 @section Scripts {
+    <script src="~/js/updateBody.js"></script>
     <script src="~/js/slugUpdateWarning.js"></script>
 }

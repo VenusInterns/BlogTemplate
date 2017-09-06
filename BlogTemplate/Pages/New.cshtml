@@ -21,7 +21,7 @@
         </div>
         <div class="form-group col-md-12">
             <label for="Body" class="primaryField">Body</label>
-            <textarea rows="10" class="form-control" placeholder="" asp-for="NewPost.Body"></textarea>
+            <textarea rows="10" class="form-control" placeholder="" asp-for="NewPost.Body" id="post-body"></textarea>
             <span asp-validation-for="NewPost.Body" class="text-warning"></span>
         </div>
         <div class="form-group col-md-12">
@@ -31,7 +31,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Upload Files</label>
-                <input type="file" name="files" multiple />
+                <input type="file" name="files" multiple id="file-input" onchange="insertFiles()" />
             </div>
         </div>
         <div class="col-md-12">
@@ -40,3 +40,7 @@
         </div>
     </div>
 </form>
+
+@section Scripts {
+    <script src="~/js/updateBody.js"></script>
+}
