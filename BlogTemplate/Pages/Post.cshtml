@@ -68,7 +68,7 @@
 
                                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                                 <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                                <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
+                                <input type="submit" name="undelete" class="btn btn-primary btn-sm" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" /> 
                             </div>
                         }
                     </div>
