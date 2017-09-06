@@ -65,8 +65,8 @@ namespace BlogTemplate._1.Models
 
                         CurrentId = max;
                     }
-                }           
-            }         
+                }
+            }
         }
 
         private void SetId(Post post)
@@ -100,7 +100,6 @@ namespace BlogTemplate._1.Models
         {
             string text = _fileSystem.ReadFileText(filePath);
             StringReader reader = new StringReader(text);
-
             return XDocument.Load(reader);
         }
 
@@ -248,21 +247,71 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            XDocument doc = LoadPostXml(expectedFilePath);
-            Post post = new Post
+            XDocument doc;
+            try
             {
-                Id = Convert.ToInt32(doc.Root.Element("Id").Value),
-                Slug = doc.Root.Element("Slug").Value,
-                Title = doc.Root.Element("Title").Value,
-                Body = doc.Root.Element("Body").Value,
-                PubDate = DateTimeOffset.Parse(doc.Root.Element("PubDate").Value),
-                LastModified = DateTimeOffset.Parse(doc.Root.Element("LastModified").Value),
-                IsPublic = Convert.ToBoolean(doc.Root.Element("IsPublic").Value),
-                IsDeleted = Convert.ToBoolean(doc.Root.Element("IsDeleted").Value),
-                Excerpt = doc.Root.Element("Excerpt").Value,
-            };
+                doc = LoadPostXml(expectedFilePath);
+            }
+            catch
+            {
+                return null;
+            }
+
+            Post post = new Post();
+            if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
+            {
+                post.Id = Convert.ToInt32(doc.Root.Element("Id").Value);
+            }
+            else
+            {
+                SetId(post);
+            }
+            post.Slug = GetValue(doc.Root.Element("Slug"), "");
+            post.Title = GetValue(doc.Root.Element("Title"), "");
+            post.Body = GetValue(doc.Root.Element("Body"), "");
+            post.PubDate = GetValue(doc.Root.Element("PubDate"), default(DateTimeOffset));
+            post.LastModified = GetValue(doc.Root.Element("LastModified"), default(DateTimeOffset));
+            post.IsPublic = GetValue(doc.Root.Element("IsPublic"), true);
+            post.IsDeleted = GetValue(doc.Root.Element("IsDeleted"), false);
+            post.Excerpt = GetValue(doc.Root.Element("Excerpt"), "");
             post.Comments = GetAllComments(doc);
             return post;
+        }
+
+        private static string GetValue(XElement e, string defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return e.Value;
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        private static DateTimeOffset GetValue(XElement e, DateTimeOffset defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return DateTimeOffset.Parse(e.Value);
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        private static bool GetValue(XElement e, bool defaultValue)
+        {
+            if (e != null && !e.IsEmpty)
+            {
+                return Convert.ToBoolean(e.Value);
+            }
+            else
+            {
+                return defaultValue;
+            }
         }
 
         public Post GetPost(int id)
@@ -329,11 +378,11 @@ namespace BlogTemplate._1.Models
         }
 
         public void SaveFiles(List<IFormFile> files)
-        {           
-            foreach(var file in files)
+        {
+            foreach (var file in files)
             {
-                if(file.Length > 0)
-                {                    
+                if (file.Length > 0)
+                {
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
                         string name = file.FileName;

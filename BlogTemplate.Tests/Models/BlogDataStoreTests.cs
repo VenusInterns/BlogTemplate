@@ -376,5 +376,36 @@ namespace BlogTemplate._1.Tests.Model
             Assert.True(testFileSystem.FileExists("wwwroot\\Uploads\\file1"));
             Assert.True(testFileSystem.FileExists("wwwroot\\Uploads\\file2"));
         }
+
+        [Fact]
+        public void CollectPostInfo_EmptyFile_HasPostNode_SetDefaultValues()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "<Post/>");
+            Post testPost = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml");
+
+            Assert.NotEqual(0, testPost.Id);
+            Assert.Equal("", testPost.Slug);
+            Assert.Equal("", testPost.Title);
+            Assert.Equal("", testPost.Body);
+            Assert.Equal(default(DateTimeOffset), testPost.PubDate);
+            Assert.Equal(default(DateTimeOffset), testPost.LastModified);
+            Assert.Equal(true, testPost.IsPublic);
+            Assert.Equal(false, testPost.IsDeleted);
+            Assert.Equal("", testPost.Excerpt);
+        }
+
+        [Fact]
+        public void CollectPostInfo_EmptyFile_DoesNotHavePostNode_SetDefaultValues()
+        {
+            IFileSystem testFileSystem = new FakeFileSystem();
+            BlogDataStore testDataStore = new BlogDataStore(testFileSystem);
+
+            testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "");
+
+            Assert.Null(testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
+        }
     }
 }

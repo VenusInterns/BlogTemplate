@@ -33,7 +33,7 @@ namespace BlogTemplate._1.Tests.Pages
 
             testPostModel.OnPostDeletePost(post.Id);
             Post result = testDataStore.GetPost(post.Id);
-            
+
             Assert.True(result.IsDeleted);
         }
 
