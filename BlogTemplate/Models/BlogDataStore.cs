@@ -100,14 +100,7 @@ namespace BlogTemplate._1.Models
         {
             string text = _fileSystem.ReadFileText(filePath);
             StringReader reader = new StringReader(text);
-            try
-            {
-                return XDocument.Load(reader);
-            }
-            catch
-            {
-                throw new NullReferenceException();
-            }
+            return XDocument.Load(reader);
         }
 
         public IEnumerable<XElement> GetCommentRoot(XDocument doc)
@@ -254,7 +247,16 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
-            XDocument doc = LoadPostXml(expectedFilePath);
+            XDocument doc;
+            try
+            {
+                doc = LoadPostXml(expectedFilePath);
+            }
+            catch
+            {
+                return null;
+            }
+
             Post post = new Post();
             if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
             {

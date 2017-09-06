@@ -384,7 +384,7 @@ namespace BlogTemplate._1.Tests.Model
 
             testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "");
 
-            Assert.Throws<NullReferenceException>(() => testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
+            Assert.Null(testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml"));
         }
     }
 }
