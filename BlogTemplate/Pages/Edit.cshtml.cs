@@ -46,8 +46,8 @@ namespace BlogTemplate._1.Pages
             {
                 RedirectToPage("/Index");
             }
-
-            ViewData["Id"] = post.Id;
+            ViewData["Slug"] = post.Slug;
+            ViewData["id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]
