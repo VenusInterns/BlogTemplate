@@ -60,7 +60,7 @@
                         else
                         {
                             <div class="well well-sm">
-                                <del class="delete-header">
+                                <del class="h4">
                                     <h4 name="Comment-Title" class="commentTitle">@comment.AuthorName</h4>
                                     <h6 name="Comment-Date" class="commentDate">@comment.PubDate.ToString("MMM dd, yyyy")</h6>
                                 </del>
@@ -68,7 +68,7 @@
 
                                 <input type="hidden" name="commentId" id="commentId" value="@comment.UniqueId" />
                                 <input type="hidden" name="slug" value="@Model.Post.Slug" />
-                                <input type="submit" name="delete" class="btn btn-default btn-sm" value="Republish Comment" asp-page="ManageComment" asp-page-handler="UndeleteComment" />
+                                <input type="submit" name="delete" class="btn btn-primary btn-sm" value="Delete Comment" asp-page="ManageComment" asp-page-handler="DeleteComment" />
                             </div>
                         }
                     </div>
