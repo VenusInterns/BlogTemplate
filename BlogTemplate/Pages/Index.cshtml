@@ -18,10 +18,10 @@
         {
             <article>
                 <div class="col-md-12">
-                    <h2><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">@post.Title</a></h2>
+                    <h2><a asp-page="/post" asp-route-id="@post.Id.ToString("N")" asp-route-slug="@post.Slug">@post.Title</a></h2>
                     <div class="h5 text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</div> 
                     <p class="lead">@post.Excerpt</p>
-                    <div class="h4"><a asp-page="/post" asp-route-id="@post.Id" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></div>
+                    <div class="h4"><a asp-page="/post" asp-route-id="@post.Id.ToString("N")" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></div>
                 </div>
             </article>
         }

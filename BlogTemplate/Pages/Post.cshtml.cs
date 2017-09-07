@@ -30,7 +30,7 @@ namespace BlogTemplate._1.Pages
             return html;
         }
 
-        public void OnGet([FromRoute] int id)
+        public void OnGet([FromRoute] string id)
         {
             Post = _dataStore.GetPost(id);
 
@@ -40,7 +40,7 @@ namespace BlogTemplate._1.Pages
             }
         }
 
-        public IActionResult ChangeState(bool Deleted, int id)
+        public IActionResult ChangeState(bool Deleted, string id)
         {
             Post = _dataStore.GetPost(id);
 
@@ -54,19 +54,19 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeletePost([FromRoute] int id)
+        public IActionResult OnPostDeletePost([FromRoute] string id)
         {
             return ChangeState(true, id);
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostUnDeletePost([FromRoute] int id)
+        public IActionResult OnPostUnDeletePost([FromRoute] string id)
         {
             return ChangeState(false, id);
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublishComment([FromRoute] int id, [FromForm] CommentViewModel NewComment)
+        public IActionResult OnPostPublishComment([FromRoute] string id, [FromForm] CommentViewModel NewComment)
         {
             Post = _dataStore.GetPost(id);
 
