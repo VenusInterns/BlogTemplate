@@ -47,7 +47,8 @@ namespace BlogTemplate._1.Pages
 
             hasSlug = !string.IsNullOrEmpty(post.Slug);
 
-            ViewData["Id"] = post.Id;
+            ViewData["Slug"] = post.Slug;
+            ViewData["id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]

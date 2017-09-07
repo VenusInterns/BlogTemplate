@@ -310,7 +310,7 @@ namespace BlogTemplate._1.Tests.Model
             testFileSystem.WriteFileText($"BlogFiles\\Posts\\empty_file.xml", "<Post/>");
             Post testPost = testDataStore.CollectPostInfo($"BlogFiles\\Posts\\empty_file.xml");
 
-            Assert.NotEqual(0, testPost.Id);
+            Assert.NotEqual(default(Guid), testPost.Id);
             Assert.Equal("", testPost.Slug);
             Assert.Equal("", testPost.Title);
             Assert.Equal("", testPost.Body);

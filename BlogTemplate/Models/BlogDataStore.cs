@@ -228,6 +228,10 @@ namespace BlogTemplate._1.Models
                     SavePost(post);
                 }
             }
+            else
+            {
+                post.Id = Guid.NewGuid();
+            }
             post.Slug = GetValue(doc.Root.Element("Slug"), "");
             post.Title = GetValue(doc.Root.Element("Title"), "");
             post.Body = GetValue(doc.Root.Element("Body"), "");
