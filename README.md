@@ -41,8 +41,8 @@ We hope the above features make this a tool that developers can use to speed up 
     * [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)
 
 ### Creating an Instance of the Template (Your Own Blog)
-First, you'll need to get the [newest templating code](https://github.com/dotnet/templating).
-Switch the Branch to "rel/2.0.0-servicing." Then click the green "Clone or download" button. Copy the link in the dropdown that appears.
+There are two options for instantiating a template. You can use `dotnet new` included with the dotnet CLI. However, the current version contains minor bugs that will be fixed soon. Alternatively, you'll need to get the [newest templating code](https://github.com/dotnet/templating) with the following steps.
+Click the green "Clone or download" button. Copy the link in the dropdown that appears.
 Open a command prompt and change directories to where you want to install the templating repo.
 In the desired directory, enter the command:
 
@@ -53,7 +53,7 @@ Now change to the templating directory and switch branches to "rel/2.0.0-servici
   * Note: If you get errors about not being able to run scripts, close your command window. Then open a powershell window as administrator and run the command `Set-ExecutionPolicy Unrestricted`.
   Close the powershell window, then open a new command prompt and go back to the templating directory and run setup again.
 
-Once the setup runs correctly, you should be able to run the command `dotnet new3`.
+Once the setup runs correctly, you should be able to run the command `dotnet new3`. If you are just using the dotnet CLI, you can replace `dotnet new3` with `dotnet new` for the rest of the steps.
 Install your blog template with the command:
 
     dotnet new3 -i [path to blog template source]
