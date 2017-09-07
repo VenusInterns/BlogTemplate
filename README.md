@@ -49,7 +49,11 @@ In the desired directory, enter the command:
     git clone [link you copied earlier]
 
 This will pull all the dotnet.templating code and put it in a directory named "templating."
-Now change to the templating directory and switch branches to "rel/2.0.0-servicing." Then run the command `setup`.
+Now change to the templating directory and switch branches to "rel/2.0.0-servicing" by running:
+
+    git checkout rel/2.0.0-servicing
+
+Then run the command `setup`.
   * Note: If you get errors about not being able to run scripts, close your command window. Then open a powershell window as administrator and run the command `Set-ExecutionPolicy Unrestricted`.
   Close the powershell window, then open a new command prompt and go back to the templating directory and run setup again.
 
