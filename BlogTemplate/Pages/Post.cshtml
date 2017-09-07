@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.Slug">Edit Post</a></h4>
         </div>
-        <form id="deletepost" method="post">
+        <form class="col-md-12" id="deletepost" method="post">
             @if (Model.Post.IsDeleted)
             {
                 <div>
