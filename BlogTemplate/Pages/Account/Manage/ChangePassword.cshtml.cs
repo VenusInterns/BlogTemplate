@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BlogTemplate._1.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace BlogTemplate._1.Pages.Account.Manage
 {
@@ -16,15 +17,18 @@ namespace BlogTemplate._1.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IConfiguration _config;
 
         public ChangePasswordModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _config = config;
         }
 
         [BindProperty]
@@ -64,6 +68,11 @@ namespace BlogTemplate._1.Pages.Account.Manage
             if (!hasPassword)
             {
                 return RedirectToPage("./SetPassword");
+            }
+
+            if (_config.GetValue<bool>("disableChangePassword"))
+            {
+                return RedirectToPage("/Index");
             }
 
             return Page();
