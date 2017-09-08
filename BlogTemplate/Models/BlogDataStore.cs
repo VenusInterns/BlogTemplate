@@ -202,6 +202,7 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
+            bool hasIdChanged = false;
             XDocument doc;
             try
             {
@@ -223,9 +224,9 @@ namespace BlogTemplate._1.Models
                 else
                 {
                     string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
-                    _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{doc.Root.Element("Id").Value}.xml");
+                    _fileSystem.DeleteFile(expectedFilePath);
                     SetId(post);
-                    SavePost(post);
+                    hasIdChanged = true;
                 }
             }
             else
@@ -241,6 +242,10 @@ namespace BlogTemplate._1.Models
             post.IsDeleted = GetValue(doc.Root.Element("IsDeleted"), false);
             post.Excerpt = GetValue(doc.Root.Element("Excerpt"), "");
             post.Comments = GetAllComments(doc);
+            if (hasIdChanged)
+            {
+                SavePost(post);
+            }
             return post;
         }
 
