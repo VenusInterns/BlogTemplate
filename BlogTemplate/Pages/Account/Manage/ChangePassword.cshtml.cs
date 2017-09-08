@@ -66,7 +66,7 @@ namespace BlogTemplate._1.Pages.Account.Manage
                 return RedirectToPage("./SetPassword");
             }
 
-            return Page();
+            return RedirectToPage("/Index");
         }
 
         public async Task<IActionResult> OnPostAsync()
