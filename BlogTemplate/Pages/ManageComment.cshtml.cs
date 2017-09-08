@@ -17,7 +17,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeleteComment(Guid commentId, int id)
+        public IActionResult OnPostDeleteComment(Guid commentId, string id)
         {
             Post post = _dataStore.GetPost(id);
 
@@ -29,7 +29,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostUndeleteComment(Guid commentId, int id)
+        public IActionResult OnPostUndeleteComment(Guid commentId, string id)
         {
             Post post = _dataStore.GetPost(id);
 

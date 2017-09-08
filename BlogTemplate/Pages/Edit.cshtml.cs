@@ -29,9 +29,14 @@ namespace BlogTemplate._1.Pages
         public EditedPostModel EditedPost { get; set; }
         public bool hasSlug { get; set; }
 
-        public void OnGet([FromRoute] int id)
+        public void OnGet([FromRoute] string id)
         {
             Post post = _dataStore.GetPost(id);
+
+            if (post == null)
+            {
+                RedirectToPage("/Index");
+            }
 
             EditedPost = new EditedPostModel
             {
@@ -42,16 +47,12 @@ namespace BlogTemplate._1.Pages
 
             hasSlug = !string.IsNullOrEmpty(post.Slug);
 
-            if (post == null)
-            {
-                RedirectToPage("/Index");
-            }
             ViewData["Slug"] = post.Slug;
             ViewData["id"] = post.Id;
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostPublish([FromRoute] int id, [FromForm] bool updateSlug)
+        public IActionResult OnPostPublish([FromRoute] string id, [FromForm] bool updateSlug)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
@@ -72,7 +73,7 @@ namespace BlogTemplate._1.Pages
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostSaveDraft([FromRoute] int id)
+        public IActionResult OnPostSaveDraft([FromRoute] string id)
         {
             Post post = _dataStore.GetPost(id);
             if (ModelState.IsValid)
@@ -83,6 +84,7 @@ namespace BlogTemplate._1.Pages
             }
             return Redirect("/Drafts");
         }
+
         private void UpdatePost(Post post, [FromForm] bool updateSlug, bool wasPublic)
         {
             post.Title = EditedPost.Title;

@@ -31,8 +31,8 @@ namespace BlogTemplate._1.Tests.Pages
             };
             testDataStore.SavePost(post);
 
-            testPostModel.OnPostDeletePost(post.Id);
-            Post result = testDataStore.GetPost(post.Id);
+            testPostModel.OnPostDeletePost(post.Id.ToString("N"));
+            Post result = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.True(result.IsDeleted);
         }
@@ -54,8 +54,8 @@ namespace BlogTemplate._1.Tests.Pages
             };
             testDataStore.SavePost(post);
 
-            testPostModel.OnPostUnDeletePost(post.Id);
-            Post result = testDataStore.GetPost(post.Id);
+            testPostModel.OnPostUnDeletePost(post.Id.ToString("N"));
+            Post result = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.False(result.IsDeleted);
         }

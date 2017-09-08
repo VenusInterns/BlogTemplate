@@ -13,7 +13,6 @@ namespace BlogTemplate._1.Models
         const string PostsFolder = "BlogFiles\\Posts";
         const string DraftsFolder = "BlogFiles\\Drafts";
         private static Object thisLock = new object();
-        protected static int CurrentId = 0;
 
         private readonly IFileSystem _fileSystem;
 
@@ -21,7 +20,6 @@ namespace BlogTemplate._1.Models
         {
             _fileSystem = fileSystem;
             InitStorageFolders();
-            InitCurrentId();
         }
         public void InitStorageFolders()
         {
@@ -30,54 +28,11 @@ namespace BlogTemplate._1.Models
             _fileSystem.CreateDirectory(UploadsFolder);
         }
 
-        private void InitCurrentId()
-        {
-            if (CurrentId == 0)
-            {
-                lock (thisLock)
-                {
-                    if (CurrentId == 0)
-                    {
-                        int max = 0;
-                        IEnumerable<string> postfiles = _fileSystem.EnumerateFiles(PostsFolder).Select(f => Path.GetFileName(f));
-                        foreach (var file in postfiles)
-                        {
-                            int start = file.IndexOf("_");
-                            int end = file.IndexOf(".");
-                            int currId = Convert.ToInt32(file.Substring(start + 1, end - start - 1));
-                            if (currId > max)
-                            {
-                                max = currId;
-                            }
-                        }
-
-                        IEnumerable<string> draftfiles = _fileSystem.EnumerateFiles(DraftsFolder).Select(f => Path.GetFileName(f));
-                        foreach (var file in draftfiles)
-                        {
-                            int start = 0;
-                            int end = file.IndexOf(".");
-                            int currId = Convert.ToInt32(file.Substring(start, end));
-                            if (currId > max)
-                            {
-                                max = currId;
-                            }
-                        }
-
-                        CurrentId = max;
-                    }
-                }
-            }
-        }
-
         private void SetId(Post post)
         {
-            if (post.Id == 0)
+            if(post.Id == Guid.Empty)
             {
-                lock (thisLock)
-                {
-                    post.Id = ++CurrentId;
-                }
-
+                post.Id = Guid.NewGuid();
             }
         }
 
@@ -201,7 +156,7 @@ namespace BlogTemplate._1.Models
 
         public void AppendPostInfo(Post post, XElement rootNode)
         {
-            rootNode.Add(new XElement("Id", post.Id.ToString()));
+            rootNode.Add(new XElement("Id", post.Id.ToString("N")));
             rootNode.Add(new XElement("Slug", post.Slug));
             rootNode.Add(new XElement("Title", post.Title));
             rootNode.Add(new XElement("Body", post.Body));
@@ -219,11 +174,11 @@ namespace BlogTemplate._1.Models
             if (post.IsPublic == true)
             {
                 string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
-                outputFilePath = $"{PostsFolder}\\{date}_{post.Id}.xml";
+                outputFilePath = $"{PostsFolder}\\{date}_{post.Id.ToString("N")}.xml";
             }
             else
             {
-                outputFilePath = $"{DraftsFolder}\\{post.Id}.xml";
+                outputFilePath = $"{DraftsFolder}\\{post.Id.ToString("N")}.xml";
             }
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
@@ -247,6 +202,7 @@ namespace BlogTemplate._1.Models
 
         public Post CollectPostInfo(string expectedFilePath)
         {
+            bool hasIdChanged = false;
             XDocument doc;
             try
             {
@@ -260,11 +216,22 @@ namespace BlogTemplate._1.Models
             Post post = new Post();
             if (doc.Root.Element("Id") != null && !doc.Root.Element("Id").IsEmpty)
             {
-                post.Id = Convert.ToInt32(doc.Root.Element("Id").Value);
+                Guid newGuid;
+                if(Guid.TryParse(doc.Root.Element("Id").Value, out newGuid))
+                {
+                    post.Id = newGuid;
+                }
+                else
+                {
+                    string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
+                    _fileSystem.DeleteFile(expectedFilePath);
+                    SetId(post);
+                    hasIdChanged = true;
+                }
             }
             else
             {
-                SetId(post);
+                post.Id = Guid.NewGuid();
             }
             post.Slug = GetValue(doc.Root.Element("Slug"), "");
             post.Title = GetValue(doc.Root.Element("Title"), "");
@@ -275,6 +242,10 @@ namespace BlogTemplate._1.Models
             post.IsDeleted = GetValue(doc.Root.Element("IsDeleted"), false);
             post.Excerpt = GetValue(doc.Root.Element("Excerpt"), "");
             post.Comments = GetAllComments(doc);
+            if (hasIdChanged)
+            {
+                SavePost(post);
+            }
             return post;
         }
 
@@ -314,7 +285,7 @@ namespace BlogTemplate._1.Models
             }
         }
 
-        public Post GetPost(int id)
+        public Post GetPost(string id)
         {
             string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
             if (_fileSystem.FileExists(expectedFilePath))
@@ -329,7 +300,7 @@ namespace BlogTemplate._1.Models
                     int start = file.IndexOf("_");
                     int end = file.IndexOf(".");
                     string element = file.Substring(start + 1, end - start - 1);
-                    if (element == id.ToString())
+                    if(element == id)
                     {
                         return CollectPostInfo(file);
                     }
@@ -368,11 +339,11 @@ namespace BlogTemplate._1.Models
             if (wasPublic)
             {
                 string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
-                _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{post.Id}.xml");
+                _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{post.Id.ToString("N")}.xml");
             }
             else
             {
-                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id}.xml");
+                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id.ToString("N")}.xml");
             }
             SavePost(post);
         }

@@ -33,9 +33,9 @@ namespace BlogTemplate._1.Tests.Pages
                 Excerpt = "Excerpt",
             };
 
-            testEditModel.OnPostPublish(post.Id, true);
+            testEditModel.OnPostPublish(post.Id.ToString("N"), true);
 
-            post = testDataStore.GetPost(post.Id);
+            post = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.Equal("Edited-Title", post.Slug);
         }
@@ -61,9 +61,9 @@ namespace BlogTemplate._1.Tests.Pages
                 Excerpt = "Excerpt",
             };
 
-            testEditModel.OnPostPublish(post.Id, true);
+            testEditModel.OnPostPublish(post.Id.ToString("N"), true);
 
-            post = testDataStore.GetPost(post.Id);
+            post = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.Equal("Edited-Title", post.Slug);
         }
@@ -90,9 +90,9 @@ namespace BlogTemplate._1.Tests.Pages
                 Excerpt = "Excerpt",
             };
 
-            testEditModel.OnPostPublish(post.Id, true);
+            testEditModel.OnPostPublish(post.Id.ToString("N"), true);
 
-            post = testDataStore.GetPost(post.Id);
+            post = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.Equal("Edited-Title", post.Slug);
         }
@@ -120,9 +120,9 @@ namespace BlogTemplate._1.Tests.Pages
                 Excerpt = "Excerpt",
             };
 
-            testEditModel.OnPostPublish(post.Id, true);
+            testEditModel.OnPostPublish(post.Id.ToString("N"), true);
 
-            post = testDataStore.GetPost(post.Id);
+            post = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.Equal(new DateTimeOffset(new DateTime(1997, 7, 3), TimeSpan.Zero), post.PubDate);
         }
@@ -149,9 +149,9 @@ namespace BlogTemplate._1.Tests.Pages
                 Excerpt = "Excerpt",
             };
 
-            testEditModel.OnPostSaveDraft(post.Id);
+            testEditModel.OnPostSaveDraft(post.Id.ToString("N"));
 
-            post = testDataStore.GetPost(post.Id);
+            post = testDataStore.GetPost(post.Id.ToString("N"));
 
             Assert.Equal("Title", post.Slug);
         }
