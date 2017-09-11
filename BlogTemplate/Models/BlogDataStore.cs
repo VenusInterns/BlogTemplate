@@ -356,10 +356,13 @@ namespace BlogTemplate._1.Models
                 {
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
-                        string name = file.FileName;
+                        string name = Path.GetFileName(file.FileName);
+                        string filePath = Path.Combine(UploadsFolder, name);
+
                         if(CheckFileNameExists(name))
                         {
-                            _fileSystem.DeleteFile($"{UploadsFolder}\\{name}");
+                            _fileSystem.DeleteFile(filePath);
+                            continue;
                         }
 
                         byte[] buffer = new byte[1024];
@@ -371,7 +374,7 @@ namespace BlogTemplate._1.Models
                             {
                                 break;
                             }
-                            _fileSystem.AppendFile($"{UploadsFolder}\\{name}", buffer, 0, bytesRead);
+                            _fileSystem.AppendFile(filePath, buffer, 0, bytesRead);
                         } while (bytesRead > 0);
                     }
                 }
@@ -384,21 +387,9 @@ namespace BlogTemplate._1.Models
             return fileNames;
         }
 
-        private bool CheckFileNameExists(string fileName)
+        private bool CheckFileNameExists(string filePath)
         {
-            return _fileSystem.FileExists($"{UploadsFolder}\\{fileName}");
-        }
-
-        private string CreateFileName(string fileName)
-        {
-            string tempName = fileName;
-            string shortName = Path.GetFileNameWithoutExtension(fileName);
-            string ext = Path.GetExtension(fileName);
-            for(int i = 1; CheckFileNameExists(tempName); i++)
-            {
-                tempName = $"{shortName}-{i}{ext}";
-            }
-            return tempName;
+            return _fileSystem.FileExists(filePath);
         }
     }
 }
