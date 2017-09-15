@@ -41,7 +41,7 @@ We hope the above features make this a tool that developers can use to speed up 
     * [Latest .NET SDK](https://www.microsoft.com/en-us/download/details.aspx?id=19988)
 
 ### Creating an Instance of the Template (Your Own Blog)
-There are two options for instantiating a template. You can use `dotnet new` included with the dotnet CLI. However, the current version contains minor bugs that will be fixed soon. Alternatively, you'll need to get the [newest templating code](https://github.com/dotnet/templating) with the following steps.
+There are two options for instantiating a template. You can use `dotnet new` included with the dotnet CLI and go `dotnet new -i c:\pathtothecloneofthisrepo`. However, the current version contains minor bugs that will be fixed soon. Alternatively, you'll need to get the [newest templating code](https://github.com/dotnet/templating) with the following steps.
 Click the green "Clone or download" button. Copy the link in the dropdown that appears.
 Open a command prompt and change directories to where you want to install the templating repo.
 In the desired directory, enter the command:
