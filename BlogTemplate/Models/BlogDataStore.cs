@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
 
@@ -9,23 +10,41 @@ namespace BlogTemplate._1.Models
 {
     public class BlogDataStore
     {
-        const string UploadsFolder = "wwwroot\\Uploads";
-        const string PostsFolder = "BlogFiles\\Posts";
-        const string DraftsFolder = "BlogFiles\\Drafts";
-        private static Object thisLock = new object();
+        private string _uploadsFolder;
+        private string _postsFolder;
+        private string _draftsFolder;
+        private static object _thisLock = new object();
 
         private readonly IFileSystem _fileSystem;
 
         public BlogDataStore(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;
+            InitOperatingSystem();
             InitStorageFolders();
         }
+
+        private void InitOperatingSystem()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                _uploadsFolder = "wwwroot\\Uploads";
+                _postsFolder = "BlogFiles\\Posts";
+                _draftsFolder = "BlogFiles\\Drafts";
+            }
+            else
+            {
+                _uploadsFolder = "wwwroot/Uploads";
+                _postsFolder = "BlogFiles/Posts";
+                _draftsFolder = "BlogFiles/Drafts";
+            }
+        }
+
         public void InitStorageFolders()
         {
-            _fileSystem.CreateDirectory(PostsFolder);
-            _fileSystem.CreateDirectory(DraftsFolder);
-            _fileSystem.CreateDirectory(UploadsFolder);
+            _fileSystem.CreateDirectory(_postsFolder);
+            _fileSystem.CreateDirectory(_draftsFolder);
+            _fileSystem.CreateDirectory(_uploadsFolder);
         }
 
         private void SetId(Post post)
@@ -171,14 +190,18 @@ namespace BlogTemplate._1.Models
         {
             SetId(post);
             string outputFilePath;
-            if (post.IsPublic == true)
+            if (post.IsPublic)
             {
                 string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
-                outputFilePath = $"{PostsFolder}\\{date}_{post.Id.ToString("N")}.xml";
+                outputFilePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? $"{_postsFolder}\\{date}_{post.Id:N}.xml"
+                    : $"{_postsFolder}/{date}_{post.Id:N}.xml";
             }
             else
             {
-                outputFilePath = $"{DraftsFolder}\\{post.Id.ToString("N")}.xml";
+                outputFilePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? $"{_draftsFolder}\\{post.Id:N}.xml"
+                    : $"{_draftsFolder}/{post.Id:N}.xml";
             }
             XDocument doc = new XDocument();
             XElement rootNode = new XElement("Post");
@@ -287,14 +310,16 @@ namespace BlogTemplate._1.Models
 
         public Post GetPost(string id)
         {
-            string expectedFilePath = $"{DraftsFolder}\\{id}.xml";
+            string expectedFilePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? $"{_draftsFolder}\\{id}.xml"
+                : $"{_draftsFolder}/{id}.xml";
             if (_fileSystem.FileExists(expectedFilePath))
             {
                 return CollectPostInfo(expectedFilePath);
             }
             else
             {
-                List<string> files = _fileSystem.EnumerateFiles($"{PostsFolder}").ToList();
+                List<string> files = _fileSystem.EnumerateFiles($"{_postsFolder}").ToList();
                 foreach (var file in files)
                 {
                     int start = file.IndexOf("_");
@@ -322,14 +347,14 @@ namespace BlogTemplate._1.Models
 
         public List<Post> GetAllPosts()
         {
-            string filePath = $"{PostsFolder}";
+            string filePath = $"{_postsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
             return IteratePosts(files);
         }
 
         public List<Post> GetAllDrafts()
         {
-            string filePath = $"{DraftsFolder}";
+            string filePath = $"{_draftsFolder}";
             List<string> files = _fileSystem.EnumerateFiles(filePath).OrderByDescending(f => f).ToList();
             return IteratePosts(files);
         }
@@ -339,11 +364,17 @@ namespace BlogTemplate._1.Models
             if (wasPublic)
             {
                 string date = post.PubDate.UtcDateTime.ToString("s").Replace(":", "-");
-                _fileSystem.DeleteFile($"{PostsFolder}\\{date}_{post.Id.ToString("N")}.xml");
+                var file = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? $"{_postsFolder}\\{date}_{post.Id:N}.xml"
+                    : $"{_postsFolder}/{date}_{post.Id:N}.xml";
+                _fileSystem.DeleteFile(file);
             }
             else
             {
-                _fileSystem.DeleteFile($"{DraftsFolder}\\{post.Id.ToString("N")}.xml");
+                var file = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? $"{_draftsFolder}\\{post.Id:N}.xml"
+                    : $"{_draftsFolder}/{post.Id:N}.xml";
+                _fileSystem.DeleteFile(file);
             }
             SavePost(post);
         }
@@ -357,7 +388,7 @@ namespace BlogTemplate._1.Models
                     using (Stream uploadedFileStream = file.OpenReadStream())
                     {
                         string name = Path.GetFileName(file.FileName);
-                        string filePath = Path.Combine(UploadsFolder, name);
+                        string filePath = Path.Combine(_uploadsFolder, name);
 
                         if(CheckFileNameExists(name))
                         {
@@ -383,7 +414,7 @@ namespace BlogTemplate._1.Models
 
         public IEnumerable<string> GetFileNames()
         {
-            IEnumerable<string> fileNames = _fileSystem.EnumerateFiles(UploadsFolder);
+            IEnumerable<string> fileNames = _fileSystem.EnumerateFiles(_uploadsFolder);
             return fileNames;
         }
 
