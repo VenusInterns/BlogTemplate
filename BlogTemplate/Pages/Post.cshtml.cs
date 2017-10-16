@@ -50,7 +50,7 @@ namespace BlogTemplate._1.Pages
                 _dataStore.SavePost(Post);
                 return RedirectToPage("/Index");
             }
-            return Redirect("/post/" + id + "/" + Post.Slug);
+            return Redirect("/post/" + id);
         }
 
         [ValidateAntiForgeryToken]
@@ -85,7 +85,7 @@ namespace BlogTemplate._1.Pages
                 comment.UniqueId = Guid.NewGuid();
                 Post.Comments.Add(comment);
                 _dataStore.SavePost(Post);
-                return Redirect("/post/" + id + "/" + Post.Slug);
+                return Redirect("/post/" + id);
             }
 
             return Page();

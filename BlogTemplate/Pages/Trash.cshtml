@@ -14,10 +14,10 @@
         {
             <article>
                 <div class="col-md-12">
-                    <h2><a asp-page="/post" asp-route-id="@post.Id.ToString("N")" asp-route-slug="@post.Slug">@post.Title</a></h2>
+                    <h2><a asp-page="/post" asp-route-id="@post.Id.ToString("N")">@post.Title</a></h2>
                     <h5 class="date text-muted">@post.PublishTime.ToString("MMM dd, yyyy")</h5>
                     <p class="lead">@post.Excerpt</p>
-                    <h3><a asp-page="/post" asp-route-id="@post.Id.ToString("N")" asp-route-slug="@post.Slug"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
+                    <h3><a asp-page="/post" asp-route-id="@post.Id.ToString("N")"><span class="glyphicon glyphicon-comment"></span> @post.CommentCount</a></h3>
                 </div>
             </article>
         }

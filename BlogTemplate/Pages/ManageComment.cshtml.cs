@@ -25,7 +25,7 @@ namespace BlogTemplate._1.Pages
             foundComment.IsPublic = false;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{id}/{post.Slug}");
+            return Redirect($"/Post/{id}");
         }
 
         [ValidateAntiForgeryToken]
@@ -37,7 +37,7 @@ namespace BlogTemplate._1.Pages
             foundComment.IsPublic = true;
 
             _dataStore.SavePost(post);
-            return Redirect($"/Post/{id}/{post.Slug}");
+            return Redirect($"/Post/{id}");
         }
     }
 }
