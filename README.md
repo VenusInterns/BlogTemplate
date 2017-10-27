@@ -2,6 +2,12 @@
 # ASP.NET Core Blog Template
 We created this blog template for Visual Studio to help users create a new, personal web application quickly and effortlessly.
 
+----------------------
+
+**Deprecated** Please use [Miniblog.Core](https://github.com/madskristensen/Miniblog.Core) as an example of an ASP.NET Core blog template.
+
+----------------------
+
 This is a blogging engine based on Razor Pages and ASP.NET.
 
 
