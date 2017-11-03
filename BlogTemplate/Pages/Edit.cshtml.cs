@@ -47,7 +47,6 @@ namespace BlogTemplate._1.Pages
 
             hasSlug = !string.IsNullOrEmpty(post.Slug);
 
-            ViewData["Slug"] = post.Slug;
             ViewData["id"] = post.Id;
         }
 
@@ -69,7 +68,7 @@ namespace BlogTemplate._1.Pages
                 }
                 UpdatePost(post, updateSlug, wasPublic);
             }
-            return Redirect($"/Post/{id}/{post.Slug}");
+            return Redirect($"/Post/{id}");
         }
 
         [ValidateAntiForgeryToken]

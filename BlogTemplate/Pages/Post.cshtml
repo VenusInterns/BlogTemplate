@@ -1,4 +1,4 @@
-@page "{id}/{slug}"
+@page "{id}"
 @model PostModel
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
@@ -18,7 +18,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-md-12">
-            <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id.ToString("N")" asp-route-slug="@Model.Post.Slug">Edit Post</a></h4>
+            <h4 class="text-primary"><a asp-page="/edit" asp-route-id="@Model.Post.Id.ToString("N")">Edit Post</a></h4>
         </div>
         <form class="col-md-12" id="deletepost" method="post">
             @if (Model.Post.IsDeleted)
